@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/09/30 00:48:34 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/04 00:38:16 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,9 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef size_t	size_type;
-			typedef T		value_type;
-			typedef Alloc	allocator_type;
-
-			// typedef typename allocator_type::pointer			pointer;
-			// typedef typename allocator_type::const_pointer		const_pointer;
-			// typedef typename allocator_type::reference			reference;
-			// typedef typename allocator_type::const_reference	const_reference;
+			typedef size_t		size_type;
+			typedef T			value_type;
+			typedef Alloc		allocator_type;
 
 			typedef T*			pointer;
 			typedef const T*	const_pointer;
@@ -64,25 +59,82 @@ namespace ft
 
 			vector(const allocator_type &alloc = allocator_type())
 			{
+				//	Constructs an empty container, with no elements.
+				
+				std::cout << "Empty constructor called\n";
 				m_alloc = alloc;
 				m_data = m_alloc.allocate(0);
 				m_size = 0;
 				m_capacity = 0;
 			}
+
 			vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
 			{
+				// Constructs a container with n elements. Each element is a copy of val.
+
+				std::cout << "Fill constructor called\n";
+
 				m_alloc = alloc;
-				m_data = m_alloc.allocate(n);
-				m_size = 0;
-				m_capacity = 0;
-				val = 0;
+				m_size = n;
+				m_capacity = n;
+				m_data = m_alloc.allocate(m_capacity);
+				if (val)
+				{
+					for (size_t i = 0; i < m_size; i++)
+						m_data[i] = val;
+				}
 			}
 
-			// vector(vector const &toCopy);
-			~vector() {}
+			vector(vector const &toCopy)
+			{
+				// Constructs a container with a copy of each of the elements in x, in the same order.
+				
+				std::cout << "Copy constructor called\n";
+
+				*this = toCopy;
+			}
+
+			~vector()
+			{
+				std::cout << "Destructor called\n";
+
+				m_alloc.deallocate(m_data, m_capacity);
+			}
+
+			/* OPERATOR ASSIGNMENT */
+
+			// vector& operator = (const vector& toCopy)
+			// {
+
+			// }
+
+			const T& operator [] (size_type index) const { return m_data[index]; }
+			T& operator [] (size_type index) { return m_data[index]; }
+
+
+			/* CAPACITY: */
 
 			size_type size() const { return this->m_size; }
+			size_type max_size() const { return this->m_alloc.max_size(); }
 			size_type capacity() const { return this->m_capacity; }
+			void resize (size_type n, value_type val = value_type())
+			{
+
+			}
+			bool empty() const
+			{
+				if (!m_size)
+					return (true);
+				return (false);
+			}
+			void reserve (size_type n)
+			{
+				
+			}
+
+			/* ELEMENTS ACCESS */
+
+			/* MODIFIERS */
 	};
 }
 
