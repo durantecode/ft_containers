@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/09/29 00:27:38 by ldurante         ###   ########.fr        #
+#    Updated: 2022/10/03 14:04:58 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@
 NAME = containers
 CXX = clang++
 RM = rm -f
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic
+# LEAKS = -Wno-gnu-include-next -I/Users/durante/Desktop/LeakSanitizer/include
+# LINK = -L/Users/durante/Desktop/LeakSanitizer -llsan -lc++
+# DEBUG = -g3 -fsanitize=address
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic -g
 
 # COLORS #
 
