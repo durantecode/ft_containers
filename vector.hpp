@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/04 00:38:16 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/04 21:38:11 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VECTOR_HPP
 
 #include <memory>
+#include <stdexcept>
 #include <vector>
 
 /*
@@ -81,7 +82,7 @@ namespace ft
 				if (val)
 				{
 					for (size_t i = 0; i < m_size; i++)
-						m_data[i] = val;
+						m_alloc.construct(&m_data[i], val);
 				}
 			}
 
@@ -108,8 +109,6 @@ namespace ft
 
 			// }
 
-			const T& operator [] (size_type index) const { return m_data[index]; }
-			T& operator [] (size_type index) { return m_data[index]; }
 
 
 			/* CAPACITY: */
@@ -117,24 +116,86 @@ namespace ft
 			size_type size() const { return this->m_size; }
 			size_type max_size() const { return this->m_alloc.max_size(); }
 			size_type capacity() const { return this->m_capacity; }
-			void resize (size_type n, value_type val = value_type())
-			{
-
-			}
+			
 			bool empty() const
 			{
 				if (!m_size)
 					return (true);
 				return (false);
 			}
+
+			void resize (size_type n, value_type val = value_type())
+			{
+				while (n < m_size)
+					pop_back();
+				while (n > m_size)
+					push_back(val);
+			}
+			
 			void reserve (size_type n)
 			{
-				
+				if (n < m_capacity)
+					return ;
+				if (n > max_size())
+					throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
+				pointer newBlock;
+				newBlock = m_alloc.allocate(n);
+				for (size_type i = 0; i < m_size; i++)
+				{
+					m_alloc.construct(&newBlock[i], m_data[i]);
+					m_alloc.destroy(&m_data[i]);
+				}
+				m_alloc.deallocate(m_data, m_capacity);
+				m_data = newBlock;
+				m_capacity = n;
 			}
 
 			/* ELEMENTS ACCESS */
+			
+			reference operator [] (size_type n) { return m_data[n]; }
+			const_reference operator [] (size_type n) const { return m_data[n]; }
+			
+			reference at(size_type n)
+			{
+				if (n >= m_size)
+					throw std::out_of_range("vector");
+				return (m_data[n]);
+			}
+			const_reference at(size_type n) const
+			{
+				if (n >= m_size)
+					throw std::out_of_range("vector");
+				return (m_data[n]);
+			}
+			
+			reference front() { return (m_data[0]);	}
+			const_reference front() const { return (m_data[0]); }
+			
+			reference back() { return (m_data[m_size - 1]); }
+			const_reference back() const { return (m_data[m_size - 1]); }
+			
+			pointer data() { return (m_data); }
+			const_pointer data() const { return (m_data); }
+
 
 			/* MODIFIERS */
+
+			void push_back (const value_type& val)
+			{
+				if (m_size == m_capacity)
+				{
+					m_capacity *= 2;
+					reserve(m_capacity);
+				}	
+				m_alloc.construct(&m_data[m_size], val);
+				m_size++;
+			}
+
+			void pop_back()
+			{
+				m_alloc.destroy(&back());
+				m_size--;
+			}
 	};
 }
 
