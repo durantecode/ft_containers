@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.hpp                                         :+:      :+:    :+:   */
+/*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/04 21:38:11 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/06 00:56:53 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,129 @@
 */
 namespace ft
 {
+	template<typename T>
+	class VectorIterator
+	{
+		public:
+			typedef T				value_type;
+			typedef T*				pointer;
+			typedef const T*		const_pointer;
+			typedef T&				reference;
+			typedef const T&		const_reference;
+			typedef std::ptrdiff_t	difference_type;
+
+		protected:
+			pointer m_ptr;
+		
+		public:
+			VectorIterator() : m_ptr(nullptr) {}
+			VectorIterator(pointer ptr) : m_ptr(ptr) {}
+			VectorIterator(VectorIterator const &toCopy) : m_ptr(toCopy.m_ptr) {}
+			~VectorIterator() {}
+			VectorIterator &operator = (VectorIterator const &toCopy)
+			{
+				this->m_ptr = toCopy.m_ptr;
+				return (*this);
+			}
+
+			VectorIterator& operator ++ ()
+			{
+				this->m_ptr++;
+				return (*this);
+			}
+			VectorIterator operator ++ (int)
+			{
+				VectorIterator it(*this);
+				++(*this);
+				return it;
+			}
+			VectorIterator &operator += (int val)
+			{
+				this->m_ptr += val;
+				return (*this);
+			}
+			VectorIterator operator + (int val) const
+			{
+				VectorIterator it(*this);
+				return (it += val);
+			}
+			VectorIterator& operator -- ()
+			{
+				this->m_ptr--;
+				return *this;
+			}
+			VectorIterator operator -- (int)
+			{
+				VectorIterator it(*this);
+				--(*this);
+				return it;
+			}
+			VectorIterator &operator -= (int val)
+			{
+				this->m_ptr -= val;
+				return (*this);
+			}
+			VectorIterator operator - (int val) const
+			{
+				VectorIterator it(*this);
+				return (it -= val);
+			}
+			reference operator * ()
+			{
+				return (*this->m_ptr);
+			}
+			const_reference operator * () const
+			{
+				return (*this->m_ptr);
+			}
+			pointer operator -> ()
+			{
+				return (this->m_ptr);
+			}
+			const_pointer operator -> () const
+			{
+				return (this->m_ptr);
+			}
+			reference operator [] (int val)
+			{
+				return (*(this->m_ptr + val));
+			}
+			const_reference operator [] (int val) const
+			{
+				return (*(this->m_ptr + val));
+			}
+			bool operator == (const VectorIterator &it) const
+			{
+				return (m_ptr == it.m_ptr);
+			}
+			bool operator != (const VectorIterator &it) const
+			{
+				return (m_ptr != it.m_ptr);
+			}
+			bool operator > (const VectorIterator &it) const
+			{
+				return (m_ptr > it.m_ptr);
+			}
+			bool operator >= (const VectorIterator &it) const
+			{
+				return (m_ptr >= it.m_ptr);
+			}
+			bool operator < (const VectorIterator &it) const
+			{
+				return (m_ptr < it.m_ptr);
+			}
+			bool operator <= (const VectorIterator &it) const
+			{
+				return (m_ptr <= it.m_ptr);
+			}
+	};
+
+
 	template <typename T, typename Alloc = std::allocator<T> >
 	class vector
 	{
+
+
 		public:
 			typedef size_t		size_type;
 			typedef T			value_type;
@@ -42,39 +162,34 @@ namespace ft
 			typedef T&			reference;
 			typedef const T&	const_reference;
 
+			typedef VectorIterator<T>				iterator;
+			typedef VectorIterator<const T> 		const_iterator;
+			// typedef VectorIterator<iterator> 		reverse_iterator;
+			// typedef VectorIterator<const_iterator>	reverse_const_iterator;
+
 		protected:
 			allocator_type	m_alloc;
 			size_type		m_size;
 			size_type		m_capacity;
 			pointer			m_data;
 
+
+			/*************************************************/
+			/*                 CONSTRUCTORS                  */
+			/*************************************************/
+		
 		public:
 
-			/*
-				= allocator_type() just tells the compiler that it is an optional argument.
-				If the user don't provide any other allocator_type object to the constructor
-				of the vector, the default constructor of the Allocator/allocator_type will be used
-				to create an object to be passed there instead.
-				it´s an alias for std::allocator<T>()
-			*/
-
-			vector(const allocator_type &alloc = allocator_type())
+			explicit vector(const allocator_type &alloc = allocator_type())
 			{
-				//	Constructs an empty container, with no elements.
-				
-				std::cout << "Empty constructor called\n";
 				m_alloc = alloc;
 				m_data = m_alloc.allocate(0);
 				m_size = 0;
 				m_capacity = 0;
 			}
 
-			vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
+			explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
 			{
-				// Constructs a container with n elements. Each element is a copy of val.
-
-				std::cout << "Fill constructor called\n";
-
 				m_alloc = alloc;
 				m_size = n;
 				m_capacity = n;
@@ -86,32 +201,71 @@ namespace ft
 				}
 			}
 
+			// template <class InputIterator>
+			// vector (iterator first, iterator last, const allocator_type& alloc = allocator_type())
+			// {
+			// 	m_data = nullptr;
+			// 	m_size = 0;
+			// 	m_capacity = 0;
+			// 	m_alloc = alloc;
+				
+			// }
+
 			vector(vector const &toCopy)
 			{
-				// Constructs a container with a copy of each of the elements in x, in the same order.
-				
-				std::cout << "Copy constructor called\n";
-
 				*this = toCopy;
 			}
 
 			~vector()
 			{
-				std::cout << "Destructor called\n";
-
+				clear();
 				m_alloc.deallocate(m_data, m_capacity);
 			}
 
 			/* OPERATOR ASSIGNMENT */
 
-			// vector& operator = (const vector& toCopy)
-			// {
+			vector& operator = (const vector& toCopy)
+			{
+				this->m_alloc = toCopy.m_alloc;
+				this->m_data = toCopy.m_data;
+				this->m_size = toCopy.m_size;
+				this->m_capacity = toCopy.m_capacity;
+				return (*this);
+			}
 
-			// }
+
+			/*************************************************/
+			/*                  ITERATORS                    */
+			/*************************************************/
+
+		public:
+
+			iterator begin()
+			{
+				return iterator(m_data);
+			}
+			
+			iterator begin() const
+			{
+				return iterator(m_data);
+			}
+
+			iterator end()
+			{
+				return iterator(m_data + m_size);
+			}
+		
+			iterator end() const
+			{
+				return iterator(m_data + m_size);
+			}
 
 
+			/*************************************************/
+			/*                   CAPACITY                    */
+			/*************************************************/
 
-			/* CAPACITY: */
+		public:
 
 			size_type size() const { return this->m_size; }
 			size_type max_size() const { return this->m_alloc.max_size(); }
@@ -128,8 +282,16 @@ namespace ft
 			{
 				while (n < m_size)
 					pop_back();
+				if (n > m_capacity)
+				{
+					m_capacity = n;
+					reserve(m_capacity);
+				}
 				while (n > m_size)
-					push_back(val);
+				{
+					m_alloc.construct(&m_data[m_size], val);
+					m_size++;
+				}
 			}
 			
 			void reserve (size_type n)
@@ -150,8 +312,12 @@ namespace ft
 				m_capacity = n;
 			}
 
-			/* ELEMENTS ACCESS */
+			/*************************************************/
+			/*               ELEMENT ACCESS                  */
+			/*************************************************/
 			
+		public:
+
 			reference operator [] (size_type n) { return m_data[n]; }
 			const_reference operator [] (size_type n) const { return m_data[n]; }
 			
@@ -177,13 +343,18 @@ namespace ft
 			pointer data() { return (m_data); }
 			const_pointer data() const { return (m_data); }
 
+			/*************************************************/
+			/*                  MODIFIERS                    */
+			/*************************************************/
 
-			/* MODIFIERS */
+		public:
 
 			void push_back (const value_type& val)
 			{
 				if (m_size == m_capacity)
 				{
+					if (!m_capacity)
+						m_capacity++;
 					m_capacity *= 2;
 					reserve(m_capacity);
 				}	
@@ -196,6 +367,15 @@ namespace ft
 				m_alloc.destroy(&back());
 				m_size--;
 			}
+
+			void clear()
+			{
+				for (size_type i = 0; i < m_size; i++)
+					m_alloc.destroy(&m_data[i]);
+				m_size = 0;
+			}
+
+			
 	};
 }
 
