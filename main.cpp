@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:40:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/06 00:55:27 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:31:00 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,25 +64,21 @@ int main(void)
 	v.push_back(100);
 	v.push_back(100);
 	std::cout << "size: " << v.size() << "   capacity: " << v.capacity() << std::endl;
-	// v.resize(150);
+
+	v.assign(3,45);
 	std::cout << "size: " << v.size() << "   capacity: " << v.capacity() << std::endl;
-	// v.resize(5, 9);
-	std::cout << "size: " << v.size() << "   capacity: " << v.capacity() << std::endl;
-	
-	std::cout << "CLEAR VECTOR" << std::endl;
-	v.clear();
-	std::cout << "size: " << v.size() << "   capacity: " << v.capacity() << std::endl;
-	// printVector(v);
-	v.push_back(32);
-	std::vector<int>::iterator iter = v.begin();
-	std::vector<int>::iterator itend = v.end();
-	while(iter != itend)
-	{
-		std::cout << "VECTORASSSSSO: " << *iter << std::endl;
-		iter++;
-	}
-	std::cout << "size: " << v.size() << "   capacity: " << v.capacity() << std::endl;
-	std::cout << v[5] << std::endl;
+
+	std::vector<int>::iterator it = v.begin();
+	std::vector<int>::iterator ite = v.end();
+	std::vector<int> vv;
+	std::cout << "size: " << vv.size() << "   capacity: " << vv.capacity() << std::endl;
+	vv.resize(150);
+	vv.assign(it, ite);
+	std::cout << "size: " << vv.size() << "   capacity: " << vv.capacity() << std::endl;
+	printVector(vv);
+	// // v.resize(5, 9);
+	// std::cout << "size: " << v.size() << "   capacity: " << v.capacity() << std::endl;
+
 
 
 
@@ -110,39 +106,19 @@ int main(void)
 	v1.push_back(4);
 	v1.push_back(876);
 	std::cout << "size: " << v1.size() << "   capacity: " << v1.capacity() << std::endl;
-	// v1.resize(150);
-	std::cout << "size: " << v1.size() << "   capacity: " << v1.capacity() << std::endl;
-	// v1.resize(5, 9);
-	std::cout << "size: " << v1.size() << "   capacity: " << v1.capacity() << std::endl;
+
+	ft::vector<int>::iterator iter = v1.begin();
+	ft::vector<int>::iterator itend = v1.end();
+	ft::vector<int> v2;
+
+	std::cout << "size: " << v2.size() << "   capacity: " << v2.capacity() << std::endl;
+	v2.assign(iter, itend);
+	std::cout << "size: " << v2.size() << "   capacity: " << v2.capacity() << std::endl;
 	std::cout << "------------" << std::endl;
 	// printMyVector(v1);
 
-	ft::vector<int>::iterator it = v1.begin();
-	ft::vector<int>::iterator ite = v1.end();
-	// while(it != ite)
-	// {
-	// 	std::cout << "V: " << *it << std::endl;
-	// 	it++;
-	// }
 
-	std::cout << "CLEAR VECTOR" << std::endl;
-	// v1.clear();
-	v1.pop_back();
-	v1.pop_back();
-	v1.pop_back();
-	v1.pop_back();
-	v1.pop_back();
-	v1.pop_back();
-	v1.pop_back();
-	std::cout << "size: " << v1.size() << "   capacity: " << v1.capacity() << std::endl;
-	v1.push_back(34);
-	while(it != ite)
-	{
-		std::cout << "V: " << *it << std::endl;
-		it++;
-	}
 
-	std::cout << v1[5] << std::endl;
 	// atexit(leaks);
 
 	return (0);

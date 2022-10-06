@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/06 00:56:53 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:32:42 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,8 @@ namespace ft
 
 			typedef VectorIterator<T>				iterator;
 			typedef VectorIterator<const T> 		const_iterator;
-			// typedef VectorIterator<iterator> 		reverse_iterator;
-			// typedef VectorIterator<const_iterator>	reverse_const_iterator;
+			typedef VectorIterator<iterator> 		reverse_iterator;
+			typedef VectorIterator<const_iterator>	const_reverse_iterator;
 
 		protected:
 			allocator_type	m_alloc;
@@ -213,11 +213,17 @@ namespace ft
 
 			vector(vector const &toCopy)
 			{
-				*this = toCopy;
+				this->m_alloc = toCopy.m_alloc;
+				this->m_data = this->m_alloc.allocate(toCopy.m_capacity);
+				for (size_type i = 0; i < toCopy.m_size; i++)
+					this->m_alloc.construct(&this->m_data[i], toCopy.m_data[i]);
+				this->m_size = toCopy.m_size;
+				this->m_capacity = toCopy.m_capacity;
 			}
 
 			~vector()
 			{
+				std::cout << "Destructor " << m_size << std::endl;
 				clear();
 				m_alloc.deallocate(m_data, m_capacity);
 			}
@@ -226,8 +232,15 @@ namespace ft
 
 			vector& operator = (const vector& toCopy)
 			{
+				clear();
 				this->m_alloc = toCopy.m_alloc;
-				this->m_data = toCopy.m_data;
+				if (this->m_size < toCopy.m_size && this->m_capacity < toCopy.m_capacity)
+				{
+					this->m_data = this->m_alloc.allocate(toCopy.m_size);
+					for (size_type i = 0; i < toCopy.m_size; i++)
+						this->m_alloc.construct(&this->m_data[i], toCopy.m_data[i]);
+				}
+				// this->m_data = toCopy.m_data;
 				this->m_size = toCopy.m_size;
 				this->m_capacity = toCopy.m_capacity;
 				return (*this);
@@ -240,25 +253,15 @@ namespace ft
 
 		public:
 
-			iterator begin()
-			{
-				return iterator(m_data);
-			}
-			
-			iterator begin() const
-			{
-				return iterator(m_data);
-			}
+			iterator begin() { return iterator(m_data);	}
+			const_iterator begin() const { return const_iterator(m_data); }
+			iterator end() { return iterator(m_data + m_size); }
+			const_iterator end() const { return const_iterator(m_data + m_size); }
 
-			iterator end()
-			{
-				return iterator(m_data + m_size);
-			}
-		
-			iterator end() const
-			{
-				return iterator(m_data + m_size);
-			}
+			reverse_iterator rbegin() { return reverse_iterator(m_data + (m_size - 1)); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(m_data + (m_size - 1)); }
+			// reverse_iterator rend() { return reverse_iterator(m_data - 1); }
+			// const_reverse_iterator rend() { return const_reverse_iterator(m_data - 1); }
 
 
 			/*************************************************/
@@ -348,6 +351,35 @@ namespace ft
 			/*************************************************/
 
 		public:
+
+			void assign (iterator first, iterator last)
+			{
+				this->clear();
+				// if (n > m_capacity)
+				// 	this->reserve(n);
+				size_type newSize = 0;
+				pointer tmp = this->m_data;
+				while(first != last)
+				{
+					this->m_alloc.construct(tmp, first);
+					first++;
+					tmp++;
+					newSize++;
+				}
+				this->m_data = tmp;
+				this->m_size = newSize;
+			}
+
+			void assign (size_type n, const value_type& val)
+			{
+				this->clear();
+				if (n > m_capacity)
+					this->reserve(n);
+				for (size_type i = 0; i < n; i++)
+					this->m_alloc.construct(&this->m_data[i], val);
+				this->m_size = n;
+			}
+
 
 			void push_back (const value_type& val)
 			{
