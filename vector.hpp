@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/07 01:06:01 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/13 23:25:43 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,7 @@
 #include <memory>
 #include <stdexcept>
 #include "utils.hpp"
-#include <vector>
 
-/*
-	NOTES:
-
-	std::allocator<int> a1;   // default allocator for ints
-	int* a = a1.allocate(1);  // space for one int
-	a1.construct(a, 7);       // construct the int
-	std::cout << a[0] << '\n';
-	a1.deallocate(a, 1);      // deallocate space for one int
-
-*/
 namespace ft
 {
 	template<typename T>
@@ -201,7 +190,8 @@ namespace ft
 					this->m_alloc.construct(&this->m_data[i], val);
 			}
 
-			vector (iterator first, iterator last, const allocator_type& alloc = allocator_type())
+			template <class InputIterator>
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
 			{
 				this->m_data = nullptr;
 				this->m_size = 0;
@@ -225,8 +215,6 @@ namespace ft
 				clear();
 				m_alloc.deallocate(m_data, m_capacity);
 			}
-
-			/* OPERATOR ASSIGNMENT */
 
 			vector& operator = (const vector& toCopy)
 			{
@@ -341,21 +329,11 @@ namespace ft
 
 		public:
 
-			void assign (iterator first, iterator last)
+			template <class InputIterator>
+			void assign (InputIterator first, InputIterator last)
 			{
 				this->clear();
-				iterator tmp = first;
-				size_type distance = 0;
-				while (tmp != last)
-				{
-					distance++;
-					tmp++;
-				}
-				if (distance > m_capacity)
-					this->reserve(distance);
-				for (size_type i = 0; i < distance; i++)
-					this->m_alloc.construct(this->m_data + i, *first++);
-				this->m_size = distance;
+				insert(begin(), first, last);
 			}
 
 			void assign (size_type n, const value_type& val)
@@ -371,22 +349,21 @@ namespace ft
 			iterator insert (iterator position, const value_type& val)
 			{
 				size_type i = 0;
-				size_type j = this->m_size - 1;
 				iterator it = this->begin();
 				while (it + i != position && i < this->m_size)
 					i++;
-				if (this->m_size < this->m_capacity + 1)
-					this->reserve(this->m_capacity + 1);
+				if (this->m_capacity < this->m_size + 1)
+					this->reserve(this->m_size + 1);
+				size_type j = this->m_capacity - 1;
 				while (j > i)
 				{
 					this->m_alloc.construct(&this->m_data[j], this->m_data[j - 1]);
 					j--;
 				}
 				this->m_alloc.construct(&this->m_data[i], val);
-				this->m_capacity++;
+				this->m_size++;
 				iterator newIter(&this->m_data[i]);
 				return (newIter);
-
 			}
 
 			void insert (iterator position, size_type n, const value_type& val)
@@ -394,8 +371,9 @@ namespace ft
 				while (n--)
 					position = insert(position, val);
 			}
-
-			void insert (iterator position, iterator first, iterator last)
+			
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last)
 			{
 				while (first != last)
 				{
@@ -429,6 +407,28 @@ namespace ft
 					m_alloc.destroy(&m_data[i]);
 				m_size = 0;
 			}
+
+			iterator erase(iterator position)
+			{
+				iterator index = position;
+				while (index + 1 != this->end())
+				{
+					*index = *(index + 1);
+					index++;
+				}
+				this->m_size--;
+				return (position);
+			}
+
+			iterator erase(iterator first, iterator last)
+			{
+				while (first != last)
+				{
+					erase(first);
+					last--;
+				}
+				return (iterator(first));
+			};
 
 			void swap(vector &other)
 			{

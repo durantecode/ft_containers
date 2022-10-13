@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/10/04 14:14:38 by ldurante         ###   ########.fr        #
+#    Updated: 2022/10/13 22:38:27 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,9 @@
 
 NAME = containers
 CXX = clang++
-RM = rm -f
-# LEAKS = -Wno-gnu-include-next -I/Users/durante/Desktop/LeakSanitizer/include
-# LINK = -L/Users/durante/Desktop/LeakSanitizer -llsan -lc++
-# DEBUG = -g3 -fsanitize=address
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic -g
+RM = rm -rf
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic -g3 \
+		 -fsanitize=address
 
 # COLORS #
 
@@ -30,7 +28,9 @@ NO_COLOR = \033[0m
 
 # SOURCES & OBJECTS #
 
-SRCS = main.cpp
+# SRCS = main.cpp
+
+SRCS = tests/main.cpp tests/vector.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -45,6 +45,7 @@ $(NAME): $(OBJS)
 clean:
 	@clear
 	@$(RM) $(OBJS)
+	@$(RM) *.dSYM
 	@echo "$(RED) **** object files removed **** $(NO_COLOR)"
 
 fclean: clean

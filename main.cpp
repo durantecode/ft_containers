@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:40:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/07 00:42:37 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/13 18:08:55 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int main(void)
 	// std::vector<int>::iterator ite = v.end();
 	v.insert(it, 50000);
 
-	std::vector<int> vv;
+	std::vector<int> vv(v.begin(), v.end());
 	if (v > vv)
 		std::cout << "OJETE\n";
 	// std::cout << "size: " << vv.size() << "   capacity: " << vv.capacity() << std::endl;
@@ -114,8 +114,9 @@ int main(void)
 	ft::vector<int>::iterator iter = v1.begin();
 	v1.insert(iter, 90000);
 	// ft::vector<int>::iterator itend = v1.end();
-	ft::vector<int> v2(3, 45);
-	ft::vector<int> v3(-23);
+	ft::vector<int> v2(v.begin(), 9000);
+	// ft::vector<int> v2(v1.begin(), v.end());
+	ft::vector<int> v3(23);
 	v1.swap(v2);
 		// std::cout << "IGUALITOOO\n";
 	// v2.resize(10);
