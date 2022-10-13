@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:40:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/06 19:44:44 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/07 00:42:37 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int main(void)
 	v1.insert(iter, 90000);
 	// ft::vector<int>::iterator itend = v1.end();
 	ft::vector<int> v2(3, 45);
+	ft::vector<int> v3(-23);
 	v1.swap(v2);
 		// std::cout << "IGUALITOOO\n";
 	// v2.resize(10);

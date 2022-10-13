@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/06 19:50:35 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/07 01:06:01 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,15 +191,14 @@ namespace ft
 
 			explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
 			{
+				if (n < 0)
+					throw std::length_error("vector");
 				this->m_alloc = alloc;
 				this->m_size = n;
 				this->m_capacity = n;
 				this->m_data = this->m_alloc.allocate(this->m_capacity);
-				if (val)
-				{
-					for (size_t i = 0; i < m_size; i++)
-						this->m_alloc.construct(&this->m_data[i], val);
-				}
+				for (size_t i = 0; i < m_size; i++)
+					this->m_alloc.construct(&this->m_data[i], val);
 			}
 
 			vector (iterator first, iterator last, const allocator_type& alloc = allocator_type())
