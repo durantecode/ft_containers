@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.hpp                                         :+:      :+:    :+:   */
+/*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/13 23:25:43 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:07:41 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR_HPP
-# define VECTOR_HPP
+#pragma once
 
 #include <memory>
 #include <stdexcept>
@@ -250,6 +249,7 @@ namespace ft
 			size_type size() const { return this->m_size; }
 			size_type max_size() const { return this->m_alloc.max_size(); }
 			size_type capacity() const { return this->m_capacity; }
+			allocator_type get_allocator() const { return this->m_alloc; }
 			
 			bool empty() const
 			{
@@ -509,6 +509,3 @@ namespace ft
 	}
 
 }
-
-
-#endif

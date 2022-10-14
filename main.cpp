@@ -6,12 +6,15 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 16:40:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/13 18:08:55 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:14:10 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "vector.hpp"
+#include <vector>
+#include <map>
+#include <stack>
 #include <stdlib.h>
 
 void leaks()

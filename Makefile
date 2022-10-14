@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/10/13 22:38:27 by ldurante         ###   ########.fr        #
+#    Updated: 2022/10/14 16:06:28 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 NAME = containers
 CXX = clang++
 RM = rm -rf
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic -g3 \
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic -g3 
 		 -fsanitize=address
 
 # COLORS #
@@ -30,7 +30,7 @@ NO_COLOR = \033[0m
 
 # SRCS = main.cpp
 
-SRCS = tests/main.cpp tests/vector.cpp
+SRCS = main_tests/main.cpp main_tests/vector.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

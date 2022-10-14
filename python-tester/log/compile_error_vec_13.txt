@@ -1,0 +1,49 @@
+-VECTOR REVERSE ITER TEST-
+
+./tmp/outfile_vec_13.cpp:38:14: error: invalid operands to binary expression ('int' and 'ft::VectorIterator<int>')
+                if (*it_rb != *its_rb)
+                    ~~~~~~ ^  ~~~~~~~
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:469:7: note: candidate template ignored: could not match 'vector<type-parameter-0-0, type-parameter-0-1>' against 'int'
+        bool operator != (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+             ^
+./tmp/outfile_vec_13.cpp:40:31: error: invalid operands to binary expression ('ft::vector<int>::reverse_iterator' (aka 'VectorIterator<VectorIterator<int> >') and 'ft::vector<int>::reverse_iterator' (aka 'VectorIterator<VectorIterator<int> >'))
+                if (it_rb - it_re != its_rb - its_re)
+                                     ~~~~~~ ^ ~~~~~~
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:84:19: note: candidate function not viable: no known conversion from 'ft::vector<int>::reverse_iterator' (aka 'VectorIterator<VectorIterator<int> >') to 'int' for 1st argument
+                        VectorIterator operator - (int val) const
+                                       ^
+./tmp/outfile_vec_13.cpp:42:12: error: no member named 'equal' in namespace 'ft'
+                if (!ft::equal(it_rb, it_re, its_rb))
+                     ~~~~^
+In file included from ./tmp/outfile_vec_13.cpp:4:
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:238:39: error: no matching conversion for functional-style cast from 'ft::vector<int, std::__1::allocator<int> >::pointer' (aka 'int *') to 'ft::vector<int, std::__1::allocator<int> >::reverse_iterator' (aka 'VectorIterator<VectorIterator<int> >')
+                        reverse_iterator rbegin() { return reverse_iterator(m_data + (m_size - 1)); }
+                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+./tmp/outfile_vec_13.cpp:35:49: note: in instantiation of member function 'ft::vector<int, std::__1::allocator<int> >::rbegin' requested here
+                ft::vector<int>::reverse_iterator its_rb = v2.rbegin();
+                                                              ^
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:38:4: note: candidate constructor not viable: no known conversion from 'ft::vector<int, std::__1::allocator<int> >::pointer' (aka 'int *') to 'ft::VectorIterator<ft::VectorIterator<int> >::pointer' (aka 'ft::VectorIterator<int> *') for 1st argument
+                        VectorIterator(pointer ptr) : m_ptr(ptr) {}
+                        ^
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:39:4: note: candidate constructor not viable: no known conversion from 'ft::vector<int, std::__1::allocator<int> >::pointer' (aka 'int *') to 'const ft::VectorIterator<ft::VectorIterator<int> >' for 1st argument
+                        VectorIterator(VectorIterator const &toCopy) : m_ptr(toCopy.m_ptr) {}
+                        ^
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:37:4: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+                        VectorIterator() : m_ptr(nullptr) {}
+                        ^
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:240:37: error: no matching conversion for functional-style cast from 'ft::vector<int, std::__1::allocator<int> >::pointer' (aka 'int *') to 'ft::vector<int, std::__1::allocator<int> >::reverse_iterator' (aka 'VectorIterator<VectorIterator<int> >')
+                        reverse_iterator rend() { return reverse_iterator(m_data - 1); }
+                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+./tmp/outfile_vec_13.cpp:36:49: note: in instantiation of member function 'ft::vector<int, std::__1::allocator<int> >::rend' requested here
+                ft::vector<int>::reverse_iterator its_re = v2.rend();
+                                                              ^
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:38:4: note: candidate constructor not viable: no known conversion from 'ft::vector<int, std::__1::allocator<int> >::pointer' (aka 'int *') to 'ft::VectorIterator<ft::VectorIterator<int> >::pointer' (aka 'ft::VectorIterator<int> *') for 1st argument
+                        VectorIterator(pointer ptr) : m_ptr(ptr) {}
+                        ^
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:39:4: note: candidate constructor not viable: no known conversion from 'ft::vector<int, std::__1::allocator<int> >::pointer' (aka 'int *') to 'const ft::VectorIterator<ft::VectorIterator<int> >' for 1st argument
+                        VectorIterator(VectorIterator const &toCopy) : m_ptr(toCopy.m_ptr) {}
+                        ^
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:37:4: note: candidate constructor not viable: requires 0 arguments, but 1 was provided
+                        VectorIterator() : m_ptr(nullptr) {}
+                        ^
+5 errors generated.

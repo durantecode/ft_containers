@@ -6,12 +6,11 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 19:27:33 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/06 19:30:33 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:09:06 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_HPP
-# define UTILS_HPP
+#pragma once
 
 namespace ft
 {
@@ -23,5 +22,3 @@ namespace ft
 		b = tmp;
 	}
 }
-
-#endif

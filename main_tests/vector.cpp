@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/13 23:22:52 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:08:46 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,8 +206,6 @@ static void insert(void)
 	v1.insert(v1.begin() + 1, test, test + 3);
 	v2.insert(v2.begin() + 1, test, test + 3);
 	check("v1 == v2", v1 == v2);
-	// print_vector_reverse(v1, "FT");
-	// print_vector_reverse(v2, "STD");
 }
 
 static void assign(void)
@@ -319,4 +317,31 @@ void	test_vector(void)
 	erase();
 	swap();
 	operators();
+
+
+	// //init
+    // long count = 7;
+	// const size_t N = 42;
+    // // const int M = 99;
+	// srand(time(NULL));
+
+	// //output test
+	// long err_count = 0;
+	// for (int i = 0; i < count; ++i)
+	// {
+	// 	size_t num = rand() % N;
+	// 	size_t resize_n = rand() % (N * 2);
+	// 	int fill = rand() % std::numeric_limits<int>::max();
+	// 	std::vector<int> v1(num, fill);
+	// 	ft::vector<int> v2(num, fill);
+	// 	v1.resize(resize_n);
+	// 	v2.resize(resize_n);
+	// 	int std_res = v1.size();
+	// 	int ft_res = v2.size();
+	// 	if (std_res != ft_res)
+	// 		++err_count;
+	// 	// if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+	// 	// 	++err_count;
+	// }
+	// std::cout << err_count << std::endl;
 }

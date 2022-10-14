@@ -6,16 +6,13 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:18 by ldurante          #+#    #+#             */
-/*   Updated: 2022/09/28 10:47:53 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:10:00 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STACK_HPP
-# define STACK_HPP
+#pragma once
 
 namespace ft
 {
 	
 }
-
-#endif
