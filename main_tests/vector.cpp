@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/18 20:38:13 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/19 00:17:10 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,6 +301,24 @@ static void operators(void)
 	check("v1 <= v2", (v1 <= v3), (v2 <= v4));
 }
 
+
+// const long      COUNT = 100000;
+// const int	    pres_num = 5;
+std::string     test_name;
+std::clock_t    start;
+double          duration;
+
+double timer_stop(){
+    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+	start = 0;
+	return duration;
+}
+
+void timer_start(){
+	start = std::clock();
+}
+
+
 void	test_vector(void)
 {
 	print_header("vector");
@@ -319,41 +337,20 @@ void	test_vector(void)
 	operators();
 
 
-#include <iterator>     // std::iterator_traits
-#include <typeinfo>     // typeid
-
-	typedef std::iterator_traits<int*> traits;
-	if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
-    	std::cout << "int* is a random-access iterator";
-
-
-    // const size_t N = 42;
-    // const int M = std::numeric_limits<int>::max();
-	// srand(time(NULL));
-	// {
-	// 	//output test
-	// 	long err_count = 0;
-	// 	for (int i = 0; i < 13; ++i)
-	// 	{
-	// 		size_t num = rand() % N;
-	// 		if (!num) continue;
-	// 		std::vector<int> v1;
-	// 		ft::vector<int> v2;
-	// 		for (size_t i = 0; i < num; ++i)
-	// 		{
-	// 			int fill = rand() % M;
-	// 			v1.push_back(fill);
-	// 			v2.push_back(fill);
-	// 		}
-			// std::vector<int>::reverse_iterator it_rb = v1.rbegin();
-			// std::vector<int>::reverse_iterator it_re = v1.rend();
-			// ft::vector<int>::reverse_iterator its_rb = v2.rbegin();
-			// ft::vector<int>::reverse_iterator its_re = v2.rend();
-
-			// if (*it_rb != *its_rb)
-			// 	++err_count;
-			// if (it_rb - it_re != its_rb - its_re)
-			// 	++err_count;
-		// }
+	// long count = 100;
+	// timer_start();
+	// for (int i = 0; i < count; ++i){
+	// 	std::vector<int> p1;
 	// }
+	// double std_res = timer_stop();
+	// std::cout << "std result: " << std_res << " sec | " << std::flush;
+
+	// //ft working
+	// timer_start();
+	// for (int i = 0; i < count; ++i){
+	// 	ft::vector<int> p1;
+	// }
+	// double ft_res = timer_stop();
+	// std::cout << "ft result: " << ft_res << " sec | " << std::flush;
+
 }

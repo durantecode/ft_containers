@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/18 20:43:41 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/18 23:23:42 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,6 @@ namespace ft
         typedef T&									reference;
     };
 
-    template <class T>
-    struct iterator_traits<const T*>
-	{
-        typedef T									value_type;
-        typedef ptrdiff_t                  			difference_type;
-        typedef std::random_access_iterator_tag		iterator_category;
-        typedef T*									pointer;
-        typedef T&									reference;
-    };
-
 			/*************************************************/
 			/*                 VECTOR_ITERATOR               */
 			/*************************************************/
@@ -61,13 +51,12 @@ namespace ft
 	{
 		public:
 			typedef T									value_type;
+			typedef std::random_access_iterator_tag		iterator_category;
+			typedef std::ptrdiff_t						difference_type;
 			typedef T*									pointer;
 			typedef const T*							const_pointer;
 			typedef T&									reference;
 			typedef const T&							const_reference;
-			typedef std::ptrdiff_t						difference_type;
-			typedef std::random_access_iterator_tag		iterator_category;
-			typedef VectorIterator<const T>				const_iterator;
 
 		protected:
 			pointer m_ptr;
@@ -125,6 +114,8 @@ namespace ft
 				VectorIterator it(*this);
 				return (it -= val);
 			}
+			difference_type operator - (VectorIterator const &other) const { return (this->m_ptr - other.m_ptr); }
+
 			reference operator * () { return (*this->m_ptr); }
 			const_reference operator * () const { return (*this->m_ptr); }
 			pointer operator -> () { return (this->m_ptr); }
@@ -138,18 +129,22 @@ namespace ft
 			bool operator < (const VectorIterator &it) const { return (this->m_ptr < it.m_ptr); }
 			bool operator <= (const VectorIterator &it) const { return (this->m_ptr <= it.m_ptr); }
 
-			operator const_iterator () const { return const_iterator(this->m_ptr); }
 	};
+
+
+			/*************************************************/
+			/*            REVERSE_VECTOR_ITERATOR            */
+			/*************************************************/
 
 	template <class T>
 	class ReverseVectorIterator
 	{
 		public:
-			typedef T														iterator_type;
+			typedef T												iterator_type;
 			typedef typename iterator_traits<T>::iterator_category	iterator_category;
 			typedef typename iterator_traits<T>::value_type			value_type;
-			typedef typename iterator_traits<T>::difference_type		difference_type;
-			typedef typename iterator_traits<T>::pointer				pointer;
+			typedef typename iterator_traits<T>::difference_type	difference_type;
+			typedef typename iterator_traits<T>::pointer			pointer;
 			typedef typename iterator_traits<T>::reference			reference;
 
 		private:
@@ -158,14 +153,15 @@ namespace ft
 		public:
 			ReverseVectorIterator()	: m_iter() {}
 			ReverseVectorIterator(iterator_type it)	: m_iter(it) {}
+			~ReverseVectorIterator() {}
+			
 			template <class Iter>
 			ReverseVectorIterator(const ReverseVectorIterator<Iter> &toCopy) : m_iter(toCopy.base()) {}
-			~ReverseVectorIterator() {}
 
 			template <class Iter>
 			ReverseVectorIterator& operator = (const ReverseVectorIterator<Iter> &other) { m_iter = other.base(); return *this; }
 
-			iterator_type base() const { return this->m_iter;	}
+			iterator_type base() const { return this->m_iter; }
 
 			ReverseVectorIterator operator + (difference_type n) const { return ReverseVectorIterator(this->m_iter - n); }
 			ReverseVectorIterator& operator ++ () { --this->m_iter; return *this; }
@@ -195,23 +191,26 @@ namespace ft
 			reference operator[] (difference_type n) const { return base()[-n - 1]; }
 	};
 
+	
+	/*************************************************/
+	/*        NON-MEMBER FUNCTIONS OVERLOADS         */
+	/*************************************************/
+
 	template <class Iter1, class Iter2>
-	bool operator == (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() == r.base(); }
+	bool operator == (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() == r.base(); }
 	template <class Iter1, class Iter2>
-	bool operator != (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() != r.base(); }
+	bool operator != (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() != r.base(); }
 	template <class Iter1, class Iter2>
 	bool operator > (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() > r.base(); }
 	template <class Iter1, class Iter2>
-	bool operator >= (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() >= r.base(); }
+	bool operator >= (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() >= r.base(); }
 	template <class Iter1, class Iter2>
 	bool operator < (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() < r.base(); }
 	template <class Iter1, class Iter2>
-	bool operator <= (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() <= r.base(); }
+	bool operator <= (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() <= r.base(); }
 
 	template <class Iter>
 	ReverseVectorIterator<Iter>	operator + (typename ReverseVectorIterator<Iter>::difference_type n, const ReverseVectorIterator<Iter> &rev_iter) { return rev_iter + n; }
-
-	// template <class Iter1, class Iter2>
 
 	template <class Iter>
 	typename ReverseVectorIterator<Iter>::difference_type operator - (const ReverseVectorIterator<Iter> &l, const ReverseVectorIterator<Iter> &r) { return r.base() - l.base(); }

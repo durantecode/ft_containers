@@ -1,11 +1,11 @@
 #include <iostream>
 #include "test_utils.hpp"
 #include <vector>
-#include "vector_iterator.hpp"
-#include "utils.hpp"
 #include "vector.hpp"
 #include "map.hpp"
 #include "stack.hpp"
+#include "utils.hpp"
+#include "vector_iterator.hpp"
 
 extern std::string	test_name;
 void test_vector_assign_range(long count){
@@ -38,8 +38,8 @@ void test_vector_assign_range(long count){
 		int ft_res = v2_r.size();
 		if (std_res != ft_res)
 			++err_count;
-		// if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
-		// 	++err_count;
+		if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);

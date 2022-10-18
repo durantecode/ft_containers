@@ -250,15 +250,8 @@ void test_vector_resize(long count){
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -319,15 +312,8 @@ void test_vector_reserve(long count){
 		ft_res = v2.capacity();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -378,15 +364,8 @@ void test_vector_push_back(long count){
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -445,15 +424,8 @@ void test_vector_pop_back(long count){
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -509,21 +481,14 @@ void test_vector_erase_pos(long count){
 		ft::vector<int>::iterator res_ft = v2.erase(its);
 		if (res_std != v1.end() && res_ft != v2.end() && *res_std != *res_ft)
 		 	++err_count;
-		// if (res_std - v1.begin() != res_ft - v2.begin())
-		// 	++err_count;
+		if (res_std - v1.begin() != res_ft - v2.begin())
+			++err_count;
 		int std_res = v1.size();
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -579,21 +544,14 @@ void test_vector_erase_iter(long count){
 		ft::vector<int>::iterator res_ft = v2.erase(v2.begin(), its);
 		if (res_std != v1.end() && res_ft != v2.end() && *res_std != *res_ft)
 		 	++err_count;
-		// if (res_std - v1.begin() != res_ft - v2.begin())
-		// 	++err_count;
+		if (res_std - v1.begin() != res_ft - v2.begin())
+			++err_count;
 		int std_res = v1.size();
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -647,15 +605,8 @@ void test_vector_clear(long count){
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -714,8 +665,8 @@ void test_vector_reverse_iter(long count){
 			++err_count;
 		if (it_rb - it_re != its_rb - its_re)
 			++err_count;
-		// if (!ft::equal(it_rb, it_re, its_rb))
-		// 	++err_count;
+		if (!std::equal(it_rb, it_re, its_rb))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -810,21 +761,14 @@ void test_vector_insert_pos(long count){
 		ft::vector<int>::iterator res_ft = v2.insert(its, N);
 		if (*res_std != *res_ft)
 		 	++err_count;
-		// if (res_std - v1.begin() != res_ft - v2.begin())
-		// 	++err_count;
+		if (res_std - v1.begin() != res_ft - v2.begin())
+			++err_count;
 		int std_res = v1.size();
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -883,15 +827,8 @@ void test_vector_insert_pos_num(long count){
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -954,15 +891,8 @@ void test_vector_insert_iter(long count){
 		int ft_res = v2.size();
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -1058,8 +988,8 @@ void test_vector_assign_range(long count){
 		int ft_res = v2_r.size();
 		if (std_res != ft_res)
 			++err_count;
-		// if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
-		// 	++err_count;
+		if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -1125,15 +1055,8 @@ void test_vector_assign_n(long count){
 #endif
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -1189,8 +1112,8 @@ void test_vector_assignment(long count){
 		int ft_res = v2_r.size();
 		if (std_res != ft_res)
 			++err_count;
-		// if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
-		// 	++err_count;
+		if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -1260,15 +1183,8 @@ void test_vector_copy_ctor(long count){
 #endif
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
@@ -1336,15 +1252,8 @@ void test_vector_copy_range_ctor(long count){
 #endif
 		if (std_res != ft_res)
 			++err_count;
-		std::vector<int>::iterator v1_it = v1.begin();
-		std::vector<int>::iterator v1_itend = v1.end();
-		ft::vector<int>::iterator v2_it = v2.begin();
-		while (v1_it != v1_itend)
-		{
-    		if (!(*v1_it == *v2_it))
-				++err_count;
-    		++v1_it; ++v2_it;
-  		}
+		if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			++err_count;
 	}
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);

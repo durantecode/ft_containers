@@ -1,11 +1,11 @@
 #include <iostream>
 #include "test_utils.hpp"
 #include <vector>
-#include "vector_iterator.hpp"
-#include "utils.hpp"
 #include "vector.hpp"
 #include "map.hpp"
 #include "stack.hpp"
+#include "utils.hpp"
+#include "vector_iterator.hpp"
 
 extern std::string	test_name;
 void test_vector_empty_ctor(long count){
@@ -21,6 +21,7 @@ void test_vector_empty_ctor(long count){
 	double std_res = timer_stop();
 	std::cout << "std result: " << std_res << " sec | " << std::flush;
 
+	count = 100;
 	//ft working
 	timer_start();
 	for (int i = 0; i < count; ++i){
