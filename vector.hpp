@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/14 16:07:41 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/18 17:25:50 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,132 +15,13 @@
 #include <memory>
 #include <stdexcept>
 #include "utils.hpp"
+#include "vector_iterator.hpp"
 
 namespace ft
 {
-	template<typename T>
-	class VectorIterator
-	{
-		public:
-			typedef T				value_type;
-			typedef T*				pointer;
-			typedef const T*		const_pointer;
-			typedef T&				reference;
-			typedef const T&		const_reference;
-			typedef std::ptrdiff_t	difference_type;
-
-		protected:
-			pointer m_ptr;
-		
-		public:
-			VectorIterator() : m_ptr(nullptr) {}
-			VectorIterator(pointer ptr) : m_ptr(ptr) {}
-			VectorIterator(VectorIterator const &toCopy) : m_ptr(toCopy.m_ptr) {}
-			~VectorIterator() {}
-			VectorIterator &operator = (VectorIterator const &toCopy)
-			{
-				this->m_ptr = toCopy.m_ptr;
-				return (*this);
-			}
-
-			VectorIterator& operator ++ ()
-			{
-				this->m_ptr++;
-				return (*this);
-			}
-			VectorIterator operator ++ (int)
-			{
-				VectorIterator it(*this);
-				++(*this);
-				return it;
-			}
-			VectorIterator &operator += (int val)
-			{
-				this->m_ptr += val;
-				return (*this);
-			}
-			VectorIterator operator + (int val) const
-			{
-				VectorIterator it(*this);
-				return (it += val);
-			}
-			VectorIterator& operator -- ()
-			{
-				this->m_ptr--;
-				return *this;
-			}
-			VectorIterator operator -- (int)
-			{
-				VectorIterator it(*this);
-				--(*this);
-				return it;
-			}
-			VectorIterator &operator -= (int val)
-			{
-				this->m_ptr -= val;
-				return (*this);
-			}
-			VectorIterator operator - (int val) const
-			{
-				VectorIterator it(*this);
-				return (it -= val);
-			}
-			reference operator * ()
-			{
-				return (*this->m_ptr);
-			}
-			const_reference operator * () const
-			{
-				return (*this->m_ptr);
-			}
-			pointer operator -> ()
-			{
-				return (this->m_ptr);
-			}
-			const_pointer operator -> () const
-			{
-				return (this->m_ptr);
-			}
-			reference operator [] (int val)
-			{
-				return (*(this->m_ptr + val));
-			}
-			const_reference operator [] (int val) const
-			{
-				return (*(this->m_ptr + val));
-			}
-			bool operator == (const VectorIterator &it) const
-			{
-				return (m_ptr == it.m_ptr);
-			}
-			bool operator != (const VectorIterator &it) const
-			{
-				return (m_ptr != it.m_ptr);
-			}
-			bool operator > (const VectorIterator &it) const
-			{
-				return (m_ptr > it.m_ptr);
-			}
-			bool operator >= (const VectorIterator &it) const
-			{
-				return (m_ptr >= it.m_ptr);
-			}
-			bool operator < (const VectorIterator &it) const
-			{
-				return (m_ptr < it.m_ptr);
-			}
-			bool operator <= (const VectorIterator &it) const
-			{
-				return (m_ptr <= it.m_ptr);
-			}
-	};
-
-
 	template <typename T, typename Alloc = std::allocator<T> >
 	class vector
 	{
-
-
 		public:
 			typedef size_t		size_type;
 			typedef T			value_type;
@@ -151,10 +32,10 @@ namespace ft
 			typedef T&			reference;
 			typedef const T&	const_reference;
 
-			typedef VectorIterator<T>				iterator;
-			typedef VectorIterator<const T> 		const_iterator;
-			typedef VectorIterator<iterator> 		reverse_iterator;
-			typedef VectorIterator<const_iterator>	const_reverse_iterator;
+			typedef ft::VectorIterator<T>						iterator;
+			typedef ft::VectorIterator<const T> 				const_iterator;
+			typedef ft::ReverseVectorIterator<iterator> 		reverse_iterator;
+			typedef ft::ReverseVectorIterator<const_iterator>	const_reverse_iterator;
 
 		protected:
 			allocator_type	m_alloc;
@@ -234,10 +115,10 @@ namespace ft
 			iterator end() { return iterator(m_data + m_size); }
 			const_iterator end() const { return const_iterator(m_data + m_size); }
 
-			reverse_iterator rbegin() { return reverse_iterator(m_data + (m_size - 1)); }
-			const_reverse_iterator rbegin() const { return const_reverse_iterator(m_data + (m_size - 1)); }
-			reverse_iterator rend() { return reverse_iterator(m_data - 1); }
-			const_reverse_iterator rend() const { return const_reverse_iterator(m_data - 1); }
+			reverse_iterator rbegin() { return reverse_iterator(end()); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+			reverse_iterator rend() { return reverse_iterator(begin()); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 
 			/*************************************************/

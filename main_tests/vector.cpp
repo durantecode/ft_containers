@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/14 16:08:46 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/18 20:38:13 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,29 +319,41 @@ void	test_vector(void)
 	operators();
 
 
-	// //init
-    // long count = 7;
-	// const size_t N = 42;
-    // // const int M = 99;
-	// srand(time(NULL));
+#include <iterator>     // std::iterator_traits
+#include <typeinfo>     // typeid
 
-	// //output test
-	// long err_count = 0;
-	// for (int i = 0; i < count; ++i)
+	typedef std::iterator_traits<int*> traits;
+	if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
+    	std::cout << "int* is a random-access iterator";
+
+
+    // const size_t N = 42;
+    // const int M = std::numeric_limits<int>::max();
+	// srand(time(NULL));
 	// {
-	// 	size_t num = rand() % N;
-	// 	size_t resize_n = rand() % (N * 2);
-	// 	int fill = rand() % std::numeric_limits<int>::max();
-	// 	std::vector<int> v1(num, fill);
-	// 	ft::vector<int> v2(num, fill);
-	// 	v1.resize(resize_n);
-	// 	v2.resize(resize_n);
-	// 	int std_res = v1.size();
-	// 	int ft_res = v2.size();
-	// 	if (std_res != ft_res)
-	// 		++err_count;
-	// 	// if (!std::equal(v1.begin(),v1.end(),v2.begin()))
-	// 	// 	++err_count;
+	// 	//output test
+	// 	long err_count = 0;
+	// 	for (int i = 0; i < 13; ++i)
+	// 	{
+	// 		size_t num = rand() % N;
+	// 		if (!num) continue;
+	// 		std::vector<int> v1;
+	// 		ft::vector<int> v2;
+	// 		for (size_t i = 0; i < num; ++i)
+	// 		{
+	// 			int fill = rand() % M;
+	// 			v1.push_back(fill);
+	// 			v2.push_back(fill);
+	// 		}
+			// std::vector<int>::reverse_iterator it_rb = v1.rbegin();
+			// std::vector<int>::reverse_iterator it_re = v1.rend();
+			// ft::vector<int>::reverse_iterator its_rb = v2.rbegin();
+			// ft::vector<int>::reverse_iterator its_re = v2.rend();
+
+			// if (*it_rb != *its_rb)
+			// 	++err_count;
+			// if (it_rb - it_re != its_rb - its_re)
+			// 	++err_count;
+		// }
 	// }
-	// std::cout << err_count << std::endl;
 }
