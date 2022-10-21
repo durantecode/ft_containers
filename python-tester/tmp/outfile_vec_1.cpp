@@ -21,7 +21,6 @@ void test_vector_empty_ctor(long count){
 	double std_res = timer_stop();
 	std::cout << "std result: " << std_res << " sec | " << std::flush;
 
-	count = 100;
 	//ft working
 	timer_start();
 	for (int i = 0; i < count; ++i){

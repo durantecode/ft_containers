@@ -21,6 +21,7 @@ void test_vector_erase_pos(long count){
 	//output test
 	timer_start();
 	long err_count = 0;
+	count = 0;
 	for (int i = 0; i < count; ++i){
 		size_t num = rand() % N;
 		std::vector<int> v1;

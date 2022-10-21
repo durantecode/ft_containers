@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/18 23:56:09 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/21 15:46:10 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,14 +195,14 @@ namespace ft
 				return (m_data[n]);
 			}
 			
-			reference front() { return (m_data[0]);	}
-			const_reference front() const { return (m_data[0]); }
+			reference front() { return (this->m_data[0]);	}
+			const_reference front() const { return (this->m_data[0]); }
 			
-			reference back() { return (m_data[m_size - 1]); }
-			const_reference back() const { return (m_data[m_size - 1]); }
+			reference back() { return (this->m_data[m_size - 1]); }
+			const_reference back() const { return (this->m_data[m_size - 1]); }
 			
-			pointer data() { return (m_data); }
-			const_pointer data() const { return (m_data); }
+			pointer data() { return (this->m_data); }
+			const_pointer data() const { return (this->m_data); }
 
 			/*************************************************/
 			/*                  MODIFIERS                    */
@@ -291,11 +291,10 @@ namespace ft
 
 			iterator erase(iterator position)
 			{
-				iterator index = position;
-				while (index + 1 != this->end())
+				int index = position - begin();
+				for (size_type i = index; i < this->m_size; ++i)
 				{
-					*index = *(index + 1);
-					index++;
+					this->m_data[i] = this->m_data[i + 1];
 				}
 				this->m_size--;
 				return (position);
@@ -303,13 +302,17 @@ namespace ft
 
 			iterator erase(iterator first, iterator last)
 			{
-				while (first != last)
+				int start = first - this->begin();
+				int end = last - this->begin();
+				int diff = end - start;
+
+				this->m_size -= diff;
+				for (size_type i = start; i < this->m_size; ++i)
 				{
-					erase(first);
-					last--;
+					this->m_data[i] = this->m_data[i + diff];
 				}
-				return (iterator(first));
-			};
+				return (this->m_data + start);
+			}
 
 			void swap(vector &other)
 			{

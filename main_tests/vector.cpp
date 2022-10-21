@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/19 00:17:10 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/21 14:03:40 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,19 +308,23 @@ std::string     test_name;
 std::clock_t    start;
 double          duration;
 
-double timer_stop(){
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-	start = 0;
-	return duration;
-}
+// double timer_stop(){
+//     duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+// 	start = 0;
+// 	return duration;
+// }
 
-void timer_start(){
-	start = std::clock();
-}
+// void timer_start(){
+// 	start = std::clock();
+// }
 
+#include <chrono>
 
 void	test_vector(void)
 {
+	high_resolution_clock				clock;
+	high_resolution_clock::time_point	t1;
+	high_resolution_clock::time_point	t2;
 	print_header("vector");
 
 	default_constructor();
@@ -336,21 +340,44 @@ void	test_vector(void)
 	swap();
 	operators();
 
-
-	// long count = 100;
-	// timer_start();
-	// for (int i = 0; i < count; ++i){
-	// 	std::vector<int> p1;
-	// }
-	// double std_res = timer_stop();
-	// std::cout << "std result: " << std_res << " sec | " << std::flush;
-
-	// //ft working
-	// timer_start();
-	// for (int i = 0; i < count; ++i){
-	// 	ft::vector<int> p1;
-	// }
-	// double ft_res = timer_stop();
-	// std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();
+	srand(time(NULL));
+	{
+		//output test
+		timer_start();
+		long err_count = 0;
+		// for (int i = 0; i < 1; ++i)
+		// {
+			size_t num = rand() % N;
+			std::vector<int> v1;
+			ft::vector<int> v2;
+			std::cout << "NUM: " << num << std::endl;
+			for (size_t i = 0; i < num; ++i){
+				int fill = rand() % M;
+				v1.push_back(fill);
+				v2.push_back(fill);
+			}
+			// if (!num) continue;
+			size_t it_pos = rand() % num;
+			std::cout << "IT_POS: " << it_pos << std::endl;
+			std::vector<int>::iterator it = v1.begin() + it_pos;
+			ft::vector<int>::iterator its = v2.begin() + it_pos;
+			std::vector<int>::iterator res_std = v1.erase(it);
+			ft::vector<int>::iterator res_ft = v2.erase(its);
+			if (res_std != v1.end() && res_ft != v2.end() && *res_std != *res_ft)
+				++err_count;
+			if (res_std - v1.begin() != res_ft - v2.begin())
+				++err_count;
+			int std_res = v1.size();
+			int ft_res = v2.size();
+			if (std_res != ft_res)
+				++err_count;
+			if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+				++err_count;
+		// }
+		std::cout << err_count << std::endl;
+		double comp_res = timer_stop();
+		std::cout << comp_res << std::endl;
+	}
 }
