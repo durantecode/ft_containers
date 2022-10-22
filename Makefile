@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/10/21 14:07:13 by ldurante         ###   ########.fr        #
+#    Updated: 2022/10/21 23:58:00 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@
 NAME = containers
 CXX = clang++
 RM = rm -rf
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic -g3 
+# CXXFLAGS = -Wall -Wextra -Werror
+EXTRAS = -std=c++98 -pedantic -g3
 		 -fsanitize=address
 
 # COLORS #
@@ -30,8 +31,8 @@ NO_COLOR = \033[0m
 
 # SRCS = main.cpp
 
-# SRCS = main_tests/main.cpp main_tests/vector.cpp
-SRCS = main_new.cpp
+SRCS = main_tests/main.cpp main_tests/vector.cpp
+# SRCS = main_new.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -40,7 +41,7 @@ OBJS = $(SRCS:.cpp=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+	@$(CXX) $(CXXFLAGS) $(EXTRAS) $(OBJS) -o $(NAME)
 	@echo "$(GREY) $(NAME) compiled $(GREEN) ✔✔✔ $(NO_COLOR)"
 
 clean:

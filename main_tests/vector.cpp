@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/21 14:03:40 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/21 23:17:22 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,76 +308,97 @@ std::string     test_name;
 std::clock_t    start;
 double          duration;
 
-// double timer_stop(){
-//     duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-// 	start = 0;
-// 	return duration;
-// }
+double timer_stop(){
+    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+	start = 0;
+	return duration;
+}
 
-// void timer_start(){
-// 	start = std::clock();
-// }
+void timer_start(){
+	start = std::clock();
+}
 
 #include <chrono>
 
 void	test_vector(void)
 {
-	high_resolution_clock				clock;
-	high_resolution_clock::time_point	t1;
-	high_resolution_clock::time_point	t2;
-	print_header("vector");
 
-	default_constructor();
-	copy_constructor();
-	max_size();
-	resize();
-	reserve();
-	access_operator();
-	front_back();
-	insert();
-	assign();
-	erase();
-	swap();
-	operators();
+	// default_constructor();
+	// copy_constructor();
+	// max_size();
+	// resize();
+	// reserve();
+	// access_operator();
+	// front_back();
+	// insert();
+	// assign();
+	// erase();
+	// swap();
+	// operators();
 
+//init
     const size_t N = 42;
+	long count = 3;
     const int M = std::numeric_limits<int>::max();
 	srand(time(NULL));
 	{
-		//output test
-		timer_start();
-		long err_count = 0;
-		// for (int i = 0; i < 1; ++i)
-		// {
-			size_t num = rand() % N;
-			std::vector<int> v1;
-			ft::vector<int> v2;
-			std::cout << "NUM: " << num << std::endl;
-			for (size_t i = 0; i < num; ++i){
-				int fill = rand() % M;
-				v1.push_back(fill);
-				v2.push_back(fill);
-			}
-			// if (!num) continue;
-			size_t it_pos = rand() % num;
-			std::cout << "IT_POS: " << it_pos << std::endl;
-			std::vector<int>::iterator it = v1.begin() + it_pos;
-			ft::vector<int>::iterator its = v2.begin() + it_pos;
-			std::vector<int>::iterator res_std = v1.erase(it);
-			ft::vector<int>::iterator res_ft = v2.erase(its);
-			if (res_std != v1.end() && res_ft != v2.end() && *res_std != *res_ft)
-				++err_count;
-			if (res_std - v1.begin() != res_ft - v2.begin())
-				++err_count;
-			int std_res = v1.size();
-			int ft_res = v2.size();
-			if (std_res != ft_res)
-				++err_count;
-			if (!std::equal(v1.begin(),v1.end(),v2.begin()))
-				++err_count;
-		// }
-		std::cout << err_count << std::endl;
-		double comp_res = timer_stop();
-		std::cout << comp_res << std::endl;
+	//output test
+	timer_start();
+	long err_count = 0;
+	for (int i = 0; i < count; ++i){
+		std::cout << "VUELTA: " << i << std::endl;
+		size_t num = rand() % N;
+		std::cout << "NUM: " << num << std::endl;
+		std::vector<int> v1;
+		ft::vector<int> v2;
+		for (size_t i = 0; i < num; ++i){
+			int fill = rand() % M;
+			v1.push_back(fill);
+			v2.push_back(fill);
+		}
+		if (!num) continue;
+		size_t it_pos = rand() % num;
+		std::cout << "ITE_POS: " << it_pos << std::endl;
+		std::vector<int>::iterator it = v1.begin() + it_pos;
+		ft::vector<int>::iterator its = v2.begin() + it_pos;
+		std::vector<int>::iterator res_std = v1.insert(it, N);
+		ft::vector<int>::iterator res_ft = v2.insert(its, N);
+		std::cout << "RES_STD: " << *res_std << std::endl;
+		std::cout << "RES_FT: " << *res_ft << std::endl;
+		std::cout << "ITER: " << *its << std::endl;
+		// if (*res_std != *res_ft)
+		//  	++err_count;
+		// if (res_std - v1.begin() != res_ft - v2.begin())
+		// 	++err_count;
+		// int std_res = v1.size();
+		// int ft_res = v2.size();
+		// if (std_res != ft_res)
+		// 	++err_count;
+		// if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+		// 	++err_count;
 	}
+	std::cout << "OJETT" << std::endl;
+	// double comp_res = timer_stop();
+    // print_comp_res(err_count, comp_res);
+	}
+
+	//std working
+	// 	std::cout << "OJETE\n";
+    // std::vector<int> v1(N, M);
+	// timer_start();
+	// for (int i = 0; i < 15; ++i){
+	// 	v1.insert(v1.begin(), N);
+	// }
+	// double std_res = timer_stop();
+	// std::cout << "std result: " << std_res << " sec | " << std::endl;
+	
+	// //ft working 
+	// ft::vector<int> v2(N, M);
+	// timer_start();
+	// for (int i = 0; i < 15; ++i){
+	// 	v2.insert(v2.begin(), N);
+	// }
+	// double ft_res = timer_stop();
+	// std::cout << "ft result: " << ft_res << " sec | " << std::endl;
+	// print_result(std_res, ft_res);
 }
