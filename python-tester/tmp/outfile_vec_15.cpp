@@ -14,6 +14,7 @@ void test_vector_insert_pos(long count){
 	print_test_name(count);
 
 	//init
+	// count = 50;
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	srand(time(NULL));
@@ -50,7 +51,6 @@ void test_vector_insert_pos(long count){
 	double comp_res = timer_stop();
     print_comp_res(err_count, comp_res);
 	}
-
 	//std working
     std::vector<int> v1(N, M);
 	timer_start();
