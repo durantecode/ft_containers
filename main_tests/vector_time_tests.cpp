@@ -1,8 +1,63 @@
-#include "vector_tests.hpp"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_time_tests.cpp                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
+/*   Updated: 2022/10/24 13:32:52 by ldurante         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-extern std::string test_name;
+#include "tests.hpp"
 
-void test_vector_empty_ctor(long count){
+std::string	test_name;
+
+const long			COUNT = 100000;
+std::clock_t   		start;
+double          	duration;
+
+double timer_stop()
+{
+    duration = (std::clock() - start) / (double) CLOCKS_PER_SEC;
+	start = 0;
+	return duration;
+}
+
+void timer_start()
+{
+	start = std::clock();
+}
+
+void print_result(double std, double ft)
+{
+	double delta = std / ft;
+    std::string col;
+    if (delta >= 1)
+        col = GREEN;
+    if (delta < 0.5)
+        col = YELLOW;
+    if (delta < 0.05)
+        col = RED;
+	std::cout << "performance: "<< col << "x" << delta << RESET << " (1 is equal, higher is better)" << std::endl;
+}
+
+void print_test_name(long count){
+	std::cout << YELLOW << test_name << RESET << " x" << count / COUNT << " of 100k iterations" << std::endl;
+}
+
+void print_comp_res(int err_count, double comp_res){
+    std::string col = GREEN;
+    if (err_count > 0)
+        col = RED;
+    std::cout << "Output comparison results (std vs ft): " << col <<
+		err_count << " errors" << RESET << " in " << comp_res << " sec" << std::endl;
+
+}
+
+void test_vector_empty_constructor(long count)
+{
 	//print job name
 	test_name = "-VECTOR EMPTY CONSTRUCTION TEST-";
 	print_test_name(count);
@@ -25,7 +80,7 @@ void test_vector_empty_ctor(long count){
 	print_result(std_res, ft_res);
 }
 
-void test_vector_param_ctor(long count){
+void test_vector_param_constructor(long count){
 	//print job name
 	test_name = "-VECTOR PARAM CONSTRUCTION TEST-";
 	print_test_name(count);
@@ -1221,7 +1276,6 @@ void test_vector_copy_range_ctor(long count){
 	print_test_name(count);
 
 	//init
-	count = 50;
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	srand(time(NULL));
@@ -1238,7 +1292,7 @@ void test_vector_copy_range_ctor(long count){
 			v1.push_back(fill);
 			v2.push_back(fill);
 		}
-		// if (!num) continue;
+		if (!num) continue;
 		std::vector<int> v1_r(v1.begin(), v1.end());
 		ft::vector<int> v2_r(v2.begin(), v2.end());
 		int std_res = v1_r.size();

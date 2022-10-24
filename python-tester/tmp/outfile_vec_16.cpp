@@ -14,6 +14,7 @@ void test_vector_insert_pos_num(long count){
 	print_test_name(count);
 
 	//init
+	count = 1;
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	srand(time(NULL));

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/24 02:15:32 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/24 11:42:46 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,10 @@ namespace ft
 
 		public:
 
-			iterator begin() { return iterator(m_data);	}
-			const_iterator begin() const { return const_iterator(m_data); }
-			iterator end() { return iterator(m_data + m_size); }
-			const_iterator end() const { return const_iterator(m_data + m_size); }
+			iterator begin() { return iterator(&m_data[0]);	}
+			const_iterator begin() const { return const_iterator(&m_data[0]); }
+			iterator end() { return iterator(&m_data[m_size]); }
+			const_iterator end() const { return const_iterator(&m_data[m_size]); }
 
 			reverse_iterator rbegin() { return reverse_iterator(end()); }
 			const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
@@ -239,12 +239,12 @@ namespace ft
 				size_type j = this->m_size;
 				while (j > i)
 				{
-					// this->m_alloc.construct(&this->m_data[j], this->m_data[j - 1]);
-					this->m_data[j] = this->m_data[j - 1];
+					this->m_alloc.construct(&this->m_data[j], this->m_data[j - 1]);
+					// this->m_data[j] = this->m_data[j - 1];
 					j--;
 				}
-				// this->m_alloc.construct(&this->m_data[i], value);
-				this->m_data[i] = value;
+				this->m_alloc.construct(&this->m_data[i], value);
+				// this->m_data[i] = value;
 
 				this->m_size++;
 				position = &this->m_data[i];
@@ -276,12 +276,13 @@ namespace ft
 			// 		{
 			// 			for (; count > 0; --count, --i)
 			// 			{
-			// 				this->m_data[i] = value;
-			// 				// this->m_alloc.construct(&this->m_data[i], value);
+			// 				// this->m_data[i] = value;
+			// 				this->m_alloc.construct(&this->m_data[i], value);
 			// 			}
 			// 			return;
 			// 		}
-			// 		m_data[i] = m_data[i - count];
+			// 		this->m_alloc.construct(&this->m_data[i], this->m_data[i - count]);
+			// 		// m_data[i] = m_data[i - count];
 			// 	}
 			// }
 
@@ -360,8 +361,8 @@ namespace ft
 					else
 						this->reserve(this->m_capacity * 2);
 				}
-				// m_alloc.construct(&m_data[m_size], value);
-				this->m_data[this->m_size] = value;
+				m_alloc.construct(&m_data[m_size], value);
+				// this->m_data[this->m_size] = value;
 				this->m_size++;
 			}
 
@@ -380,28 +381,44 @@ namespace ft
 
 			iterator erase(iterator position)
 			{
-				iterator pos_return(position);
-				while (position != end() - 1)
+				size_type	pos = position - begin();
+				pointer		tmp = &this->m_data[pos];
+
+				this->m_alloc.destroy(tmp);
+				m_size--;
+				while (pos < m_size)
 				{
-					*position = *(position + 1);
-					++position;
+					*tmp = *(tmp + 1);
+					tmp++;
+					pos++;
 				}
-				--this->m_size;
-				return pos_return;
+				return position;
 			}
+
 			iterator erase(iterator first, iterator last)
 			{
-				iterator pos_return(last);
-				while (last != end())
+				size_type	n	 = first - begin();
+				pointer 	tmp  = &this->m_data[n];
+				size_type	diff = last - first;
+
+				size_type i = 0;
+				while (n + diff < this->m_size)
 				{
-					*first = *last;
-					++first;
-					++last;
+					if (i < diff)
+						this->m_alloc.destroy(tmp);
+					if (n + diff < this->m_size)
+						*tmp = *(tmp + diff);
+					i++;
+					n++;
+					tmp++;
 				}
-				size_type diff = last - first;
+				// for (size_type j = 0; n + diff < this->m_size ; j++, n++, ptr++)
+				// {
+				// }			
 				this->m_size -= diff;
-				return (pos_return);
+				return first;
 			}
+
 
 			void swap(vector &other)
 			{

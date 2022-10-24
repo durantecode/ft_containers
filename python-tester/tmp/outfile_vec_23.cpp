@@ -14,6 +14,7 @@ void test_vector_copy_range_ctor(long count){
 	print_test_name(count);
 
 	//init
+	count = 50;
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	srand(time(NULL));
