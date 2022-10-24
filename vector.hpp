@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/22 19:21:24 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/24 02:15:32 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,6 @@ namespace ft
 		
 		public:
 
-			// explicit vector(const allocator_type &alloc = allocator_type())
-			// {
-			// 	this->m_alloc = alloc;
-			// 	this->m_data = 0;
-			// 	this->m_data = m_alloc.allocate(0);
-			// 	this->m_size = 0;
-			// 	this->m_capacity = 0;
-			// }
-
 			explicit vector (const allocator_type& alloc = allocator_type()) :
 																			m_alloc(alloc),
 																			m_size(0),
@@ -74,47 +65,36 @@ namespace ft
 				this->m_size = n;
 				this->m_capacity = n;
 				this->m_data = this->m_alloc.allocate(this->m_capacity);
-				for (size_t i = 0; i < m_size; i++)
-					this->m_data[i] = val;
-					// this->m_alloc.construct(&this->m_data[i], val);
+				for (size_t i = 0; i < n; i++)
+					this->m_alloc.construct(&this->m_data[i], val);
 			}
 
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename std::enable_if<!std::is_integral<InputIterator>::value, void>::type* = 0) :
-																							m_alloc(alloc),
-																							m_size(0),
-																							m_capacity(0)
+				typename std::enable_if<!std::is_integral<InputIterator>::value, void>::type* = 0)
 			{
-				m_data = m_alloc.allocate(m_capacity);
+				this->m_alloc = alloc;
+				this->m_size = 0;
+				this->m_capacity = 0;
+				this->m_data = m_alloc.allocate(this->m_capacity);
 				this->assign(first, last);
-			};
-
-			// template <class InputIterator>
-			// vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-			// {
-			// 	this->m_data = nullptr;
-			// 	this->m_size = 0;
-			// 	this->m_capacity = 0;
-			// 	this->m_alloc = alloc;
-			// 	this->assign(first, last);
-			// }
+			}
 
 			vector(vector const &toCopy) :
 										m_alloc(toCopy.get_allocator()),
 										m_size(toCopy.m_size),
 										m_capacity(toCopy.m_capacity),
-										m_data(0)
+										m_data(nullptr)
 			{
 				this->m_data = this->m_alloc.allocate(toCopy.m_capacity);
 				for (size_type i = 0; i < toCopy.m_size; i++)
-					this->m_data[i] = toCopy.m_data[i];
+					this->m_alloc.construct(&this->m_data[i], toCopy.m_data[i]);
 			}
 
 			~vector()
 			{
-				clear();
-				m_alloc.deallocate(m_data, m_capacity);
+				this->clear();
+				this->m_alloc.deallocate(this->m_data, this->m_capacity);
 			}
 
 			vector& operator = (const vector& toCopy)
@@ -123,11 +103,11 @@ namespace ft
 					return *this;
 				this->clear();
 				m_alloc.deallocate(m_data, m_capacity);
-				m_capacity = toCopy.m_capacity;
-				m_size = toCopy.m_size;
-				m_data = m_alloc.allocate(m_capacity);
-				for (size_t i = 0; i < m_size; ++i) {
-					m_data[i] = toCopy.m_data[i];
+				this->m_capacity = toCopy.m_capacity;
+				this->m_size = toCopy.m_size;
+				this->m_data = m_alloc.allocate(m_capacity);
+				for (size_type i = 0; i < this->m_size; ++i) {
+					this->m_data[i] = toCopy.m_data[i];
 				}
 				return *this;
 			}
@@ -163,70 +143,38 @@ namespace ft
 			
 			bool empty() const
 			{
-				if (!m_size)
+				if (!this->m_size)
 					return (true);
 				return (false);
 			}
 
 			void resize (size_type n, value_type val = value_type())
 			{
-				while (n < m_size)
-					pop_back();
-				if (n > m_capacity)
-				{
-					m_capacity = n;
-					reserve(m_capacity);
-				}
-				while (n > m_size)
-				{
-					m_alloc.construct(&m_data[m_size], val);
-					m_size++;
-				}
+			while (n < this->m_size)
+				pop_back();
+			if (n > this->m_capacity)
+				reserve(n);
+			while (n > this->m_size)
+				push_back(val);
 			}
-
-			// void reserve (size_type n){
-			// 	if (n < m_capacity)
-			// 		return;
-			// 	pointer newarr = m_alloc.allocate(n);
-			// 	try{
-			// 		for (size_type i = 0; i < m_size; i++)
-			// 			m_alloc.construct(newarr + i, *(m_data + i));
-			// 	} catch (std::exception &e){
-			// 		size_type i = 0;
-			// 		while (newarr + i != NULL && i < m_size){
-			// 			m_alloc.destroy(newarr + i);
-			// 			i++;
-			// 		}
-			// 		m_alloc.deallocate(newarr, n);
-			// 		throw;
-			// 	}
-			// 	for(size_type i = 0; i < m_size; i++)
-			// 		m_alloc.destroy(m_data + i);
-			// 	if(m_capacity)
-			// 		m_alloc.deallocate(m_data, m_capacity);
-			// 	m_capacity = n;
-			// 	m_data = newarr;
-			// }
 
 			void reserve (size_type n)
 			{
-				if (n < m_capacity)
+				if (n < this->m_capacity)
 					return ;
 				if (n > max_size())
 					throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
 				pointer newBlock;
-				newBlock = m_alloc.allocate(n);
-				for (size_type i = 0; i < m_size; i++)
+				newBlock = this->m_alloc.allocate(n);
+				for (size_type i = 0; i < this->m_size; i++)
 				{
-					newBlock[i] = m_data[i];
-					// m_alloc.construct(&newBlock[i], m_data[i]);
-					// m_alloc.destroy(&m_data[i]);
+					m_alloc.construct(&newBlock[i], m_data[i]);
+					m_alloc.destroy(&m_data[i]);
 				}
-				// clear();
-				if (m_capacity)
-					m_alloc.deallocate(m_data, m_capacity);
-				m_data = newBlock;
-				m_capacity = n;
+				if (this->m_capacity)
+					m_alloc.deallocate(this->m_data, this->m_capacity);
+				this->m_data = newBlock;
+				this->m_capacity = n;
 			}
 
 			/*************************************************/
@@ -240,15 +188,15 @@ namespace ft
 			
 			reference at(size_type n)
 			{
-				if (n >= m_size)
+				if (n >= this->m_size)
 					throw std::out_of_range("vector");
-				return (m_data[n]);
+				return (this->m_data[n]);
 			}
 			const_reference at(size_type n) const
 			{
-				if (n >= m_size)
+				if (n >= this->m_size)
 					throw std::out_of_range("vector");
-				return (m_data[n]);
+				return (this->m_data[n]);
 			}
 			
 			reference front() { return (this->m_data[0]);	}
@@ -283,23 +231,6 @@ namespace ft
 				this->m_size = n;
 			}
 
-			template<class InputIt>
-			typename std::enable_if<!std::is_integral<InputIt>::value, bool>::type
-			validate_iterator_values(InputIt first, InputIt last, size_t range)
-			{
-				pointer reserved_buffer;
-				reserved_buffer = m_alloc.allocate(range);
-				bool result = true;
-				size_t i = 0;
-
-				for (;first != last; ++first, ++i) {
-					try { reserved_buffer[i] = *first; }
-					catch (...) { result = false; break; }
-				}
-				m_alloc.deallocate(reserved_buffer, range);
-				return result;
-			}
-
 			iterator insert (iterator position, const value_type& value)
 			{
 				size_type i = position - this->begin();
@@ -308,22 +239,18 @@ namespace ft
 				size_type j = this->m_size;
 				while (j > i)
 				{
+					// this->m_alloc.construct(&this->m_data[j], this->m_data[j - 1]);
 					this->m_data[j] = this->m_data[j - 1];
 					j--;
 				}
+				// this->m_alloc.construct(&this->m_data[i], value);
 				this->m_data[i] = value;
+
 				this->m_size++;
-				// iterator newIter(&this->m_data[i]);
-				position = &m_data[i];
+				position = &this->m_data[i];
 				return (position);
 			}
 
-			void insert (iterator position, size_type n, const value_type& val)
-			{
-				while (n--)
-					position = insert(position, val);
-			}
-			
 			// void insert( iterator position, size_type count, const_reference value )
 			// {
 			// 	size_type index = position - begin();
@@ -356,131 +283,124 @@ namespace ft
 			// 		}
 			// 		m_data[i] = m_data[i - count];
 			// 	}
-			// };
-
-			template <class InputIt>
-			typename std::enable_if<!std::is_integral<InputIt>::value, void>::type
-			insert(iterator pos, InputIt first, InputIt last)
-			{
-				size_t range_size = last - first;
-				if (!validate_iterator_values(first, last, range_size))
-					throw std::exception();
-				size_t new_size = m_size + range_size;
-
-				int last_index = (pos - begin()) + range_size - 1;
-				if (range_size >= m_capacity) {
-					reserve(m_capacity + range_size);
-					m_size = new_size;
-				}
-				else
-				{
-					while (m_size != new_size)
-					{
-						if (m_size == m_capacity)
-							reserve(m_capacity * 2);
-						m_size++;
-					}
-				}
-				for (int i = m_size - 1; i >= 0; --i)
-				{
-					if (i == last_index) {
-						for (; range_size > 0; --range_size, --i)
-						{
-							m_data[i] = *--last;
-						}
-						return;
-					}
-					m_data[i] = m_data[i - range_size];
-				}
-			};
-			
-			// iterator insert (iterator position, const value_type& val)
-			// {
-			// 	size_type i = 0;
-			// 	iterator it = this->begin();
-			// 	while (it + i != position && i < this->m_size)
-			// 		i++;
-			// 	if (this->m_capacity < this->m_size + 1)
-			// 		this->reserve(this->m_size + 1);
-			// 	size_type j = this->m_capacity - 1;
-			// 	while (j > i)
-			// 	{
-			// 		this->m_alloc.construct(&this->m_data[j], this->m_data[j - 1]);
-			// 		j--;
-			// 	}
-			// 	this->m_alloc.construct(&this->m_data[i], val);
-			// 	this->m_size++;
-			// 	iterator newIter(&this->m_data[i]);
-			// 	return (newIter);
 			// }
 
-			
-			// template <class InputIterator>
-			// void insert (iterator position, InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = 0)
-			// {
-			// 	while (first != last)
-			// 	{
-			// 		pos = insert(pos, *first) + 1;
-			// 		++first;
-			// 	}
-			// }
-
-			void push_back (const value_type& val)
+			void insert (iterator position, size_type n, const value_type& val)
 			{
-				if (m_size == m_capacity)
-				{
-					if (!m_capacity)
-						m_capacity++;
-					m_capacity *= 2;
-					reserve(m_capacity);
-				}	
-				// m_alloc.construct(&m_data[m_size], val);
-				m_data[m_size] = val;
-				m_size++;
+				while (n--)
+					position = insert(position, val);
 			}
 
-			// void push_back(const value_type &value)
+			// template <class InputIt>
+			// typename std::enable_if<!std::is_integral<InputIt>::value, void>::type
+			// insert(iterator pos, InputIt first, InputIt last)
 			// {
-			// 	std::cout << "VAL: " << value << std::endl;
-			// 	insert(end(), value);
+			// 	size_t range_size = last - first;
+			// 	if (!validate_iterator_values(first, last, range_size))
+			// 		throw std::exception();
+			// 	size_t new_size = m_size + range_size;
+
+			// 	int last_index = (pos - begin()) + range_size - 1;
+			// 	if (range_size >= m_capacity) {
+			// 		reserve(m_capacity + range_size);
+			// 		m_size = new_size;
+			// 	}
+			// 	else
+			// 	{
+			// 		while (m_size != new_size)
+			// 		{
+			// 			if (m_size == m_capacity)
+			// 				reserve(m_capacity * 2);
+			// 			m_size++;
+			// 		}
+			// 	}
+			// 	for (int i = m_size - 1; i >= 0; --i)
+			// 	{
+			// 		if (i == last_index) {
+			// 			for (; range_size > 0; --range_size, --i)
+			// 			{
+			// 				m_data[i] = *--last;
+			// 			}
+			// 			return;
+			// 		}
+			// 		m_data[i] = m_data[i - range_size];
+			// 	}
 			// }
+
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = 0)
+			{
+				while (first != last)
+				{
+					position = insert(position, *first) + 1;
+					++first;
+				}
+			}
+
+			// void push_back (const value_type& val)
+			// {
+			// 	if (m_size == m_capacity)
+			// 	{
+			// 		if (!m_capacity)
+			// 			m_capacity++;
+			// 		m_capacity *= 2;
+			// 		reserve(m_capacity);
+			// 	}	
+			// 	m_alloc.construct(&m_data[m_size], val);
+			// 	// m_data[m_size] = val;
+			// 	m_size++;
+			// }
+
+			void push_back( const_reference value)
+			{
+				if (this->m_size == this->m_capacity)
+				{
+					if (!this->m_capacity)
+						this->reserve(1);
+					else
+						this->reserve(this->m_capacity * 2);
+				}
+				// m_alloc.construct(&m_data[m_size], value);
+				this->m_data[this->m_size] = value;
+				this->m_size++;
+			}
 
 			void pop_back()
 			{
 				m_alloc.destroy(&back() - 1);
-				m_size--;
+				this->m_size--;
 			}
 
 			void clear()
 			{
-				for (size_type i = 0; i < m_size; i++)
-					m_alloc.destroy(&m_data[i]);
-				m_size = 0;
+				for (size_type i = 0; i < this->m_size; i++)
+					this->m_alloc.destroy(m_data + i);
+				this->m_size = 0;
 			}
 
 			iterator erase(iterator position)
 			{
-				int index = position - begin();
-				for (size_type i = index; i < this->m_size; ++i)
+				iterator pos_return(position);
+				while (position != end() - 1)
 				{
-					this->m_data[i] = this->m_data[i + 1];
+					*position = *(position + 1);
+					++position;
 				}
-				this->m_size--;
-				return (position);
+				--this->m_size;
+				return pos_return;
 			}
-
 			iterator erase(iterator first, iterator last)
 			{
-				int start = first - this->begin();
-				int end = last - this->begin();
-				int diff = end - start;
-
-				this->m_size -= diff;
-				for (size_type i = start; i < this->m_size; ++i)
+				iterator pos_return(last);
+				while (last != end())
 				{
-					this->m_data[i] = this->m_data[i + diff];
+					*first = *last;
+					++first;
+					++last;
 				}
-				return (this->m_data + start);
+				size_type diff = last - first;
+				this->m_size -= diff;
+				return (pos_return);
 			}
 
 			void swap(vector &other)
