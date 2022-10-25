@@ -36,7 +36,7 @@ void timer_start(){
 	start = std::clock();
 }
 
-void print_result(double std, double ft){
+void performance_result(double std, double ft){
 	std::cout.precision(2);
 	double delta = std / ft;
     std::string col;
@@ -54,7 +54,7 @@ void print_test_name(long count){
 	std::cout << COL_YEL << test_name << NC << " x" << count / COUNT << " of 100k iterations" << std::endl;
 }
 
-void print_comp_res(int err_count, double comp_res){
+void comparision_result(int err_count, double comp_res){
     std::string col = COL_GRN;
     if (err_count > 0)
         col = COL_RED;

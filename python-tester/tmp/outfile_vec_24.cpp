@@ -8,7 +8,7 @@
 #include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_access(long count){
+void test_vector_time_access(long count){
 	//print job name
 	test_name = "-VECTOR ACCESS TEST-";
 	print_test_name(count);
@@ -42,10 +42,10 @@ void test_vector_access(long count){
 
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 }
 
 int main(){
-	test_vector_access(100000);
+	test_vector_time_access(100000);
 }

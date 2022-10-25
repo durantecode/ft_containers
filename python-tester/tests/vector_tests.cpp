@@ -22,7 +22,7 @@ void test_vector_empty_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_vector_param_ctor(long count){
@@ -45,7 +45,7 @@ void test_vector_param_ctor(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 
 	//std working
 	timer_start();
@@ -62,10 +62,10 @@ void test_vector_param_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_two_param_ctor(long count){
+void test_vector_time_two_param_constructor(long count){
 	//print job name
 	test_name = "-VECTOR TWO PARAM CONSTRUCTION TEST-";
 	print_test_name(count);
@@ -86,7 +86,7 @@ void test_vector_two_param_ctor(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
     
 	//std working
 	timer_start();
@@ -103,10 +103,10 @@ void test_vector_two_param_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_size_capacity_empty(long count){
+void test_vector_time_size_capacity_empty(long count){
 	//print job name
 	test_name = "-VECTOR SIZE CAPACITY EMPTY TEST-";
 	print_test_name(count);
@@ -137,7 +137,7 @@ void test_vector_size_capacity_empty(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 	
 	//std working
@@ -163,10 +163,10 @@ void test_vector_size_capacity_empty(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_size_capacity_random(long count){
+void test_vector_time_size_capacity_random(long count){
 	//print job name
 	test_name = "-VECTOR SIZE CAPACITY RANDOM TEST-";
 	print_test_name(count);
@@ -199,7 +199,7 @@ void test_vector_size_capacity_random(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 	//std working
     std::vector<int> v1(N, M);
@@ -222,10 +222,10 @@ void test_vector_size_capacity_random(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_resize(long count){
+void test_vector_time_resize(long count){
 	//print job name
 	test_name = "-VECTOR RESIZE TEST-";
 	print_test_name(count);
@@ -254,7 +254,7 @@ void test_vector_resize(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -276,10 +276,10 @@ void test_vector_resize(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_reserve(long count){
+void test_vector_time_reserve(long count){
 	//print job name
 	test_name = "-VECTOR RESERVE TEST-";
 	print_test_name(count);
@@ -316,7 +316,7 @@ void test_vector_reserve(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -336,10 +336,10 @@ void test_vector_reserve(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_push_back(long count){
+void test_vector_time_push_back(long count){
 	//print job name
 	test_name = "-VECTOR PUSH BACK TEST-";
 	print_test_name(count);
@@ -368,7 +368,7 @@ void test_vector_push_back(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -388,10 +388,10 @@ void test_vector_push_back(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_pop_back(long count){
+void test_vector_time_pop_back(long count){
 	//print job name
 	test_name = "-VECTOR POP BACK TEST-";
 	print_test_name(count);
@@ -428,7 +428,7 @@ void test_vector_pop_back(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -448,10 +448,10 @@ void test_vector_pop_back(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_erase_pos(long count){
+void test_vector_time_erase_position(long count){
 	//print job name
 	test_name = "-VECTOR ERASE POS TEST-";
 	print_test_name(count);
@@ -492,7 +492,7 @@ void test_vector_erase_pos(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -512,10 +512,10 @@ void test_vector_erase_pos(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_erase_iter(long count){
+void test_vector_time_erase_iter(long count){
 	//print job name
 	test_name = "-VECTOR ERASE ITER TEST-";
 	print_test_name(count);
@@ -556,7 +556,7 @@ void test_vector_erase_iter(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -576,10 +576,10 @@ void test_vector_erase_iter(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_clear(long count){
+void test_vector_time_clear(long count){
 	//print job name
 	test_name = "-VECTOR CLEAR TEST-";
 	print_test_name(count);
@@ -611,7 +611,7 @@ void test_vector_clear(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -632,10 +632,10 @@ void test_vector_clear(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_reverse_iter(long count){
+void test_vector_time_reverse_iter(long count){
 	//print job name
 	test_name = "-VECTOR REVERSE ITER TEST-";
 	print_test_name(count);
@@ -671,11 +671,11 @@ void test_vector_reverse_iter(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 }
 
-void test_vector_swap(long count){
+void test_vector_time_swap(long count){
 	//print job name
 	test_name = "-VECTOR SWAP TEST-";
 	print_test_name(count);
@@ -710,7 +710,7 @@ void test_vector_swap(long count){
 		if (v2.capacity() != N2) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 	
 	//std working
@@ -730,10 +730,10 @@ void test_vector_swap(long count){
 	v3.swap(v4);
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_insert_pos(long count){
+void test_vector_time_insert_position(long count){
 	//print job name
 	test_name = "-VECTOR INSERT POS TEST-";
 	print_test_name(count);
@@ -774,7 +774,7 @@ void test_vector_insert_pos(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 	//std working
     std::vector<int> v1(N, M);
@@ -793,10 +793,10 @@ void test_vector_insert_pos(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_insert_pos_num(long count){
+void test_vector_time_insert_pos_value(long count){
 	//print job name
 	test_name = "-VECTOR INSERT POS NUM TEST-";
 	print_test_name(count);
@@ -834,7 +834,7 @@ void test_vector_insert_pos_num(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -854,10 +854,10 @@ void test_vector_insert_pos_num(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_insert_iter(long count){
+void test_vector_time_insert_iter(long count){
 	//print job name
 	test_name = "-VECTOR INSERT ITERATOR TEST-";
 	print_test_name(count);
@@ -899,7 +899,7 @@ void test_vector_insert_iter(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -921,10 +921,10 @@ void test_vector_insert_iter(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_comparison(long count){
+void test_vector_time_comparison(long count){
 	//print job name
 	test_name = "-VECTOR COMPARISON TEST-";
 	print_test_name(count);
@@ -958,11 +958,11 @@ void test_vector_comparison(long count){
 		if ((v1>=v1_s) != (v2>=v2_s)) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 }
 
-void test_vector_assign_range(long count){
+void test_vector_time_assign_range(long count){
 	//print job name
 	test_name = "-VECTOR ASSIGN RANGE TEST-";
 	print_test_name(count);
@@ -997,7 +997,7 @@ void test_vector_assign_range(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -1019,10 +1019,10 @@ void test_vector_assign_range(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_assign_n(long count){
+void test_vector_time_assign_value(long count){
 	//print job name
 	test_name = "-VECTOR ASSIGN NUM TEST-";
 	print_test_name(count);
@@ -1064,7 +1064,7 @@ void test_vector_assign_n(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -1084,10 +1084,10 @@ void test_vector_assign_n(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_assignment(long count){
+void test_vector_time_assignment(long count){
 	//print job name
 	test_name = "-VECTOR ASSIGNMENT OP TEST-";
 	print_test_name(count);
@@ -1121,7 +1121,7 @@ void test_vector_assignment(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -1143,10 +1143,10 @@ void test_vector_assignment(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_copy_ctor(long count){
+void test_vector_time_copy_constructor(long count){
 	//print job name
 	test_name = "-VECTOR COPY CONSTRUCTOR TEST-";
 	print_test_name(count);
@@ -1192,7 +1192,7 @@ void test_vector_copy_ctor(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -1212,10 +1212,10 @@ void test_vector_copy_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_copy_range_ctor(long count){
+void test_vector_time_copy_range_constructor(long count){
 	//print job name
 	test_name = "-VECTOR COPY RANGE CONSTRUCTOR TEST-";
 	print_test_name(count);
@@ -1262,7 +1262,7 @@ void test_vector_copy_range_ctor(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -1282,10 +1282,10 @@ void test_vector_copy_range_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
-void test_vector_access(long count){
+void test_vector_time_access(long count){
 	//print job name
 	test_name = "-VECTOR ACCESS TEST-";
 	print_test_name(count);
@@ -1319,6 +1319,6 @@ void test_vector_access(long count){
 
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 }

@@ -8,7 +8,7 @@
 #include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_insert_pos(long count){
+void test_vector_time_insert_position(long count){
 	//print job name
 	test_name = "-VECTOR INSERT POS TEST-";
 	print_test_name(count);
@@ -49,7 +49,7 @@ void test_vector_insert_pos(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 	//std working
     std::vector<int> v1(N, M);
@@ -68,9 +68,9 @@ void test_vector_insert_pos(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 int main(){
-	test_vector_insert_pos(100000);
+	test_vector_time_insert_position(100000);
 }

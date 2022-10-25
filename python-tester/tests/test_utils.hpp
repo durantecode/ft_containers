@@ -29,9 +29,9 @@ void    	handle_args(int argc, char** argv);
 void    	init_cout();
 double  	timer_stop();
 void    	timer_start();
-void    	print_result(double std, double ft);
+void    	performance_result(double std, double ft);
 void    	print_test_name(long count);
-void    	print_comp_res(int err_count, double comp_res);
+void    	comparision_result(int err_count, double comp_res);
 std::string getNewId();
 
 #endif

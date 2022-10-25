@@ -22,7 +22,7 @@ void test_stack_empty_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_stack_copy_ctor(long count){
@@ -55,7 +55,7 @@ void test_stack_copy_ctor(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -77,7 +77,7 @@ void test_stack_copy_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_stack_assignment(long count){
@@ -112,7 +112,7 @@ void test_stack_assignment(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -136,7 +136,7 @@ void test_stack_assignment(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_stack_size_empty_top(long count){
@@ -170,7 +170,7 @@ void test_stack_size_empty_top(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 }
 
@@ -208,7 +208,7 @@ void test_stack_push_pop(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -230,5 +230,5 @@ void test_stack_push_pop(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }

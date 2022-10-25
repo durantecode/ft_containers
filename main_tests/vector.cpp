@@ -6,11 +6,13 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/24 13:19:55 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/25 02:04:04 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.hpp"
+
+long count = 50;
 
 template <typename T>
 static void print_vector(T vec, std::string type)
@@ -46,9 +48,9 @@ static void print_vector_reverse(T vec, std::string type)
 	std::cout << std::endl;
 }
 
-static void default_constructor(void)
+static void test_vector_empty_constructor(void)
 {
-	print_header("Default constructor");
+	print_header("EMPTY CONSTRUCTOR TEST");
 	ft::vector<int> ft;
 	std::vector<int> std;
 	check("ft == std", ft == std);
@@ -59,6 +61,7 @@ static void default_constructor(void)
 	std.push_back(2);
 	std.push_back(3);
 	check("ft == std", ft == std);
+	test_vector_time_empty_constructor(count);
 }
 
 static void copy_constructor(void)
@@ -305,7 +308,7 @@ static void operators(void)
 void	test_vector(void)
 {
 
-	// default_constructor();
+	test_vector_empty_constructor();
 	// copy_constructor();
 	// max_size();
 	// resize();
@@ -317,32 +320,30 @@ void	test_vector(void)
 	// erase();
 	// swap();
 	// operators();
-	long count = 1;
 
-	// test_vector_empty_constructor(count);
- 	// test_vector_param_constructor(count);
-	// test_vector_two_param_ctor(count);
-	// test_vector_size_capacity_empty(count);
-	// test_vector_size_capacity_random(count);
- 	// test_vector_reserve(count);
- 	// test_vector_resize(count);
- 	// test_vector_push_back(count);
- 	// test_vector_pop_back(count);
- 	// test_vector_erase_pos(count);
- 	// test_vector_erase_iter(count);
- 	// test_vector_clear(count);
- 	// test_vector_reverse_iter(count);
- 	// test_vector_swap(count);
- 	// test_vector_insert_pos(count);
- 	// test_vector_insert_pos_num(count);
- 	// test_vector_insert_iter(count);
- 	// test_vector_comparison(count);
- 	// test_vector_assign_n(count);
- 	// test_vector_assign_range(count);
- 	// test_vector_assignment(count);
- 	// test_vector_copy_ctor(count);
- 	test_vector_copy_range_ctor(count); // MAKES SOME ERRORS IN VALGRIND
- 	// test_vector_access(count);
+ 	// test_vector_time_param_constructor(count);
+	// test_vector_time_two_param_constructor(count);
+	// test_vector_time_size_capacity_empty(count);
+	// test_vector_time_size_capacity_random(count);
+ 	// test_vector_time_reserve(count);
+ 	// test_vector_time_resize(count);
+ 	// test_vector_time_push_back(count);
+ 	// test_vector_time_pop_back(count);
+ 	// test_vector_time_erase_position(count);
+ 	// test_vector_time_erase_iter(count);
+ 	// test_vector_time_clear(count);
+ 	// test_vector_time_reverse_iter(count);
+ 	// test_vector_time_swap(count);
+ 	// test_vector_time_insert_position(count);
+ 	// test_vector_time_insert_pos_value(count);
+ 	// test_vector_time_insert_iter(count);
+ 	// test_vector_time_comparison(count);
+ 	// test_vector_time_assign_value(count);
+ 	// test_vector_time_assign_range(count);
+ 	// test_vector_time_assignment(count);
+ 	// test_vector_time_copy_constructor(count);
+ 	// test_vector_time_copy_range_constructor(count); // MAKES SOME ERRORS IN VALGRIND
+ 	// test_vector_time_access(count);
 
 	// print_header("Time Performance");
 

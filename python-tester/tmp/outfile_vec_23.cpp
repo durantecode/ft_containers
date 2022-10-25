@@ -8,7 +8,7 @@
 #include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_copy_range_ctor(long count){
+void test_vector_time_copy_range_constructor(long count){
 	//print job name
 	test_name = "-VECTOR COPY RANGE CONSTRUCTOR TEST-";
 	print_test_name(count);
@@ -55,7 +55,7 @@ void test_vector_copy_range_ctor(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -75,9 +75,9 @@ void test_vector_copy_range_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 int main(){
-	test_vector_copy_range_ctor(100000);
+	test_vector_time_copy_range_constructor(100000);
 }

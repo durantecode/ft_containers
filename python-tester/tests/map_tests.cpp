@@ -23,7 +23,7 @@ void test_map_empty_ctor(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_insert_val(long count){
@@ -50,7 +50,7 @@ void test_map_insert_val(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -72,7 +72,7 @@ void test_map_insert_val(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_size_empty_max(long count) {
@@ -112,7 +112,7 @@ void test_map_size_empty_max(long count) {
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 	//std working
 	std::map<std::string, int> v1;
@@ -135,7 +135,7 @@ void test_map_size_empty_max(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_copy_ctor(long count) {
@@ -174,7 +174,7 @@ void test_map_copy_ctor(long count) {
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -203,7 +203,7 @@ void test_map_copy_ctor(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_begin_end(long count) {
@@ -250,7 +250,7 @@ void test_map_begin_end(long count) {
         if (*(--c_eit) != *--(c_eit_ft)) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -281,7 +281,7 @@ void test_map_begin_end(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_rbegin_rend(long count) {
@@ -326,7 +326,7 @@ void test_map_rbegin_rend(long count) {
         if (*(--c_eit) != *--(c_eit_ft)) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -357,7 +357,7 @@ void test_map_rbegin_rend(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_operator_at(long count) {
@@ -389,7 +389,7 @@ void test_map_operator_at(long count) {
         if (v1.at(ref) != v2.at(ref)) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -421,7 +421,7 @@ void test_map_operator_at(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_assignment_op(long count) {
@@ -459,7 +459,7 @@ void test_map_assignment_op(long count) {
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -490,7 +490,7 @@ void test_map_assignment_op(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_range_ctor(long count) {
@@ -528,7 +528,7 @@ void test_map_range_ctor(long count) {
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -557,7 +557,7 @@ void test_map_range_ctor(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_comparison(long count) {
@@ -595,7 +595,7 @@ void test_map_comparison(long count) {
 		if ((v1>=v1_r) != (v2>=v2_r)) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 }
 
@@ -637,7 +637,7 @@ void test_map_find(long count) {
 		}
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -667,7 +667,7 @@ void test_map_find(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_swap(long count) {
@@ -705,7 +705,7 @@ void test_map_swap(long count) {
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -738,7 +738,7 @@ void test_map_swap(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_count_clear(long count) {
@@ -780,7 +780,7 @@ void test_map_count_clear(long count) {
         if (d1 != d2) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -812,7 +812,7 @@ void test_map_count_clear(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_insert_range(long count){
@@ -844,7 +844,7 @@ void test_map_insert_range(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -870,7 +870,7 @@ void test_map_insert_range(long count){
 	v2_r.insert(v2.begin(), v2.end());
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_erase(long count) {
@@ -906,7 +906,7 @@ void test_map_erase(long count) {
 		if (v1.size() != v2.size())  ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -935,7 +935,7 @@ void test_map_erase(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_erase_pos(long count) {
@@ -970,7 +970,7 @@ void test_map_erase_pos(long count) {
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -999,7 +999,7 @@ void test_map_erase_pos(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_erase_val(long count) {
@@ -1041,7 +1041,7 @@ void test_map_erase_val(long count) {
 		}
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 }
 
@@ -1080,7 +1080,7 @@ void test_map_upper_bound(long count) {
 		if (*it != *it_ft) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -1110,7 +1110,7 @@ void test_map_upper_bound(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_lower_bound(long count) {
@@ -1148,7 +1148,7 @@ void test_map_lower_bound(long count) {
 		if (*it != *it_ft) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -1178,7 +1178,7 @@ void test_map_lower_bound(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_map_equal_range(long count) {
@@ -1218,7 +1218,7 @@ void test_map_equal_range(long count) {
 		if (*it.first != *it_ft.first) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -1248,5 +1248,5 @@ void test_map_equal_range(long count) {
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }

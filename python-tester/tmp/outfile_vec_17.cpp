@@ -8,7 +8,7 @@
 #include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_insert_iter(long count){
+void test_vector_time_insert_iter(long count){
 	//print job name
 	test_name = "-VECTOR INSERT ITERATOR TEST-";
 	print_test_name(count);
@@ -50,7 +50,7 @@ void test_vector_insert_iter(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 
 	//std working
@@ -72,9 +72,9 @@ void test_vector_insert_iter(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 int main(){
-	test_vector_insert_iter(100000);
+	test_vector_time_insert_iter(100000);
 }

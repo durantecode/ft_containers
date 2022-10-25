@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/24 13:14:32 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/25 01:36:24 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,15 @@
 # include "../map.hpp"
 # include "../stack.hpp"
 
-# ifdef __APPLE__
 #  define RESET "\033[0m"
 #  define YELLOW "\x1B[0;33m"
 #  define RED "\x1B[0;31m"
 #  define GREEN "\033[0;32m"
 #  define MAGENTA "\033[0;35m"
 #  define BOLD "\033[1m"
-# endif
 
 # define GOOD "✓"
-# define FAIL "❌"
+# define FAIL "x"
 
 void	test_vector(void);
 void	test_map(void);
@@ -39,34 +37,34 @@ void	test_stack(void);
 
 double 	timer_stop();
 void   	timer_start();
-void   	print_result(double std, double ft);
+void   	performance_result(double std, double ft);
 void	print_test_name(long count);
-void	print_comp_res(int err_count, double comp_res);
+void	comparision_result(int err_count, double comp_res);
 
-void	test_vector_empty_constructor(long count);
-void 	test_vector_param_constructor(long count);
-void	test_vector_two_param_ctor(long count);
-void	test_vector_size_capacity_empty(long count);
-void	test_vector_size_capacity_random(long count);
-void 	test_vector_reserve(long count);
-void 	test_vector_resize(long count);
-void 	test_vector_push_back(long count);
-void 	test_vector_pop_back(long count);
-void 	test_vector_erase_pos(long count);
-void 	test_vector_erase_iter(long count);
-void 	test_vector_clear(long count);
-void 	test_vector_reverse_iter(long count);
-void 	test_vector_swap(long count);
-void 	test_vector_insert_pos(long count);
-void 	test_vector_insert_pos_num(long count);
-void 	test_vector_insert_iter(long count);
-void 	test_vector_comparison(long count);
-void 	test_vector_assign_n(long count);
-void 	test_vector_assign_range(long count);
-void 	test_vector_assignment(long count);
-void 	test_vector_copy_ctor(long count);
-void 	test_vector_copy_range_ctor(long count);
-void 	test_vector_access(long count);
+void	test_vector_time_empty_constructor(long count);
+void 	test_vector_time_param_constructor(long count);
+void	test_vector_time_two_param_constructor(long count);
+void	test_vector_time_size_capacity_empty(long count);
+void	test_vector_time_size_capacity_random(long count);
+void 	test_vector_time_reserve(long count);
+void 	test_vector_time_resize(long count);
+void 	test_vector_time_push_back(long count);
+void 	test_vector_time_pop_back(long count);
+void 	test_vector_time_erase_position(long count);
+void 	test_vector_time_erase_iter(long count);
+void 	test_vector_time_clear(long count);
+void 	test_vector_time_reverse_iter(long count);
+void 	test_vector_time_swap(long count);
+void 	test_vector_time_insert_position(long count);
+void 	test_vector_time_insert_pos_value(long count);
+void 	test_vector_time_insert_iter(long count);
+void 	test_vector_time_comparison(long count);
+void 	test_vector_time_assign_value(long count);
+void 	test_vector_time_assign_range(long count);
+void 	test_vector_time_assignment(long count);
+void 	test_vector_time_copy_constructor(long count);
+void 	test_vector_time_copy_range_constructor(long count);
+void 	test_vector_time_access(long count);
 
 inline void print_header(std::string str)
 {
@@ -74,15 +72,29 @@ inline void print_header(std::string str)
 	int width = (margin * 2 + str.length()) + 2;
 	std::cout << MAGENTA << std::endl;
 	std::cout << std::string(width, '*') << std::endl;
-	std::cout << "*" << std::string(margin, ' ') << str << std::string(margin, ' ') << "*" << std::endl;
+	std::cout << "*" << YELLOW << std::string(margin, ' ') << str << std::string(margin, ' ') << MAGENTA << "*" << std::endl;
+	std::cout << "*" << std::string(40, ' ') << "*" << std::endl;
+	// std::cout << std::string(width, '*') << std::endl;
+	std::cout << RESET;
+}
+
+inline void print_time_header(std::string str)
+{
+	int margin = (40 - str.length()) / 2;
+	int width = (margin * 2 + str.length()) + 2;
+	std::cout << MAGENTA;
+	// std::cout << std::string(width, '*') << std::endl;
+	std::cout << "*" << std::string(40, ' ') << "*" << std::endl;
 	std::cout << std::string(width, '*') << std::endl;
+	std::cout << "*" << YELLOW << std::string(margin, ' ') << str << std::string(margin, ' ') << MAGENTA << "*" << std::endl;
+	std::cout << "*" << std::string(40, ' ') << "*" << std::endl;
 	std::cout << RESET;
 }
 
 template <typename T>
 inline void check(std::string name, T a, T b)
 {
-	std::string margin(38 - name.length(), ' ');
+	std::string margin(39 - name.length(), ' ');
 	if (a == b)
 		std::cout << name << ": " << margin << BOLD << GREEN << GOOD << RESET << std::endl;
 	else
@@ -91,11 +103,11 @@ inline void check(std::string name, T a, T b)
 
 inline void check(std::string name, bool good)
 {
-	std::string margin(38 - name.length(), ' ');
+	std::string margin(23 - name.length(), ' ');
 	if (good)
-		std::cout << name << ": " << margin << BOLD << GREEN << GOOD << RESET << std::endl;
+		std::cout << MAGENTA << "*              " << RESET << name << ": " << BOLD << GREEN << GOOD << MAGENTA << margin << "*" << RESET << std::endl;
 	else
-		std::cout << name << ": " << margin << FAIL << std::endl;
+		std::cout << MAGENTA << "*" << RESET << name << ": " << margin << FAIL << std::endl;
 }
 
 template <typename T>

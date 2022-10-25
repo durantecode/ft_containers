@@ -8,7 +8,7 @@
 #include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_comparison(long count){
+void test_vector_time_comparison(long count){
 	//print job name
 	test_name = "-VECTOR COMPARISON TEST-";
 	print_test_name(count);
@@ -42,10 +42,10 @@ void test_vector_comparison(long count){
 		if ((v1>=v1_s) != (v2>=v2_s)) ++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 	}
 }
 
 int main(){
-	test_vector_comparison(100000);
+	test_vector_time_comparison(100000);
 }

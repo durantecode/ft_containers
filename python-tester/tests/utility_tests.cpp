@@ -22,7 +22,7 @@ void test_enableif_integral(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_equal_with_pred(long count){
@@ -57,7 +57,7 @@ void test_equal_with_pred(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 
 	//std working
 	timer_start();
@@ -76,7 +76,7 @@ void test_equal_with_pred(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_equal(long count){
@@ -111,7 +111,7 @@ void test_equal(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 
 	//std working
 	timer_start();
@@ -130,7 +130,7 @@ void test_equal(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_lexicographical_compare(long count){
@@ -165,7 +165,7 @@ void test_lexicographical_compare(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 
 	//std working
 	timer_start();
@@ -184,7 +184,7 @@ void test_lexicographical_compare(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_lexicographical_compare_with_cmp(long count){
@@ -219,7 +219,7 @@ void test_lexicographical_compare_with_cmp(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    print_comp_res(err_count, comp_res);
+    comparision_result(err_count, comp_res);
 
 	//std working
 	timer_start();
@@ -238,7 +238,7 @@ void test_lexicographical_compare_with_cmp(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_pair_construction(long count){
@@ -265,7 +265,7 @@ void test_pair_construction(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_pair_type_change(long count){
@@ -292,7 +292,7 @@ void test_pair_type_change(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_pair_make_pair(long count){
@@ -317,7 +317,7 @@ void test_pair_make_pair(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
 
 void test_pair_comparisons(long count){
@@ -358,5 +358,5 @@ void test_pair_comparisons(long count){
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	print_result(std_res, ft_res);
+	performance_result(std_res, ft_res);
 }
