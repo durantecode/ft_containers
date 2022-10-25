@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/25 02:20:06 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/25 09:01:38 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,15 @@ void performance_result(double std, double ft)
 {
 	std::string std_len = std::to_string(std);
 	std::string ft_len = std::to_string(ft);
-	std::string std_margin(20 - std_len.length(), ' ');
-	std::string ft_margin(20 - ft_len.length(), ' ');
 	if (std < ft)
 	{
-		std::cout << MAGENTA << "*" << RESET << "          std time: " << GREEN << std_len << RESET << MAGENTA << std_margin << "*" << RESET << std::endl;
-		std::cout << MAGENTA << "*" << RESET << "          ft  time: " << RED << ft_len << RESET << MAGENTA << ft_margin << "*" << RESET << std::endl;
+		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "std time: " << GREEN << std_len << MAGENTA << std::setw(8) << "*" << RESET << std::endl;
+		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "ft  time: " << RED << ft_len << MAGENTA << std::setw(8) << "*" << RESET << std::endl;
 	}
 	else
 	{
-		std::cout << MAGENTA << "*" << RESET << "          std time: " << RED << std_len << RESET << std_margin << MAGENTA << "*" << RESET << std::endl;
-		std::cout << MAGENTA << "*" << RESET << "          ft  time: " << GREEN << ft_len << RESET << ft_margin << MAGENTA << "*" << RESET << std::endl;
+		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "std time: " << RED << std_len << std::setw(19) << MAGENTA << "*" << RESET << std::endl;
+		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "ft  time: " << GREEN << ft_len << std::setw(19) << MAGENTA << "*" << RESET << std::endl;
 	}
 	
 	double delta = std / ft;
@@ -55,22 +53,26 @@ void performance_result(double std, double ft)
     if (delta < 0.05)
         color = RED;
 	std::string len = std::to_string(delta);
-	std::string margin(28 - len.length() - 14, ' ');
-	std::cout << MAGENTA << "*            " << RESET << "performance: "<< color << "x" << len << MAGENTA << margin << "*" << RESET << std::endl;
+	std::cout << MAGENTA << "*" << std::setw(7) << " " << RESET << "performance: "<< color << "x" << len << MAGENTA << std::setw(20 - len.length()) << "*" << RESET << std::endl;
 }
 
-void print_test_name(long count){
-	std::cout << YELLOW << test_name << RESET << std::endl;
+void print_test_name(long count)
+{
+	std::cout << YELLOW << test_name << RESET << std::endl; // MUST DELETE LATER
 }
 
-void comparision_result(int err_count, double comp_res){
+void comparision_result(int err_count, double comp_res)
+{
 	print_time_header("FINAL RESULT");
+
+	std::string err_len = std::to_string(err_count);
+	std::string comp_len = std::to_string(comp_res);
     std::string col = GREEN;
     if (err_count > 0)
         col = RED;
-    std::cout << MAGENTA << "*" << RESET << "    (std vs ft): " << col <<
-		err_count << " errors" << RESET << " in " << comp_res << " sec" << std::endl;
-	std::cout <<  MAGENTA << std::string(42, '*') << std::endl << RESET << std::endl;
+    std::cout << MAGENTA << "*" << RESET << "   (std vs ft): " << col <<
+		err_len << " errors" << RESET << " in " << comp_len.substr(0, comp_len.find(".")+3) << " sec" << MAGENTA << std::string(5 - err_len.length(), ' ') << "*" << std::endl;
+			std::cout << std::string(42, '*') << std::endl << RESET << std::endl;
 
 }
 
@@ -92,7 +94,7 @@ void test_vector_time_empty_constructor(long count)
 	}
 	double ft_res = timer_stop();
 	performance_result(std_res, ft_res);
-	comparision_result(0, 0);
+	comparision_result(3, 1.5435);
 }
 
 void test_vector_time_param_constructor(long count){

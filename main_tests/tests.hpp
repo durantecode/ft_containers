@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/25 01:36:24 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/25 08:20:11 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,17 @@
 # include <map>
 # include <stack>
 # include <iostream>
+# include <iomanip>
 # include "../vector.hpp"
 # include "../map.hpp"
 # include "../stack.hpp"
 
-#  define RESET "\033[0m"
-#  define YELLOW "\x1B[0;33m"
-#  define RED "\x1B[0;31m"
-#  define GREEN "\033[0;32m"
-#  define MAGENTA "\033[0;35m"
-#  define BOLD "\033[1m"
+# define RESET "\033[0m"
+# define YELLOW "\x1B[0;33m"
+# define RED "\x1B[0;31m"
+# define GREEN "\033[0;32m"
+# define MAGENTA "\033[0;35m"
+# define BOLD "\033[1m"
 
 # define GOOD "✓"
 # define FAIL "x"
