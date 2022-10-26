@@ -6,14 +6,20 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/25 09:01:38 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/26 02:33:36 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.hpp"
 
-std::string			test_name;
-std::clock_t   		start;
+std::string		test_name;
+std::clock_t   	start;
+std::string		color;
+
+void timer_start()
+{
+	start = std::clock();
+}
 
 double timer_stop()
 {
@@ -23,19 +29,14 @@ double timer_stop()
 	return duration;
 }
 
-void timer_start()
-{
-	start = std::clock();
-}
-
 void performance_result(double std, double ft)
 {
 	std::string std_len = std::to_string(std);
 	std::string ft_len = std::to_string(ft);
 	if (std < ft)
 	{
-		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "std time: " << GREEN << std_len << MAGENTA << std::setw(8) << "*" << RESET << std::endl;
-		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "ft  time: " << RED << ft_len << MAGENTA << std::setw(8) << "*" << RESET << std::endl;
+		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "std time: " << GREEN << std_len << MAGENTA << std::setw(13) << "*" << RESET << std::endl;
+		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "ft  time: " << RED << ft_len << MAGENTA << std::setw(13) << "*" << RESET << std::endl;
 	}
 	else
 	{
@@ -44,16 +45,14 @@ void performance_result(double std, double ft)
 	}
 	
 	double delta = std / ft;
-    std::string color;
-	bool good;
     if (delta >= 1)
         color = GREEN;
     if (delta < 0.5)
         color = YELLOW;
     if (delta < 0.05)
         color = RED;
-	std::string len = std::to_string(delta);
-	std::cout << MAGENTA << "*" << std::setw(7) << " " << RESET << "performance: "<< color << "x" << len << MAGENTA << std::setw(20 - len.length()) << "*" << RESET << std::endl;
+	std::string delta_str = std::to_string(delta);
+	std::cout << MAGENTA << "*" << std::setw(7) << " " << RESET << "performance: "<< color << "x" << delta_str << MAGENTA << std::setw(20 - delta_str.length()) << "*" << RESET << std::endl;
 }
 
 void print_test_name(long count)
@@ -63,22 +62,22 @@ void print_test_name(long count)
 
 void comparision_result(int err_count, double comp_res)
 {
-	print_time_header("FINAL RESULT");
+	print_header("FINAL RESULT", 0);
 
 	std::string err_len = std::to_string(err_count);
 	std::string comp_len = std::to_string(comp_res);
     std::string col = GREEN;
     if (err_count > 0)
         col = RED;
-    std::cout << MAGENTA << "*" << RESET << "   (std vs ft): " << col <<
-		err_len << " errors" << RESET << " in " << comp_len.substr(0, comp_len.find(".")+3) << " sec" << MAGENTA << std::string(5 - err_len.length(), ' ') << "*" << std::endl;
-			std::cout << std::string(42, '*') << std::endl << RESET << std::endl;
+    std::cout << MAGENTA << "*" << RESET << " (std vs ft): " << col << err_len << " errors" << RESET;
+	std::cout << " in " << color << comp_len << RESET << " sec" << MAGENTA << std::string(3 - err_len.length(), ' ');
+	std::cout << "*" << std::endl << std::string(42, '*') << std::endl << RESET << "\n\n";
 
 }
 
 void test_vector_time_empty_constructor(long count)
 {
-	print_time_header("TIME PERFORMANCE");
+	print_header("TIME PERFORMANCE", 0);
 
 	//std working
 	timer_start();
@@ -94,13 +93,12 @@ void test_vector_time_empty_constructor(long count)
 	}
 	double ft_res = timer_stop();
 	performance_result(std_res, ft_res);
-	comparision_result(3, 1.5435);
+	comparision_result(0, 0);
 }
 
 void test_vector_time_param_constructor(long count){
-	//print job name
-	test_name = "-VECTOR PARAM CONSTRUCTION TEST-";
-	print_test_name(count);
+
+	print_header("TIME PERFORMANCE", 0);
 
 	//init
     const size_t N = 42;
@@ -117,7 +115,6 @@ void test_vector_time_param_constructor(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    comparision_result(err_count, comp_res);
 
 	//std working
 	timer_start();
@@ -125,7 +122,6 @@ void test_vector_time_param_constructor(long count){
         std::vector<int> v1(N);
 	}
 	double std_res = timer_stop();
-	std::cout << "std result: " << std_res << " sec | " << std::flush;
 	
 	//ft working 
 	timer_start();
@@ -133,14 +129,15 @@ void test_vector_time_param_constructor(long count){
         ft::vector<int> v2(N);
 	}
 	double ft_res = timer_stop();
-	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
+
+	//print results
 	performance_result(std_res, ft_res);
+    comparision_result(err_count, comp_res);
 }
 
 void test_vector_time_two_param_constructor(long count){
-	//print job name
-	test_name = "-VECTOR TWO PARAM CONSTRUCTION TEST-";
-	print_test_name(count);
+
+	print_header("TIME PERFORMANCE", 0);
 
 	//init
     const size_t N = 42;
@@ -158,7 +155,6 @@ void test_vector_time_two_param_constructor(long count){
 			++err_count;
 	}
 	double comp_res = timer_stop();
-    comparision_result(err_count, comp_res);
     
 	//std working
 	timer_start();
@@ -166,7 +162,6 @@ void test_vector_time_two_param_constructor(long count){
         std::vector<int> v1(N, M);
 	}
 	double std_res = timer_stop();
-	std::cout << "std result: " << std_res << " sec | " << std::flush;
 	
 	//ft working 
 	timer_start();
@@ -174,43 +169,150 @@ void test_vector_time_two_param_constructor(long count){
         ft::vector<int> v2(N, M);
 	}
 	double ft_res = timer_stop();
-	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
 	performance_result(std_res, ft_res);
+    comparision_result(err_count, comp_res);
+}
+
+void test_vector_time_copy_constructor(long count){
+
+	print_header("TIME PERFORMANCE", 0);
+
+	//init
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();
+	long err_count = 0;
+	srand(time(NULL));
+	{
+		//output test
+		timer_start();
+		for (int i = 0; i < count; ++i){
+			size_t num = rand() % N;
+			std::vector<int> v1;
+			ft::vector<int> v2;
+			for (size_t i = 0; i < num; ++i){
+				int fill = rand() % M;
+				v1.push_back(fill);
+				v2.push_back(fill);
+			}
+			// if (!num) continue;
+			std::vector<int> v1_r(v1);
+			ft::vector<int> v2_r(v2);
+			int std_res = v1_r.size();
+			int ft_res = v2_r.size();
+			if (std_res != ft_res)
+				++err_count;
+			if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+				++err_count;
+		}
+	}
+	double comp_res = timer_stop();
+
+	//std working
+    std::vector<int> v1(N * N, M);
+	timer_start();
+	for (int i = 0; i < count; ++i){
+	    std::vector<int> v1_r(v1);
+	}
+	double std_res = timer_stop();
+	
+	//ft working
+	ft::vector<int> v2(N * N, M);
+	timer_start();
+	for (int i = 0; i < count; ++i){
+		ft::vector<int> v2_r(v2);
+	}
+	double ft_res = timer_stop();
+
+	performance_result(std_res, ft_res);
+    comparision_result(err_count, comp_res);
+}
+
+void test_vector_time_copy_range_constructor(long count){
+
+	print_header("TIME PERFORMANCE", 0);
+
+	//init
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();
+	long err_count = 0;
+	srand(time(NULL));
+	{
+		//output test
+		timer_start();
+		for (int i = 0; i < count; ++i){
+			size_t num = rand() % N;
+			std::vector<int> v1;
+			ft::vector<int> v2;
+			for (size_t i = 0; i < num; ++i){
+				int fill = rand() % M;
+				v1.push_back(fill);
+				v2.push_back(fill);
+			}
+			if (!num) continue;
+			std::vector<int> v1_r(v1.begin(), v1.end());
+			ft::vector<int> v2_r(v2.begin(), v2.end());
+			int std_res = v1_r.size();
+			int ft_res = v2_r.size();
+			if (std_res != ft_res)
+				++err_count;
+			if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+				++err_count;
+		}
+	}
+	double comp_res = timer_stop();
+
+	//std working
+    std::vector<int> v1(N * N, M);
+	timer_start();
+	for (int i = 0; i < count; ++i){
+	    std::vector<int> v1_r(v1.begin(), v1.end());
+	}
+	double std_res = timer_stop();
+	
+	//ft working
+	ft::vector<int> v2(N * N, M);
+	timer_start();
+	for (int i = 0; i < count; ++i){
+		ft::vector<int> v2_r(v2.begin(), v2.end());
+	}
+	double ft_res = timer_stop();
+
+	performance_result(std_res, ft_res);
+	comparision_result(err_count, comp_res);
 }
 
 void test_vector_time_size_capacity_empty(long count){
-	//print job name
-	test_name = "-VECTOR SIZE CAPACITY EMPTY TEST-";
-	print_test_name(count);
 
-	{ //0 test: size, capacity, empty, max_size
-	std::vector<int> v1;
-	ft::vector<int> v2;
+	print_header("TIME PERFORMANCE", 0);
 
-	//output test
-	timer_start();
+	//0 test: size, capacity, empty, max_size
 	long err_count = 0;
-	for (int i = 0; i < count; ++i){
-		int std_res = v1.size();
-		int ft_res = v2.size();
-		if (std_res != ft_res)
-			++err_count;
-		std_res = v1.capacity();
-		ft_res = v2.capacity();
-		if (std_res != ft_res)
-			++err_count;
-		size_t std_res_t = v1.max_size();
-		size_t ft_res_t = v2.max_size();
-		if (std_res_t != ft_res_t)
-			++err_count;
-		bool std_res_b = v1.empty();
-		bool ft_res_b = v2.empty();
-		if (std_res_b != ft_res_b)
-			++err_count;
+	{
+		std::vector<int> v1;
+		ft::vector<int> v2;
+
+		//output test
+		timer_start();
+		for (int i = 0; i < count; ++i){
+			int std_res = v1.size();
+			int ft_res = v2.size();
+			if (std_res != ft_res)
+				++err_count;
+			std_res = v1.capacity();
+			ft_res = v2.capacity();
+			if (std_res != ft_res)
+				++err_count;
+			size_t std_res_t = v1.max_size();
+			size_t ft_res_t = v2.max_size();
+			if (std_res_t != ft_res_t)
+				++err_count;
+			bool std_res_b = v1.empty();
+			bool ft_res_b = v2.empty();
+			if (std_res_b != ft_res_b)
+				++err_count;
+		}
 	}
 	double comp_res = timer_stop();
-    comparision_result(err_count, comp_res);
-	}
 	
 	//std working
     std::vector<int> v1;
@@ -222,7 +324,6 @@ void test_vector_time_size_capacity_empty(long count){
 		v1.empty();
 	}
 	double std_res = timer_stop();
-	std::cout << "std result: " << std_res << " sec | " << std::flush;
 	
 	//ft working 
 	ft::vector<int> v2;
@@ -234,45 +335,44 @@ void test_vector_time_size_capacity_empty(long count){
 		v2.empty();
 	}
 	double ft_res = timer_stop();
-	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
 	performance_result(std_res, ft_res);
+    comparision_result(err_count, comp_res);
 }
 
 void test_vector_time_size_capacity_random(long count){
-	//print job name
-	test_name = "-VECTOR SIZE CAPACITY RANDOM TEST-";
-	print_test_name(count);
+
+	print_header("TIME PERFORMANCE", 0);
 
 	//init
     const size_t N = 42;
     const int M = 99;
+	long err_count = 0;
 	srand(time(NULL));
 	{ //random test: size, capacity, empty
 
-	//output test
-	timer_start();
-	long err_count = 0;
-	for (int i = 0; i < count; ++i){
-	size_t num = rand() % N;
-	int fill = rand() % std::numeric_limits<int>::max();
-	std::vector<int> v1(num, fill);
-	ft::vector<int> v2(num, fill);
-		int std_res = v1.size();
-		int ft_res = v2.size();
-		if (std_res != ft_res)
-			++err_count;
-		std_res = v1.capacity();
-		ft_res = v2.capacity();
-		if (std_res != ft_res)
-			++err_count;
-		bool std_res_b = v1.empty();
-		bool ft_res_b = v2.empty();
-		if (std_res_b != ft_res_b)
-			++err_count;
+		//output test
+		timer_start();
+		for (int i = 0; i < count; ++i){
+		size_t num = rand() % N;
+		int fill = rand() % std::numeric_limits<int>::max();
+		std::vector<int> v1(num, fill);
+		ft::vector<int> v2(num, fill);
+			int std_res = v1.size();
+			int ft_res = v2.size();
+			if (std_res != ft_res)
+				++err_count;
+			std_res = v1.capacity();
+			ft_res = v2.capacity();
+			if (std_res != ft_res)
+				++err_count;
+			bool std_res_b = v1.empty();
+			bool ft_res_b = v2.empty();
+			if (std_res_b != ft_res_b)
+				++err_count;
+		}
 	}
 	double comp_res = timer_stop();
-    comparision_result(err_count, comp_res);
-	}
+	
 	//std working
     std::vector<int> v1(N, M);
 	timer_start();
@@ -282,7 +382,6 @@ void test_vector_time_size_capacity_random(long count){
 		v1.empty();
 	}
 	double std_res = timer_stop();
-	std::cout << "std result: " << std_res << " sec | " << std::flush;
 	
 	//ft working 
 	ft::vector<int> v2(N, M);
@@ -293,8 +392,47 @@ void test_vector_time_size_capacity_random(long count){
 		v2.empty();
 	}
 	double ft_res = timer_stop();
-	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
+	
 	performance_result(std_res, ft_res);
+	comparision_result(err_count, comp_res);
+}
+
+void test_vector_time_access(long count){
+
+	print_header("TIME PERFORMANCE", 0);
+
+	//init
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();
+	long err_count = 0;
+	srand(time(NULL));
+	{
+		//output test
+		timer_start();
+		for (int i = 0; i < count; ++i){
+			size_t num = rand() % N;
+			std::vector<int> v1;
+			ft::vector<int> v2;
+			for (size_t i = 0; i < num; ++i){
+				int fill = rand() % M;
+				v1.push_back(fill);
+				v2.push_back(fill);
+			}
+			if (!num) continue;
+			int std_res = v1.size();
+			int ft_res = v2.size();
+			if (std_res != ft_res) ++err_count;
+			if (v1.front() != v2.front()) ++err_count;
+			if (v1.back() != v2.back()) ++err_count;
+			size_t pos = rand() % num;
+			if (v1.at(pos) != v2.at(pos)) ++err_count;
+			if (v1[pos] != v2[pos]) ++err_count;
+
+		}
+	}
+	double comp_res = timer_stop();
+	performance_result(0, 0);
+	comparision_result(err_count, comp_res);
 }
 
 void test_vector_time_resize(long count){
@@ -1216,180 +1354,4 @@ void test_vector_time_assignment(long count){
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
 	performance_result(std_res, ft_res);
-}
-
-void test_vector_time_copy_constructor(long count){
-	//print job name
-	test_name = "-VECTOR COPY CONSTRUCTOR TEST-";
-	print_test_name(count);
-
-	//init
-    const size_t N = 42;
-    const int M = std::numeric_limits<int>::max();
-	srand(time(NULL));
-	{
-	//output test
-	timer_start();
-	long err_count = 0;
-	for (int i = 0; i < count; ++i){
-		size_t num = rand() % N;
-		std::vector<int> v1;
-		ft::vector<int> v2;
-		for (size_t i = 0; i < num; ++i){
-			int fill = rand() % M;
-			v1.push_back(fill);
-			v2.push_back(fill);
-		}
-		// if (!num) continue;
-		std::vector<int> v1_r(v1);
-		ft::vector<int> v2_r(v2);
-		int std_res = v1_r.size();
-		int ft_res = v2_r.size();
-#if PRINT
-		std::cout << "v1 size: " << std_res << " v2_size: " << ft_res << std::endl;
-		std::cout << "std content:\n";
-		for (size_t i = 0; i < v1_r.size(); ++i){
-			std::cout << *(v1_r.begin() + i) << " "; 
-		}
-		std::cout << std::endl;
-		std::cout << "ft content:\n";
-		for (size_t i = 0; i < v2_r.size(); ++i){
-			std::cout << *(v2_r.begin() + i) << " "; 
-		}
-		std::cout << std::endl;
-#endif
-		if (std_res != ft_res)
-			++err_count;
-		if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
-			++err_count;
-	}
-	double comp_res = timer_stop();
-    comparision_result(err_count, comp_res);
-	}
-
-	//std working
-    std::vector<int> v1(N * N, M);
-	timer_start();
-	for (int i = 0; i < count; ++i){
-	    std::vector<int> v1_r(v1);
-	}
-	double std_res = timer_stop();
-	std::cout << "std result: " << std_res << " sec | " << std::flush;
-	
-	//ft working
-	ft::vector<int> v2(N * N, M);
-	timer_start();
-	for (int i = 0; i < count; ++i){
-		ft::vector<int> v2_r(v2);
-	}
-	double ft_res = timer_stop();
-	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	performance_result(std_res, ft_res);
-}
-
-void test_vector_time_copy_range_constructor(long count){
-	//print job name
-	test_name = "-VECTOR COPY RANGE CONSTRUCTOR TEST-";
-	print_test_name(count);
-
-	//init
-    const size_t N = 42;
-    const int M = std::numeric_limits<int>::max();
-	srand(time(NULL));
-	{
-	//output test
-	timer_start();
-	long err_count = 0;
-	for (int i = 0; i < count; ++i){
-		size_t num = rand() % N;
-		std::vector<int> v1;
-		ft::vector<int> v2;
-		for (size_t i = 0; i < num; ++i){
-			int fill = rand() % M;
-			v1.push_back(fill);
-			v2.push_back(fill);
-		}
-		if (!num) continue;
-		std::vector<int> v1_r(v1.begin(), v1.end());
-		ft::vector<int> v2_r(v2.begin(), v2.end());
-		int std_res = v1_r.size();
-		int ft_res = v2_r.size();
-#if PRINT
-		std::cout << "v1 size: " << std_res << " v2_size: " << ft_res << std::endl;
-		std::cout << "std content:\n";
-		for (size_t i = 0; i < v1_r.size(); ++i){
-			std::cout << *(v1_r.begin() + i) << " "; 
-		}
-		std::cout << std::endl;
-		std::cout << "ft content:\n";
-		for (size_t i = 0; i < v2_r.size(); ++i){
-			std::cout << *(v2_r.begin() + i) << " "; 
-		}
-		std::cout << std::endl;
-#endif
-		if (std_res != ft_res)
-			++err_count;
-		if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
-			++err_count;
-	}
-	double comp_res = timer_stop();
-    comparision_result(err_count, comp_res);
-	}
-
-	//std working
-    std::vector<int> v1(N * N, M);
-	timer_start();
-	for (int i = 0; i < count; ++i){
-	    std::vector<int> v1_r(v1.begin(), v1.end());
-	}
-	double std_res = timer_stop();
-	std::cout << "std result: " << std_res << " sec | " << std::flush;
-	
-	//ft working
-	ft::vector<int> v2(N * N, M);
-	timer_start();
-	for (int i = 0; i < count; ++i){
-		ft::vector<int> v2_r(v2.begin(), v2.end());
-	}
-	double ft_res = timer_stop();
-	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
-	performance_result(std_res, ft_res);
-}
-
-void test_vector_time_access(long count){
-	//print job name
-	test_name = "-VECTOR ACCESS TEST-";
-	print_test_name(count);
-
-	//init
-    const size_t N = 42;
-    const int M = std::numeric_limits<int>::max();
-	srand(time(NULL));
-	{
-	//output test
-	timer_start();
-	long err_count = 0;
-	for (int i = 0; i < count; ++i){
-		size_t num = rand() % N;
-		std::vector<int> v1;
-		ft::vector<int> v2;
-		for (size_t i = 0; i < num; ++i){
-			int fill = rand() % M;
-			v1.push_back(fill);
-			v2.push_back(fill);
-		}
-		if (!num) continue;
-		int std_res = v1.size();
-		int ft_res = v2.size();
-		if (std_res != ft_res) ++err_count;
-		if (v1.front() != v2.front()) ++err_count;
-		if (v1.back() != v2.back()) ++err_count;
-		size_t pos = rand() % num;
-		if (v1.at(pos) != v2.at(pos)) ++err_count;
-		if (v1[pos] != v2[pos]) ++err_count;
-
-	}
-	double comp_res = timer_stop();
-    comparision_result(err_count, comp_res);
-	}
 }

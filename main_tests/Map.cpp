@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/13 19:10:04 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/26 02:04:49 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void max_size(void)
 	check("m3.max_size() == m4.max_size()", m3.max_size(), m4.max_size());
 }
 
-static void access_operator(void)
+static void test_vector_access(void)
 {
 	print_header("[] operator");
 	ft::Map<std::string, int> m1;
@@ -299,7 +299,7 @@ void test_map(void)
 	print_header("Map");
 	constructors();
 	max_size();
-	access_operator();
+	test_vector_access();
 	insert();
 	erase();
 	swap();
