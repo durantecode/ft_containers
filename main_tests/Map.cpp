@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/26 02:04:49 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/26 11:48:32 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static void insert(void)
 	check("m1 == m2", m1 == m2);
 }
 
-static void erase(void)
+static void test_vector_erase(void)
 {
 	print_header("Erase");
 	ft::Map<std::string, int> m1;
@@ -301,7 +301,7 @@ void test_map(void)
 	max_size();
 	test_vector_access();
 	insert();
-	erase();
+	test_vector_erase();
 	swap();
 	clear();
 	find();

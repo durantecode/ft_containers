@@ -8,7 +8,7 @@
 #include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_time_assignment(long count){
+void test_vector_time_assign(long count){
 	//print job name
 	test_name = "-VECTOR ASSIGNMENT OP TEST-";
 	print_test_name(count);
@@ -68,5 +68,5 @@ void test_vector_time_assignment(long count){
 }
 
 int main(){
-	test_vector_time_assignment(100000);
+	test_vector_time_assign(100000);
 }

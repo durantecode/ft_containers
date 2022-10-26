@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/26 01:57:54 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/26 12:50:21 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	test_stack(void);
 double 	timer_stop();
 void   	timer_start();
 void   	performance_result(double std, double ft);
-void	print_test_name(long count);
 void	comparision_result(int err_count, double comp_res);
 
 void	test_vector_time_empty_constructor(long count);
@@ -51,8 +50,8 @@ void 	test_vector_time_copy_range_constructor(long count);
 void	test_vector_time_size_capacity_empty(long count);
 void	test_vector_time_size_capacity_random(long count);
 void 	test_vector_time_access(long count);
-void 	test_vector_time_reserve(long count);
 void 	test_vector_time_resize(long count);
+void 	test_vector_time_reserve(long count);
 void 	test_vector_time_push_back(long count);
 void 	test_vector_time_pop_back(long count);
 void 	test_vector_time_erase_position(long count);
@@ -61,9 +60,9 @@ void 	test_vector_time_clear(long count);
 void 	test_vector_time_insert_position(long count);
 void 	test_vector_time_insert_pos_value(long count);
 void 	test_vector_time_insert_iter(long count);
-void 	test_vector_time_assign_value(long count);
+void 	test_vector_time_assign(long count);
 void 	test_vector_time_assign_range(long count);
-void 	test_vector_time_assignment(long count);
+void 	test_vector_time_assign_value(long count);
 void 	test_vector_time_reverse_iter(long count);
 void 	test_vector_time_swap(long count);
 void 	test_vector_time_comparison(long count);
@@ -96,7 +95,7 @@ inline void check(std::string name, T a, T b)
 	if (a == b)
 		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << GOOD << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
 	else
-		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << FAIL << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
+		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << RED << FAIL << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
 }
 
 inline void check(std::string name, bool good)
@@ -105,7 +104,7 @@ inline void check(std::string name, bool good)
 	if (good)
 		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << GOOD << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
 	else
-		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << FAIL << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
+		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << RED << FAIL << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
 }
 
 template <typename T>

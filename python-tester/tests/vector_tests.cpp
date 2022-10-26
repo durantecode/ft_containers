@@ -1087,7 +1087,7 @@ void test_vector_time_assign_value(long count){
 	performance_result(std_res, ft_res);
 }
 
-void test_vector_time_assignment(long count){
+void test_vector_time_assign(long count){
 	//print job name
 	test_name = "-VECTOR ASSIGNMENT OP TEST-";
 	print_test_name(count);

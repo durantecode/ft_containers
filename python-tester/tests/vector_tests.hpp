@@ -25,7 +25,7 @@ void test_vector_time_insert_iter(long count);
 void test_vector_time_comparison(long count);
 void test_vector_time_assign_value(long count);
 void test_vector_time_assign_range(long count);
-void test_vector_time_assignment(long count);
+void test_vector_time_assign(long count);
 void test_vector_time_copy_constructor(long count);
 void test_vector_time_copy_range_constructor(long count);
 void test_vector_time_access(long count);
