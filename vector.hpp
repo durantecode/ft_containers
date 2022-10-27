@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/24 11:42:46 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/28 01:38:57 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ namespace ft
 			typedef ft::ReverseVectorIterator<iterator> 		reverse_iterator;
 			typedef ft::ReverseVectorIterator<const_iterator>	const_reverse_iterator;
 
-		protected:
+		private:
 			allocator_type	m_alloc;
 			size_type		m_size;
 			size_type		m_capacity;
@@ -71,11 +71,11 @@ namespace ft
 
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename std::enable_if<!std::is_integral<InputIterator>::value, void>::type* = 0)
+				typename std::enable_if<!std::is_integral<InputIterator>::value, void>::type* = 0) :
+				m_alloc(alloc),
+				m_size(0),
+				m_capacity(1)
 			{
-				this->m_alloc = alloc;
-				this->m_size = 0;
-				this->m_capacity = 0;
 				this->m_data = m_alloc.allocate(this->m_capacity);
 				this->assign(first, last);
 			}
@@ -102,12 +102,13 @@ namespace ft
 				if (this == &toCopy)
 					return *this;
 				this->clear();
-				m_alloc.deallocate(m_data, m_capacity);
+				this->m_alloc.deallocate(m_data, m_capacity);
 				this->m_capacity = toCopy.m_capacity;
 				this->m_size = toCopy.m_size;
 				this->m_data = m_alloc.allocate(m_capacity);
-				for (size_type i = 0; i < this->m_size; ++i) {
-					this->m_data[i] = toCopy.m_data[i];
+				for (size_type i = 0; i < this->m_size; ++i)
+				{
+					this->m_data[i] = toCopy.m_data[i]; // REVISAR ESTO
 				}
 				return *this;
 			}
@@ -150,12 +151,34 @@ namespace ft
 
 			void resize (size_type n, value_type val = value_type())
 			{
-			while (n < this->m_size)
-				pop_back();
-			if (n > this->m_capacity)
-				reserve(n);
-			while (n > this->m_size)
-				push_back(val);
+				// while (n < m_size)
+				// 	pop_back();
+				// if (n > m_capacity)
+				// {
+				// 	m_capacity = n;
+				// 	reserve(m_capacity);
+				// }
+				// while (n > m_size)
+				// {
+				// 	m_alloc.construct(&m_data[m_size], val);
+				// 	m_size++;
+				// }
+				// // if (n < this->m_size)
+				// // {
+				// // 	while (this->m_size != n)
+				// // 		pop_back();
+				// // }
+				// // else
+				// // {
+				// // 	if (this->m_capacity * 2 < n)
+				// // 		reserve(n);
+				// // 	while (this->m_size != n)
+				// // 		push_back(val);
+				// // }
+				if (n >= m_size)
+					insert(end(), n - m_size, val);
+				else
+					erase(begin() + n, end());
 			}
 
 			void reserve (size_type n)
@@ -168,13 +191,16 @@ namespace ft
 				newBlock = this->m_alloc.allocate(n);
 				for (size_type i = 0; i < this->m_size; i++)
 				{
+					// newBlock[i] = m_data[i];
 					m_alloc.construct(&newBlock[i], m_data[i]);
 					m_alloc.destroy(&m_data[i]);
 				}
 				if (this->m_capacity)
+				{
 					m_alloc.deallocate(this->m_data, this->m_capacity);
-				this->m_data = newBlock;
+				}
 				this->m_capacity = n;
+				this->m_data = newBlock;
 			}
 
 			/*************************************************/
@@ -215,17 +241,28 @@ namespace ft
 		public:
 
 			template <class InputIterator>
-			void assign (InputIterator first, InputIterator last)
+			void assign (InputIterator first, InputIterator last,
+			typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = 0)
 			{
-				this->clear();
-				insert(begin(), first, last);
+				size_type n = last - first;
+
+				clear();
+				if (n > this->m_capacity)
+					reserve(n);
+				for (size_type i = 0; i < n; i++)
+				{
+					this->m_alloc.construct(&this->m_data[i], *first);
+					first++;
+				}
+				this->m_size = n;
+
 			}
 
 			void assign (size_type n, const value_type& val)
 			{
-				this->clear();
-				if (n > m_capacity)
-					this->reserve(n);
+				clear();
+				if (n > this->m_capacity)
+					reserve(n);
 				for (size_type i = 0; i < n; i++)
 					this->m_alloc.construct(&this->m_data[i], val);
 				this->m_size = n;
@@ -240,93 +277,20 @@ namespace ft
 				while (j > i)
 				{
 					this->m_alloc.construct(&this->m_data[j], this->m_data[j - 1]);
-					// this->m_data[j] = this->m_data[j - 1];
+					this->m_alloc.destroy(&this->m_data[j - 1]);
 					j--;
 				}
 				this->m_alloc.construct(&this->m_data[i], value);
-				// this->m_data[i] = value;
-
 				this->m_size++;
 				position = &this->m_data[i];
 				return (position);
 			}
-
-			// void insert( iterator position, size_type count, const_reference value )
-			// {
-			// 	size_type index = position - begin();
-			// 	size_type max_size = m_size + count;
-
-			// 	if (count >= m_capacity)
-			// 	{
-			// 		reserve(m_capacity + count);
-			// 		m_size = max_size;
-			// 	}
-			// 	else
-			// 	{
-			// 		while (m_size != max_size)
-			// 		{
-			// 			if (m_size == m_capacity)
-			// 				reserve(m_capacity * 2);
-			// 			m_size++;
-			// 		}
-			// 	}
-			// 	for (size_type i = m_size; i >= 0; --i)
-			// 	{
-			// 		if (i == index + count-1)
-			// 		{
-			// 			for (; count > 0; --count, --i)
-			// 			{
-			// 				// this->m_data[i] = value;
-			// 				this->m_alloc.construct(&this->m_data[i], value);
-			// 			}
-			// 			return;
-			// 		}
-			// 		this->m_alloc.construct(&this->m_data[i], this->m_data[i - count]);
-			// 		// m_data[i] = m_data[i - count];
-			// 	}
-			// }
 
 			void insert (iterator position, size_type n, const value_type& val)
 			{
 				while (n--)
 					position = insert(position, val);
 			}
-
-			// template <class InputIt>
-			// typename std::enable_if<!std::is_integral<InputIt>::value, void>::type
-			// insert(iterator pos, InputIt first, InputIt last)
-			// {
-			// 	size_t range_size = last - first;
-			// 	if (!validate_iterator_values(first, last, range_size))
-			// 		throw std::exception();
-			// 	size_t new_size = m_size + range_size;
-
-			// 	int last_index = (pos - begin()) + range_size - 1;
-			// 	if (range_size >= m_capacity) {
-			// 		reserve(m_capacity + range_size);
-			// 		m_size = new_size;
-			// 	}
-			// 	else
-			// 	{
-			// 		while (m_size != new_size)
-			// 		{
-			// 			if (m_size == m_capacity)
-			// 				reserve(m_capacity * 2);
-			// 			m_size++;
-			// 		}
-			// 	}
-			// 	for (int i = m_size - 1; i >= 0; --i)
-			// 	{
-			// 		if (i == last_index) {
-			// 			for (; range_size > 0; --range_size, --i)
-			// 			{
-			// 				m_data[i] = *--last;
-			// 			}
-			// 			return;
-			// 		}
-			// 		m_data[i] = m_data[i - range_size];
-			// 	}
-			// }
 
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = 0)
@@ -338,31 +302,25 @@ namespace ft
 				}
 			}
 
-			// void push_back (const value_type& val)
-			// {
-			// 	if (m_size == m_capacity)
-			// 	{
-			// 		if (!m_capacity)
-			// 			m_capacity++;
-			// 		m_capacity *= 2;
-			// 		reserve(m_capacity);
-			// 	}	
-			// 	m_alloc.construct(&m_data[m_size], val);
-			// 	// m_data[m_size] = val;
-			// 	m_size++;
-			// }
-
-			void push_back( const_reference value)
+			void push_back (const value_type& val)
 			{
-				if (this->m_size == this->m_capacity)
+				// if (this->m_size == this->m_capacity)
+				// {
+				// 	if (!this->m_capacity)
+				// 		this->m_capacity++;
+				// 	this->m_capacity *= 2;
+				// 	reserve(m_capacity);
+				// }	
+				// this->m_alloc.construct(&m_data[m_size], val);
+				// this->m_size++;
+				if (this->m_size == this->m_capacity) 
 				{
-					if (!this->m_capacity)
-						this->reserve(1);
+					if (this->m_size == 0)
+						reserve(1);
 					else
-						this->reserve(this->m_capacity * 2);
+						reserve(this->m_capacity * 2);
 				}
-				m_alloc.construct(&m_data[m_size], value);
-				// this->m_data[this->m_size] = value;
+				this->m_alloc.construct(&m_data[this->m_size], val);
 				this->m_size++;
 			}
 
