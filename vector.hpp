@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.hpp                                         :+:      :+:    :+:   */
+/*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 10:34:02 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/28 21:53:19 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ namespace ft
 			typedef ft::ReverseVectorIterator<iterator> 		reverse_iterator;
 			typedef ft::ReverseVectorIterator<const_iterator>	const_reverse_iterator;
 
-		private:
+		protected:
 			allocator_type	m_alloc;
 			size_type		m_size;
 			size_type		m_capacity;
@@ -289,9 +289,9 @@ namespace ft
 				if (this->m_size == this->m_capacity)
 				{
 					if (!this->m_capacity)
-						this->m_capacity++;
-					this->m_capacity *= 2;
-					reserve(this->m_capacity);
+						reserve(1);
+					else
+						reserve(this->m_capacity * 2);
 				}	
 				this->m_alloc.construct(&this->m_data[this->m_size], val);
 				this->m_size++;

@@ -6,13 +6,13 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:40 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 14:07:11 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/28 21:16:00 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.hpp"
 
-long count = 50;
+long counter = 50;
 
 static void test_stack_empty_constructor(void)
 {
@@ -23,7 +23,7 @@ static void test_stack_empty_constructor(void)
 	check("ft.size() == std.size()", ft.size() == std.size());
 	check("ft.empty() == std.empty()", ft.empty() == std.empty());
 
-	test_stack_time_empty_constructor(count);
+	test_stack_time_empty_constructor(counter);
 }
 
 
@@ -40,14 +40,14 @@ static void test_stack_assignment(void)
 {
 	print_header("ASSIGNMENT TEST", 0);
 	
-	test_stack_time_assignment(count);
+	test_stack_time_assignment(counter);
 }
 
 static void test_stack_size_empty_top(void)
 {
 	print_header("SIZE/EMPTY/TOP TEST", 0);
 	
-	test_stack_time_size_empty_top(count);
+	test_stack_time_size_empty_top(counter);
 }
 
 static void test_stack_push_pop(void)
