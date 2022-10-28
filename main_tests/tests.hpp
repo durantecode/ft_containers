@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/26 12:50:21 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:42:43 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,20 @@
 # define GOOD "✓"
 # define FAIL "x"
 
+/* MAIN FUNCTIONS */
+
 void	test_vector(void);
 void	test_map(void);
 void	test_stack(void);
+
+/* PERFORMANCE AND COMPARISION FUNCTIONS */
 
 double 	timer_stop();
 void   	timer_start();
 void   	performance_result(double std, double ft);
 void	comparision_result(int err_count, double comp_res);
+
+/* VECTOR FUNCTIONS */
 
 void	test_vector_time_empty_constructor(long count);
 void 	test_vector_time_param_constructor(long count);
@@ -66,6 +72,14 @@ void 	test_vector_time_assign_value(long count);
 void 	test_vector_time_reverse_iter(long count);
 void 	test_vector_time_swap(long count);
 void 	test_vector_time_comparison(long count);
+
+/* STACK FUNCTIONS */
+
+void	test_stack_time_empty_constructor(long count);
+void	test_stack_time_copy_constructor(long count);
+void	test_stack_time_assignment(long count);
+void	test_stack_time_size_empty_top(long count);
+void	test_stack_time_push_pop(long count);
 
 inline void print_header(std::string str, bool container)
 {

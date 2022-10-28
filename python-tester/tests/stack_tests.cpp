@@ -2,7 +2,7 @@
 
 extern std::string test_name;
 
-void test_stack_empty_ctor(long count){
+void test_stack_empty_constructor(long count){
 	//print job name
 	test_name = "-STACK EMPTY CONSTRUCTION TEST-";
 	print_test_name(count);
@@ -25,7 +25,7 @@ void test_stack_empty_ctor(long count){
 	performance_result(std_res, ft_res);
 }
 
-void test_stack_copy_ctor(long count){
+void test_stack_copy_constructor(long count){
 	//print job name
 	test_name = "-STACK COPY CONSTRUCTOR TEST-";
 	print_test_name(count);
