@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 01:38:57 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/28 10:34:02 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+/* 	THERE'S SOME STD FUNCTIONS LIKE "DISTANCE" AND "ENABLE_IF"
+	REMEMBER TO CHANGE THEM FOR YOUR OWN IMPLEMENTED VERSIONS"
+*/
 
 #include <memory>
 #include <stdexcept>
@@ -51,22 +55,19 @@ namespace ft
 		public:
 
 			explicit vector (const allocator_type& alloc = allocator_type()) :
-																			m_alloc(alloc),
-																			m_size(0),
-																			m_capacity(0),
-																			m_data(0)
-																			{}
+				m_alloc(alloc),
+				m_size(0),
+				m_capacity(0),
+				m_data(0)
+				{}
 
-			explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
+			explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) :
+				m_alloc(alloc),
+				m_size(0),
+				m_capacity(0),
+				m_data(0)
 			{
-				if (n < 0)
-					throw std::length_error("vector");
-				this->m_alloc = alloc;
-				this->m_size = n;
-				this->m_capacity = n;
-				this->m_data = this->m_alloc.allocate(this->m_capacity);
-				for (size_t i = 0; i < n; i++)
-					this->m_alloc.construct(&this->m_data[i], val);
+				this->assign(n, val);
 			}
 
 			template <class InputIterator>
@@ -81,10 +82,10 @@ namespace ft
 			}
 
 			vector(vector const &toCopy) :
-										m_alloc(toCopy.get_allocator()),
-										m_size(toCopy.m_size),
-										m_capacity(toCopy.m_capacity),
-										m_data(nullptr)
+				m_alloc(toCopy.get_allocator()),
+				m_size(toCopy.m_size),
+				m_capacity(toCopy.m_capacity),
+				m_data(nullptr)
 			{
 				this->m_data = this->m_alloc.allocate(toCopy.m_capacity);
 				for (size_type i = 0; i < toCopy.m_size; i++)
@@ -151,34 +152,18 @@ namespace ft
 
 			void resize (size_type n, value_type val = value_type())
 			{
-				// while (n < m_size)
-				// 	pop_back();
-				// if (n > m_capacity)
-				// {
-				// 	m_capacity = n;
-				// 	reserve(m_capacity);
-				// }
-				// while (n > m_size)
-				// {
-				// 	m_alloc.construct(&m_data[m_size], val);
-				// 	m_size++;
-				// }
-				// // if (n < this->m_size)
-				// // {
-				// // 	while (this->m_size != n)
-				// // 		pop_back();
-				// // }
-				// // else
-				// // {
-				// // 	if (this->m_capacity * 2 < n)
-				// // 		reserve(n);
-				// // 	while (this->m_size != n)
-				// // 		push_back(val);
-				// // }
-				if (n >= m_size)
-					insert(end(), n - m_size, val);
+				if (n < this->m_size)
+				{
+					while (this->m_size != n)
+						pop_back();
+				}
 				else
-					erase(begin() + n, end());
+				{
+					if (this->m_capacity * 2 < n)
+						reserve(n);
+					while (this->m_size != n)
+						push_back(val);
+				}
 			}
 
 			void reserve (size_type n)
@@ -191,14 +176,11 @@ namespace ft
 				newBlock = this->m_alloc.allocate(n);
 				for (size_type i = 0; i < this->m_size; i++)
 				{
-					// newBlock[i] = m_data[i];
 					m_alloc.construct(&newBlock[i], m_data[i]);
 					m_alloc.destroy(&m_data[i]);
 				}
 				if (this->m_capacity)
-				{
 					m_alloc.deallocate(this->m_data, this->m_capacity);
-				}
 				this->m_capacity = n;
 				this->m_data = newBlock;
 			}
@@ -244,7 +226,7 @@ namespace ft
 			void assign (InputIterator first, InputIterator last,
 			typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = 0)
 			{
-				size_type n = last - first;
+				size_type n = std::distance(first, last);
 
 				clear();
 				if (n > this->m_capacity)
@@ -304,29 +286,20 @@ namespace ft
 
 			void push_back (const value_type& val)
 			{
-				// if (this->m_size == this->m_capacity)
-				// {
-				// 	if (!this->m_capacity)
-				// 		this->m_capacity++;
-				// 	this->m_capacity *= 2;
-				// 	reserve(m_capacity);
-				// }	
-				// this->m_alloc.construct(&m_data[m_size], val);
-				// this->m_size++;
-				if (this->m_size == this->m_capacity) 
+				if (this->m_size == this->m_capacity)
 				{
-					if (this->m_size == 0)
-						reserve(1);
-					else
-						reserve(this->m_capacity * 2);
-				}
-				this->m_alloc.construct(&m_data[this->m_size], val);
+					if (!this->m_capacity)
+						this->m_capacity++;
+					this->m_capacity *= 2;
+					reserve(this->m_capacity);
+				}	
+				this->m_alloc.construct(&this->m_data[this->m_size], val);
 				this->m_size++;
 			}
 
 			void pop_back()
 			{
-				m_alloc.destroy(&back() - 1);
+				this->m_alloc.destroy(&this->m_data[this->m_size - 1]);
 				this->m_size--;
 			}
 
@@ -370,9 +343,6 @@ namespace ft
 					n++;
 					tmp++;
 				}
-				// for (size_type j = 0; n + diff < this->m_size ; j++, n++, ptr++)
-				// {
-				// }			
 				this->m_size -= diff;
 				return first;
 			}

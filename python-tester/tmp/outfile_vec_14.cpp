@@ -1,11 +1,11 @@
 #include <iostream>
 #include "test_utils.hpp"
 #include <vector>
+#include "vector_iterator.hpp"
+#include "utils.hpp"
 #include "vector.hpp"
 #include "map.hpp"
 #include "stack.hpp"
-#include "utils.hpp"
-#include "vector_iterator.hpp"
 
 extern std::string	test_name;
 void test_vector_time_swap(long count){

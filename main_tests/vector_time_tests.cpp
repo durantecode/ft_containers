@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 01:35:19 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/28 10:25:34 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ double timer_stop()
 
 void performance_result(double std, double ft)
 {
+	print_header("TIME PERFORMANCE", 0);
+	
 	std::string std_len = std::to_string(std);
 	std::string ft_len = std::to_string(ft);
 	if (std < ft)
@@ -66,14 +68,13 @@ void comparision_result(int err_count, double comp_res)
         col = RED;
     std::cout << MAGENTA << "*" << RESET << " (std vs ft): " << col << err_len << " errors" << RESET;
 	std::cout << " in " << color << comp_len << RESET << " sec" << MAGENTA << std::string(3 - err_len.length(), ' ');
-	std::cout << "*" << std::endl << std::string(42, '*') << std::endl << RESET << "\n\n";
+	std::cout << "*" << std::endl << std::string(42, '*') << std::endl << RESET << "\n";
+	std::cout << BLUE << std::string(42, '*') << std::endl << RESET << "\n";
 
 }
 
 void test_vector_time_empty_constructor(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
 	//std test
 	timer_start();
 	for (int i = 0; i < count; ++i){
@@ -93,8 +94,6 @@ void test_vector_time_empty_constructor(long count)
 
 void test_vector_time_param_constructor(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
 	std::vector<int> std(N);
 	ft::vector<int> ft(N);
@@ -130,8 +129,6 @@ void test_vector_time_param_constructor(long count)
 
 void test_vector_time_two_param_constructor(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = 99;
 	std::vector<int> std(N, M);
@@ -167,8 +164,6 @@ void test_vector_time_two_param_constructor(long count)
 
 void test_vector_time_copy_constructor(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -220,8 +215,6 @@ void test_vector_time_copy_constructor(long count)
 
 void test_vector_time_copy_range_constructor(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -274,8 +267,6 @@ void test_vector_time_copy_range_constructor(long count)
 
 void test_vector_time_size_capacity_empty(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
 	//test: size, capacity, empty, max_size
 	long err_count = 0;
 	{
@@ -333,8 +324,6 @@ void test_vector_time_size_capacity_empty(long count)
 
 void test_vector_time_size_capacity_random(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = 99;
 	long err_count = 0;
@@ -392,8 +381,6 @@ void test_vector_time_size_capacity_random(long count)
 
 void test_vector_time_access(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -432,8 +419,6 @@ void test_vector_time_access(long count)
 
 void test_vector_time_resize(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = 99;
 	long err_count = 0;
@@ -488,8 +473,6 @@ void test_vector_time_resize(long count)
 
 void test_vector_time_reserve(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = 99;
 	long err_count = 0;
@@ -551,8 +534,6 @@ void test_vector_time_reserve(long count)
 
 void test_vector_time_push_back(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 21;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -602,8 +583,6 @@ void test_vector_time_push_back(long count)
 
 void test_vector_time_pop_back(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -663,8 +642,6 @@ void test_vector_time_pop_back(long count)
 
 void test_vector_time_erase_position(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -724,8 +701,6 @@ void test_vector_time_erase_position(long count)
 
 void test_vector_time_erase_iter(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -786,8 +761,6 @@ void test_vector_time_erase_iter(long count)
 
 void test_vector_time_clear(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -844,8 +817,6 @@ void test_vector_time_clear(long count)
 
 void test_vector_time_insert_position(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -906,8 +877,6 @@ void test_vector_time_insert_position(long count)
 
 void test_vector_time_insert_pos_value(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -965,8 +934,6 @@ void test_vector_time_insert_pos_value(long count)
 
 void test_vector_time_insert_iter(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -1030,8 +997,6 @@ void test_vector_time_insert_iter(long count)
 
 void test_vector_time_assign(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -1092,8 +1057,6 @@ void test_vector_time_assign(long count)
 
 void test_vector_time_assign_range(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -1154,8 +1117,6 @@ void test_vector_time_assign_range(long count)
 
 void test_vector_time_assign_value(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -1207,8 +1168,6 @@ void test_vector_time_assign_value(long count)
 
 void test_vector_time_reverse_iter(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
@@ -1250,8 +1209,6 @@ void test_vector_time_reverse_iter(long count)
 
 void test_vector_time_swap(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N1 = 21;
     const size_t N2 = 42;
     const int M1 = 99;
@@ -1308,8 +1265,6 @@ void test_vector_time_swap(long count)
 
 void test_vector_time_comparison(long count)
 {
-	print_header("TIME PERFORMANCE", 0);
-
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;

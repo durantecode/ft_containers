@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 01:33:22 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/28 10:17:58 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ static void test_vector_reserve(void)
 	std.reserve(123213);
 	check("ft == std", (ft == std));
 
-	// test_vector_time_reserve(count);
+	test_vector_time_reserve(count);
 }
 
 static void test_vector_push_back(void)
@@ -599,32 +599,30 @@ void	test_vector(void)
 {
 	print_header("VECTOR TESTS", 1);
 
-	// test_vector_empty_constructor();
-	// test_vector_param_constructor();
-	// test_vector_two_param_constructor();
-	// test_vector_copy_constructor();
-	// test_vector_copy_range_constructor();
-	// test_vector_size_capacity_empty();
-	// test_vector_size_capacity_empty_random();
-	// test_vector_access();
+	test_vector_empty_constructor();
+	test_vector_param_constructor();
+	test_vector_two_param_constructor();
+	test_vector_copy_constructor();
+	test_vector_copy_range_constructor();
+	test_vector_size_capacity_empty();
+	test_vector_size_capacity_empty_random();
+	test_vector_access();
 	test_vector_resize();
-	// test_vector_reserve();
-	// test_vector_push_back();
-	// test_vector_pop_back();
-	// test_vector_erase_position();
-	// test_vector_erase_iter();
-	// test_vector_clear();
-	// test_vector_insert_position();
-	// test_vector_insert_position_value();
-	// test_vector_insert_iter();
-	// test_vector_assign();
-	// test_vector_assign_range();
-	// test_vector_assign_value();
-	// test_vector_reverse_iterator();
-	// test_vector_swap();
-	// test_vector_comparison();
-
-	// front_back();
+	test_vector_reserve();
+	test_vector_push_back();
+	test_vector_pop_back();
+	test_vector_erase_position();
+	test_vector_erase_iter();
+	test_vector_clear();
+	test_vector_insert_position();
+	test_vector_insert_position_value();
+	test_vector_insert_iter();
+	test_vector_assign();
+	test_vector_assign_range();
+	test_vector_assign_value();
+	test_vector_reverse_iterator();
+	test_vector_swap();
+	test_vector_comparison();
 
 }
 
