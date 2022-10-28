@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/10/24 13:04:46 by ldurante         ###   ########.fr        #
+#    Updated: 2022/10/28 14:09:57 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ NO_COLOR = \033[0m
 
 # SRCS = main.cpp
 
-SRCS = main_tests/main.cpp main_tests/vector.cpp main_tests/vector_time_tests.cpp
+SRCS =  main_tests/main.cpp main_tests/vector.cpp main_tests/vector_time_tests.cpp \
+		main_tests/stack.cpp main_tests/stack_time_tests.cpp
 # SRCS = main_new.cpp
 
 OBJS = $(SRCS:.cpp=.o)

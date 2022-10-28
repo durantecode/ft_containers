@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 12:42:41 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/28 13:54:32 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void test_stack_time_empty_constructor(long count)
 	//std test
 	timer_start();
 	for (int i = 0; i < count; ++i)
-		std::stack<int> p1;
+		std::stack<int> std;
 	double std_res = timer_stop();
 
 	//ft test
 	timer_start();
 	for (int i = 0; i < count; ++i)
-		ft::stack<int> p1;
+		ft::stack<int> ft;
 	double ft_res = timer_stop();
 
 	performance_result(std_res, ft_res);
@@ -43,18 +43,18 @@ void test_stack_time_copy_constructor(long count)
 		for (int i = 0; i < count; ++i)
 		{
 			size_t num = rand() % N;
-			std::stack<int> v1;
-			ft::stack<int> v2;
+			std::stack<int> std;
+			ft::stack<int> ft;
 			for (size_t i = 0; i < num; ++i)
 			{
 				int fill = rand() % M;
-				v1.push(fill);
-				v2.push(fill);
+				std.push(fill);
+				ft.push(fill);
 			}
-			std::stack<int> v1_r(v1);
-			ft::stack<int> v2_r(v2);
-			int std_res = v1_r.size();
-			int ft_res = v2_r.size();
+			std::stack<int> std_r(std);
+			ft::stack<int> ft_r(ft);
+			int std_res = std_r.size();
+			int ft_res = ft_r.size();
 			if (std_res != ft_res)
 				++err_count;
 		}
@@ -62,21 +62,21 @@ void test_stack_time_copy_constructor(long count)
 	double comp_res = timer_stop();
 
 	//std test
-    std::stack<int> v1;
+    std::stack<int> std;
     for (size_t i = 0; i < N * N; ++i)
-		v1.push(N);
+		std.push(N);
 	timer_start();
 	for (int i = 0; i < count; ++i)
-	    std::stack<int> v1_r(v1);
+	    std::stack<int> std_r(std);
 	double std_res = timer_stop();
 	
 	//ft test
-	ft::stack<int> v2;
+	ft::stack<int> ft;
     for (size_t i = 0; i < N * N; ++i)
-		v2.push(N);
+		ft.push(N);
 	timer_start();
 	for (int i = 0; i < count; ++i)
-		ft::stack<int> v2_r(v2);
+		ft::stack<int> ft_r(ft);
 	double ft_res = timer_stop();
 	
 	performance_result(std_res, ft_res);
@@ -97,20 +97,20 @@ void test_stack_time_assignment(long count)
 		for (int i = 0; i < count; ++i)
 		{
 			size_t num = rand() % N;
-			std::stack<int> v1;
-			ft::stack<int> v2;
+			std::stack<int> std;
+			ft::stack<int> ft;
 			for (size_t i = 0; i < num; ++i)
 			{
 				int fill = rand() % M;
-				v1.push(fill);
-				v2.push(fill);
+				std.push(fill);
+				ft.push(fill);
 			}
-			std::stack<int> v1_r;
-			ft::stack<int> v2_r;
-			v1_r = v1;
-			v2_r = v2;
-			int std_res = v1_r.size();
-			int ft_res = v2_r.size();
+			std::stack<int> std_r;
+			ft::stack<int> ft_r;
+			std_r = std;
+			ft_r = ft;
+			int std_res = std_r.size();
+			int ft_res = ft_r.size();
 			if (std_res != ft_res)
 				++err_count;
 		}
@@ -118,26 +118,26 @@ void test_stack_time_assignment(long count)
 	double comp_res = timer_stop();
 
 	//std test
-    std::stack<int> v1;
+    std::stack<int> std;
     for (size_t i = 0; i < N * N; ++i)
-		v1.push(N);
+		std.push(N);
 	timer_start();
 	for (int i = 0; i < count; ++i)
 	{
-    	std::stack<int> v1_r;
-		v1_r = v1;
+    	std::stack<int> std_r;
+		std_r = std;
 	}
 	double std_res = timer_stop();
 	
 	//ft test
-    ft::stack<int> v2;
+    ft::stack<int> ft;
     for (size_t i = 0; i < N * N; ++i)
-		v2.push(N);
+		ft.push(N);
 	timer_start();
 	for (int i = 0; i < count; ++i)
 	{
-    	ft::stack<int> v2_r;
-		v2_r = v2;
+    	ft::stack<int> ft_r;
+		ft_r = ft;
 	}
 	double ft_res = timer_stop();
 	
@@ -159,20 +159,20 @@ void test_stack_time_size_empty_top(long count)
 		for (int i = 0; i < count; ++i)
 		{
 			size_t num = rand() % N;
-			std::stack<int> v1;
-			ft::stack<int> v2;
+			std::stack<int> std;
+			ft::stack<int> ft;
 			for (size_t i = 0; i < num; ++i)
 			{
 				int fill = rand() % M;
-				v1.push(fill);
-				v2.push(fill);
+				std.push(fill);
+				ft.push(fill);
 			}
-			if (v1.size() != v2.size())
+			if (std.size() != ft.size())
 				++err_count;
-			if (v1.empty() != v2.empty())
+			if (std.empty() != ft.empty())
 				++err_count;
-			if (!v1.size()) continue;
-			if (v1.top() != v2.top())
+			if (!std.size()) continue;
+			if (std.top() != ft.top())
 				++err_count;
 		}
 	}
@@ -194,46 +194,46 @@ void test_stack_time_push_pop(long count)
 		for (int i = 0; i < count; ++i)
 		{
 			size_t num = rand() % N;
-			std::stack<int> v1;
-			ft::stack<int> v2;
+			std::stack<int> std;
+			ft::stack<int> ft;
 			for (size_t i = 0; i < num; ++i)
 			{
 				int fill = rand() % M;
-				v1.push(fill);
-				v2.push(fill);
-				if (v1.top() != v2.top())
+				std.push(fill);
+				ft.push(fill);
+				if (std.top() != ft.top())
 					++err_count;
 			}
 			if (!num) continue;
 			size_t op = rand() % num;
 			for (size_t i = 0; i < op; ++i)
 			{
-				v1.pop();
-				v2.pop();
+				std.pop();
+				ft.pop();
 			}
-			if (v1.size() != v2.size())
+			if (std.size() != ft.size())
 				++err_count;
 		}
 	}
 	double comp_res = timer_stop();
 
 	//std test
-    std::stack<int> v1;
+    std::stack<int> std;
 	timer_start();
 	for (int i = 0; i < count; ++i)
 	{
-		for (size_t i = 0; i < N; ++i) v1.push(N);
-        for (size_t i = 0; i < N; ++i) v1.pop();
+		for (size_t i = 0; i < N; ++i) std.push(N);
+        for (size_t i = 0; i < N; ++i) std.pop();
 	}
 	double std_res = timer_stop();
 	
 	//ft test
-    ft::stack<int> v2;
+    ft::stack<int> ft;
 	timer_start();
 	for (int i = 0; i < count; ++i)
 	{
-		for (size_t i = 0; i < N; ++i) v2.push(N);
-        for (size_t i = 0; i < N; ++i) v2.pop();
+		for (size_t i = 0; i < N; ++i) ft.push(N);
+        for (size_t i = 0; i < N; ++i) ft.pop();
 	}
 	double ft_res = timer_stop();
 
