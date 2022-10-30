@@ -1,21 +1,21 @@
 #include <iostream>
 #include "test_utils.hpp"
-#include <vector>
-#include "vector_iterator.hpp"
-#include "utils.hpp"
+#include <stack>
 #include "vector.hpp"
 #include "map.hpp"
 #include "stack.hpp"
+#include "utils.hpp"
+#include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_time_reserve(long count){
+void test_stack_assignment(long count){
 	//print job name
-	test_name = "-VECTOR RESERVE TEST-";
+	test_name = "-STACK ASSIGNMENT OP TEST-";
 	print_test_name(count);
 
 	//init
     const size_t N = 42;
-    const int M = 99;
+    const int M = std::numeric_limits<int>::max();
 	srand(time(NULL));
 	{
 	//output test
@@ -23,25 +23,20 @@ void test_vector_time_reserve(long count){
 	long err_count = 0;
 	for (int i = 0; i < count; ++i){
 		size_t num = rand() % N;
-		std::vector<int> v1(num);
-		ft::vector<int> v2(num);
+		std::stack<int> v1;
+		ft::stack<int> v2;
 		for (size_t i = 0; i < num; ++i){
 			int fill = rand() % M;
-			v1.push_back(fill);
-			v2.push_back(fill);
+			v1.push(fill);
+			v2.push(fill);
 		}
-		size_t reserve_n = rand() % (N * 2);
-		v1.reserve(reserve_n);
-		v2.reserve(reserve_n);
-		int std_res = v1.size();
-		int ft_res = v2.size();
+		std::stack<int> v1_r;
+		ft::stack<int> v2_r;
+		v1_r = v1;
+		v2_r = v2;
+		int std_res = v1_r.size();
+		int ft_res = v2_r.size();
 		if (std_res != ft_res)
-			++err_count;
-		std_res = v1.capacity();
-		ft_res = v2.capacity();
-		if (std_res != ft_res)
-			++err_count;
-		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
 			++err_count;
 	}
 	double comp_res = timer_stop();
@@ -49,19 +44,23 @@ void test_vector_time_reserve(long count){
 	}
 
 	//std working
+    std::stack<int> v1;
+    for (size_t i = 0; i < N * N; ++i) v1.push(N);
 	timer_start();
 	for (int i = 0; i < count; ++i){
-    	std::vector<int> v1(N, M);
-		v1.reserve(N * 2);
+    	std::stack<int> v1_r;
+		v1_r = v1;
 	}
 	double std_res = timer_stop();
 	std::cout << "std result: " << std_res << " sec | " << std::flush;
 	
-	//ft working 
+	//ft working
+    ft::stack<int> v2;
+    for (size_t i = 0; i < N * N; ++i) v2.push(N);
 	timer_start();
 	for (int i = 0; i < count; ++i){
-		ft::vector<int> v2(N, M);
-		v2.reserve(N * 2);
+    	ft::stack<int> v2_r;
+		v2_r = v2;
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
@@ -69,5 +68,5 @@ void test_vector_time_reserve(long count){
 }
 
 int main(){
-	test_vector_time_reserve(100000);
+	test_stack_assignment(100000);
 }

@@ -1,16 +1,16 @@
 #include <iostream>
 #include "test_utils.hpp"
-#include <vector>
-#include "vector_iterator.hpp"
-#include "utils.hpp"
+#include <stack>
 #include "vector.hpp"
 #include "map.hpp"
 #include "stack.hpp"
+#include "utils.hpp"
+#include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_time_pop_back(long count){
+void test_stack_copy_constructor(long count){
 	//print job name
-	test_name = "-VECTOR POP BACK TEST-";
+	test_name = "-STACK COPY CONSTRUCTOR TEST-";
 	print_test_name(count);
 
 	//init
@@ -23,25 +23,18 @@ void test_vector_time_pop_back(long count){
 	long err_count = 0;
 	for (int i = 0; i < count; ++i){
 		size_t num = rand() % N;
-		std::vector<int> v1(num);
-		ft::vector<int> v2(num);
+		std::stack<int> v1;
+		ft::stack<int> v2;
 		for (size_t i = 0; i < num; ++i){
 			int fill = rand() % M;
-			v1.push_back(fill);
-			v2.push_back(fill);
+			v1.push(fill);
+			v2.push(fill);
 		}
-		if (num) { 
-			size_t del = rand() % num;
-			for (size_t i = 0; i < del; ++i){
-				v1.pop_back();
-				v2.pop_back();
-			}
-		}
-		int std_res = v1.size();
-		int ft_res = v2.size();
+		std::stack<int> v1_r(v1);
+		ft::stack<int> v2_r(v2);
+		int std_res = v1_r.size();
+		int ft_res = v2_r.size();
 		if (std_res != ft_res)
-			++err_count;
-		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
 			++err_count;
 	}
 	double comp_res = timer_stop();
@@ -49,19 +42,21 @@ void test_vector_time_pop_back(long count){
 	}
 
 	//std working
-    std::vector<int> v1(count, M);
+    std::stack<int> v1;
+    for (size_t i = 0; i < N * N; ++i) v1.push(N);
 	timer_start();
 	for (int i = 0; i < count; ++i){
-		v1.pop_back();
+	    std::stack<int> v1_r(v1);
 	}
 	double std_res = timer_stop();
 	std::cout << "std result: " << std_res << " sec | " << std::flush;
 	
-	//ft working 
-	ft::vector<int> v2(count, M);
+	//ft working
+	ft::stack<int> v2;
+    for (size_t i = 0; i < N * N; ++i) v2.push(N);
 	timer_start();
 	for (int i = 0; i < count; ++i){
-		v2.pop_back();
+		ft::stack<int> v2_r(v2);
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
@@ -69,5 +64,5 @@ void test_vector_time_pop_back(long count){
 }
 
 int main(){
-	test_vector_time_pop_back(100000);
+	test_stack_copy_constructor(100000);
 }

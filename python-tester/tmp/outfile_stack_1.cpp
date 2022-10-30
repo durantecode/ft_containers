@@ -1,22 +1,22 @@
 #include <iostream>
 #include "test_utils.hpp"
-#include <vector>
-#include "vector_iterator.hpp"
-#include "utils.hpp"
+#include <stack>
 #include "vector.hpp"
 #include "map.hpp"
 #include "stack.hpp"
+#include "utils.hpp"
+#include "vector_iterator.hpp"
 
 extern std::string	test_name;
-void test_vector_empty_ctor(long count){
+void test_stack_empty_constructor(long count){
 	//print job name
-	test_name = "-VECTOR EMPTY CONSTRUCTION TEST-";
+	test_name = "-STACK EMPTY CONSTRUCTION TEST-";
 	print_test_name(count);
 
 	//std working
 	timer_start();
 	for (int i = 0; i < count; ++i){
-		std::vector<int> p1;
+		std::stack<int> p1;
 	}
 	double std_res = timer_stop();
 	std::cout << "std result: " << std_res << " sec | " << std::flush;
@@ -24,7 +24,7 @@ void test_vector_empty_ctor(long count){
 	//ft working
 	timer_start();
 	for (int i = 0; i < count; ++i){
-		ft::vector<int> p1;
+		ft::stack<int> p1;
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
@@ -32,5 +32,5 @@ void test_vector_empty_ctor(long count){
 }
 
 int main(){
-	test_vector_empty_ctor(100000);
+	test_stack_empty_constructor(100000);
 }

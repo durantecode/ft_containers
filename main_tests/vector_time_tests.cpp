@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 10:25:34 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/30 01:08:37 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,6 +384,7 @@ void test_vector_time_access(long count)
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	long err_count = 0;
+
 	srand(time(NULL));
 	{
 		//loop test

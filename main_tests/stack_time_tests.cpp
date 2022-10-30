@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stackt_time_tests.cpp                              :+:      :+:    :+:   */
+/*   stack_time_tests.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 13:54:32 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/30 01:25:54 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void test_stack_time_empty_constructor(long count)
 	double ft_res = timer_stop();
 
 	performance_result(std_res, ft_res);
+    comparision_result(0, 0);
 }
 
 void test_stack_time_copy_constructor(long count)
@@ -156,7 +157,7 @@ void test_stack_time_size_empty_top(long count)
 	{
 		//loop test
 		timer_start();
-		for (int i = 0; i < count; ++i)
+ 		for (int i = 0; i < count; ++i)
 		{
 			size_t num = rand() % N;
 			std::stack<int> std;
@@ -171,12 +172,15 @@ void test_stack_time_size_empty_top(long count)
 				++err_count;
 			if (std.empty() != ft.empty())
 				++err_count;
-			if (!std.size()) continue;
+			if (!std.size())
+				continue;
 			if (std.top() != ft.top())
 				++err_count;
 		}
 	}
 	double comp_res = timer_stop();
+
+	// performance_result(0, 0);
     comparision_result(err_count, comp_res);
 }
 

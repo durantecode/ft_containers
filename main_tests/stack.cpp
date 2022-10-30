@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:40 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 21:16:00 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/30 01:53:12 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,44 @@ static void test_stack_empty_constructor(void)
 
 static void test_stack_copy_constructor(void)
 {
-	print_header("COPY CONSTRUCTOR TEST", 0);
+	print_header("COPY CONSTRUCTOR TEST ", 0);
+	
 	ft::stack<int> ft;
 	std::stack<int> std;
 	check("ft.size() == std.size()", ft.size() == std.size());
 	check("ft.empty() == std.empty()", ft.empty() == std.empty());
+
+	test_stack_time_copy_constructor(counter);
 }
 
 static void test_stack_assignment(void)
 {
-	print_header("ASSIGNMENT TEST", 0);
+	print_header("ASSIGNMENT TEST ", 0);
 	
 	test_stack_time_assignment(counter);
 }
 
 static void test_stack_size_empty_top(void)
 {
-	print_header("SIZE/EMPTY/TOP TEST", 0);
+	print_header("SIZE/EMPTY/TOP TEST ", 0);
 	
+	ft::stack<int> ft;
+	ft.push(12);
+	ft.push(12);
+	ft.push(12);
+
+	std::stack<int> std;
+	std.push(143);
+	std.push(143);
+	std.push(143);
+
 	test_stack_time_size_empty_top(counter);
 }
 
 static void test_stack_push_pop(void)
 {
-	print_header("PUSH / POP TEST", 0);
+	print_header("PUSH / POP TEST ", 0);
+
 	ft::stack<int> ft;
 	std::stack<int> std;
 	ft.push(0);
@@ -68,6 +82,8 @@ static void test_stack_push_pop(void)
 	std.pop();
 	check("ft.size() == std.size()", ft.size() == std.size());
 	check("ft.top() == std.top()", ft.top(), std.top());
+
+	test_stack_time_push_pop(counter);
 }
 
 void test_stack(void)
