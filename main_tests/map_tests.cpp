@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Map.cpp                                            :+:      :+:    :+:   */
+/*   map_tests.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/26 11:48:32 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 22:39:14 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,38 @@ static void print_map(T &map)
 	std::cout << " --- " << std::endl;
 }
 
-static void constructors(void)
+static void test_map_constructors(void)
 {
-	print_header("Constructors / Copy");
+	//empty
+	test_name = "EMPTY CONSTRUCTOR TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
 	std::pair<int, int> a[] = {std::make_pair(0, 1), std::make_pair(1, 0), std::make_pair(2, 1)};
-	ft::Map<int, int> m1;
+	ft::map<int, int> m1;
 	std::map<int, int> m2;
 	check("(default) m1 == m2", (m1 == m2));
-	ft::Map<int, int> m3(a, a + 3);
+	test_map_time_empty_constructor();
+
+	//range
+	test_name = "RANGE CONSTRUCTOR TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	ft::map<int, int> m3(a, a + 3);
 	std::map<int, int> m4(a, a + 3);
 	check("(range) m3 == m4", (m3 == m4));
-	ft::Map<int, int> m5(m3);
+	test_map_time_range_constructor();
+
+	//copy
+	test_name = "COPY CONSTRUCTOR TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	ft::map<int, int> m5(m3);
 	std::map<int, int> m6(m4);
 	check("(copy) m5 == m6", (m3 == m4));
-	ft::Map<int, int> m7;
+	ft::map<int, int> m7;
 	std::map<int, int> m8;
 	m7[0] = 1;
 	m7[1] = 2;
@@ -51,37 +69,54 @@ static void constructors(void)
 	// print_map(m7);
 	// print_map(m8);
 	// std::cout << (++m7.begin())->second << std::endl;
-	// ft::Map<int, int>::iterator it = m7.begin();
+	// ft::map<int, int>::iterator it = m7.begin();
 	// while (it != m7.end())
 	// {
-	// 	// ft::Map<int, int>::iterator it2 = m7.find(it->first);
+	// 	// ft::map<int, int>::iterator it2 = m7.find(it->first);
 	// 	std::cout << it.node()->pair.second << std::endl;
 	// 	// std::cout << it->first << "=" << it2->second << std::endl;
 	// 	++it;
 	// }
 	check("(copy) m7 == m8", (m7 == m8));
-	ft::Map<int, int> m9;
+	ft::map<int, int> m9;
 	std::map<int, int> m10;
 	m9 = m7;
 	m10 = m8;
 	check("(copy) m9 == m10", (m9 == m10));
+
+	test_map_time_copy_constructor();	
 }
 
-static void max_size(void)
+static void test_map_max_size(void)
 {
-	print_header("Size");
-	ft::Map<int, int> m1;
+	test_name = "SIZE/EMPTY TEST";
+	err_count = 0;
+	names.push_back(test_name);
+	ft::map<int, int> m1;
 	std::map<int, int> m2;
 	check("m1.max_size() == m2.max_size()", m1.max_size(), m2.max_size());
-	ft::Map<std::string, int> m3;
+	ft::map<std::string, int> m3;
 	std::map<std::string, int> m4;
-	check("m3.max_size() == m4.max_size()", m3.max_size(), m4.max_size());
+	check("m3.empty() == m4.empty()", m3.empty(), m4.empty());
+	for (size_t i = 0; i < 50; ++i)
+	{
+		std::string fill = getNewId();
+		int  fill_n = 42 % 99;
+		m3.insert(ft::make_pair<std::string, int>(fill, fill_n));
+		m4.insert(std::make_pair<std::string, int>(fill, fill_n));
+	}
+	check("m3.empty() == m4.empty()", m3.size(), m4.size());
+
+	test_map_time_size_empty_max();
 }
 
-static void test_vector_access(void)
+static void test_map_access(void)
 {
-	print_header("[] operator");
-	ft::Map<std::string, int> m1;
+	test_name = "ACCESS OP TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["a"] = 1;
 	m1["b"] = 0;
@@ -100,13 +135,32 @@ static void test_vector_access(void)
 	check("m1['d'] == m2['d']", m1["d"], m2["d"]);
 	check("m1['test'] == m2['test']", m1["test"], m2["test"]);
 	check("m1['z'] == m2['z']", m1["z"], m2["z"]);
+
+	test_map_time_assignment_op();
+
+	//at
+	test_name = "ACCESS AT TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	check("m1 == m2", m1 == m2);
+	check("m1['a'] == m2['a']", m1["a"], m2["a"]);
+	check("m1['d'] == m2['d']", m1["d"], m2["d"]);
+	check("m1['test'] == m2['test']", m1["test"], m2["test"]);
+	check("m1['z'] == m2['z']", m1["z"], m2["z"]);
+
+	test_map_time_operator_at();
 }
 
-static void insert(void)
+static void test_map_insert(void)
 {
-	print_header("Insert");
+	//insert val
+	test_name = "INSERT VAL TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
 	std::pair<int, int> a[] = {std::make_pair(0, 1), std::make_pair(1, 0), std::make_pair(2, 1)};
-	ft::Map<int, int> m1(a, a + 3);
+	ft::map<int, int> m1(a, a + 3);
 	std::map<int, int> m2(a, a + 3);
 	m1.insert(++m1.begin(), std::make_pair(5, 5));
 	m2.insert(++m2.begin(), std::make_pair(5, 5));
@@ -116,12 +170,37 @@ static void insert(void)
 	m1.insert(std::make_pair(10, 54));
 	m2.insert(std::make_pair(10, 54));
 	check("m1 == m2", m1 == m2);
+
+	test_map_time_insert_val();
+
+	//insert range
+	test_name = "INSERT RANGE TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	std::pair<int, int> a[] = {std::make_pair(0, 1), std::make_pair(1, 0), std::make_pair(2, 1)};
+	ft::map<int, int> m1(a, a + 3);
+	std::map<int, int> m2(a, a + 3);
+	m1.insert(++m1.begin(), std::make_pair(5, 5));
+	m2.insert(++m2.begin(), std::make_pair(5, 5));
+	check("m1 == m2", m1 == m2);
+	m1.insert(std::make_pair(5, 0));
+	m2.insert(std::make_pair(5, 0));
+	m1.insert(std::make_pair(10, 54));
+	m2.insert(std::make_pair(10, 54));
+	check("m1 == m2", m1 == m2);
+
+	test_map_time_insert_range();
 }
 
-static void test_vector_erase(void)
+static void test_map_erase(void)
 {
-	print_header("Erase");
-	ft::Map<std::string, int> m1;
+	//erase
+	test_name = "ERASE TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["test"] = 1;
 	m1["a"] = 2;
@@ -145,14 +224,30 @@ static void test_vector_erase(void)
 	m1.erase("a");
 	m2.erase("a");
 	check("m1 == m2", m1 == m2);
+	test_map_time_erase();
+
+	//erase val
+	test_name = "ERASE VAL TEST";
+	err_count = 0;
+	names.push_back(test_name);
+	test_map_time_erase_val();
+
+	//erase pos
+	test_name = "ERASE POS TEST";
+	err_count = 0;
+	names.push_back(test_name);
+	test_map_time_erase_pos();
 }
 
-static void swap(void)
+static void test_map_swap(void)
 {
-	print_header("Swap");
-	ft::Map<std::string, int> m1;
+	test_name = "SWAP TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
-	ft::Map<std::string, int> m3;
+	ft::map<std::string, int> m3;
 	std::map<std::string, int> m4;
 	m1["a"] = 1;
 	m1["b"] = 2;
@@ -168,39 +263,13 @@ static void swap(void)
 	m2.swap(m4);
 	check("m1 == m2", m1 == m2);
 	check("m3 == m4", m3 == m4);
+
+	test_map_time_swap();
 }
 
-static void clear(void)
+static void test_map_count(void)
 {
-	print_header("Clear");
-	ft::Map<std::string, int> m1;
-	std::map<std::string, int> m2;
-	m1["a"] = 1;
-	m1["b"] = 42;
-	m2["a"] = 1;
-	m2["b"] = 42;
-	m1.clear();
-	m2.clear();
-	check("m1 == m2", m1 == m2);
-}
-
-static void find(void)
-{
-	print_header("Find");
-	ft::Map<std::string, int> m1;
-	std::map<std::string, int> m2;
-	m1["a"] = 1;
-	m1["b"] = 42;
-	m2["a"] = 1;
-	m2["b"] = 42;
-	check("m1.find('a') == m2.find('a')", m1.find("a")->second, m2.find("a")->second);
-	check("m1.find('z') == m2.find('z')", m1.find("a")->second, m2.find("a")->second);
-}
-
-static void count(void)
-{
-	print_header("Count");
-	ft::Map<std::string, int> m1;
+	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["a"] = 1;
 	m1["b"] = 42;
@@ -211,12 +280,51 @@ static void count(void)
 	check("m1.count('a') == m2.count('a')", m1.count("a"), m2.count("a"));
 	check("m1.count('b') == m2.count('b')", m1.count("b"), m2.count("b"));
 	check("m1.count('z') == m2.count('z')", m1.count("z"), m2.count("z"));
+
+	test_map_time_count_clear();
 }
 
-static void bounds()
+static void test_map_clear(void)
+{
+	test_name = "COUNT / CLEAR TEST";
+	err_count = 0;
+	names.push_back(test_name);
+	ft::map<std::string, int> m1;
+	std::map<std::string, int> m2;
+
+	m1["a"] = 1;
+	m1["b"] = 42;
+	m2["a"] = 1;
+	m2["b"] = 42;
+	m1.clear();
+	m2.clear();
+	check("m1 == m2", m1 == m2);
+
+	test_map_count();
+}
+
+static void test_map_find(void)
+{
+	test_name = "FIND TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	ft::map<std::string, int> m1;
+	std::map<std::string, int> m2;
+	m1["a"] = 1;
+	m1["b"] = 42;
+	m2["a"] = 1;
+	m2["b"] = 42;
+	check("m1.find('a') == m2.find('a')", m1.find("a")->second, m2.find("a")->second);
+	check("m1.find('z') == m2.find('z')", m1.find("a")->second, m2.find("a")->second);
+
+	test_map_time_find();
+}
+
+static void test_map_bounds()
 {
 	print_header("Bounds");
-	ft::Map<std::string, int> m1;
+	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["a"] = 1;
 	m1["b"] = 42;
@@ -232,10 +340,10 @@ static void bounds()
 	check("m1.upper_bound() == m2.upper_bound()", m1.upper_bound("c")->first, m2.upper_bound("c")->first);
 }
 
-static void range(void)
+static void test_map_range(void)
 {
 	print_header("Equal range");
-	ft::Map<std::string, int> m1;
+	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["a"] = 1;
 	m1["b"] = 42;
@@ -245,7 +353,7 @@ static void range(void)
 	m2["b"] = 42;
 	m2["c"] = 42;
 	m2["d"] = 42;
-	std::pair<ft::Map<std::string, int>::iterator, ft::Map<std::string, int>::iterator> a = m1.equal_range("a");
+	std::pair<ft::map<std::string, int>::iterator, ft::map<std::string, int>::iterator> a = m1.equal_range("a");
 	std::pair<std::map<std::string, int>::iterator, std::map<std::string, int>::iterator> b = m2.equal_range("a");
 	check("a.first->first == b.first->first", a.first->first, b.first->first);
 	check("a.first->second == b.first->second", a.first->second, b.first->second);
@@ -253,10 +361,10 @@ static void range(void)
 	check("a.second->second == b.second->second", a.second->second, b.second->second);
 }
 
-static void operators_comp(void)
+static void test_map_comparision(void)
 {
 	print_header("Operators");
-	ft::Map<std::string, int> m1;
+	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["a"] = 1;
 	m1["b"] = 42;
@@ -266,7 +374,7 @@ static void operators_comp(void)
 	m2["b"] = 42;
 	m2["c"] = 42;
 	m2["d"] = 42;
-	ft::Map<std::string, int> m3;
+	ft::map<std::string, int> m3;
 	std::map<std::string, int> m4;
 	m3 = m1;
 	m4 = m2;
@@ -296,17 +404,24 @@ static void operators_comp(void)
 
 void test_map(void)
 {
-	print_header("Map");
-	constructors();
-	max_size();
-	test_vector_access();
-	insert();
-	test_vector_erase();
-	swap();
-	clear();
-	find();
-	count();
-	bounds();
-	range();
-	operators_comp();
+	print_header("MAP TESTS", 1);
+
+	test_name.clear();
+	names.clear();
+	errors.clear();
+	time_perf.clear();
+
+	test_map_constructors();
+	test_map_max_size();
+	test_map_access();
+	test_map_insert();
+	test_map_erase();
+	test_map_swap();
+	test_map_clear();
+	test_map_find();
+	test_map_bounds();
+	test_map_range();
+	test_map_comparision();
+
+	print_test_results();
 }

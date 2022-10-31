@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 00:54:59 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:57:38 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,12 @@ static void print_vector_reverse(T vec, std::string type)
 
 static void test_vector_empty_constructor(void)
 {
-	print_header("EMPTY CONSTRUCTOR TEST", 0);
+	test_name = "EMPTY CONSTRUCTOR TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<int> ft;
 	std::vector<int> std;
@@ -64,13 +68,17 @@ static void test_vector_empty_constructor(void)
 	std.push_back(3);
 	check("ft == std", ft == std);
 
-	test_vector_time_empty_constructor(count);
+	test_vector_time_empty_constructor();
 }
 
 static void test_vector_param_constructor(void)
 {
-	print_header("ONE PARAM CONSTRUCTION TEST ", 0);
+	test_name = "ONE PARAM CONSTRUCTION TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
     const size_t N = 42;
 
@@ -88,13 +96,17 @@ static void test_vector_param_constructor(void)
 	int ft_res = *(std.begin() + 50 % N);
 	check("ft == std", ft == std);
 
-	test_vector_time_param_constructor(count);
+	test_vector_time_param_constructor();
 }
 
 static void test_vector_two_param_constructor(void)
 {
-	print_header("TWO PARAM CONSTRUCTION TEST ", 0);
+	test_name = "TWO PARAM CONSTRUCTION TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
     const size_t N = 42;
     const int M = 99;
@@ -113,13 +125,17 @@ static void test_vector_two_param_constructor(void)
 	int ft_res = *(std.begin() + M % N);
 	check("ft == std", ft == std);
 
-	test_vector_time_two_param_constructor(count);
+	test_vector_time_two_param_constructor();
 }
 
 static void test_vector_copy_constructor(void)
 {
-	print_header("COPY CONSTRUCTOR TEST ", 0);
+	test_name = "COPY CONSTRUCTOR TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<int> ft;
 	std::vector<int> std;
@@ -138,13 +154,17 @@ static void test_vector_copy_constructor(void)
 	check("ft != ft2", (ft != ft2));
 	check("std != std2", (std != std2));
 
-	test_vector_time_copy_constructor(count);
+	test_vector_time_copy_constructor();
 }
 
 static void test_vector_copy_range_constructor(void)
 {
-	print_header("COPY RANGE CONSTRUCTOR TEST ", 0);
+	test_name = "COPY RANGE CONSTRUCTOR TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -161,13 +181,17 @@ static void test_vector_copy_range_constructor(void)
 	std.push_back(42);
 	check("ft == std", (ft == std));
 
-	test_vector_time_copy_range_constructor(count);
+	test_vector_time_copy_range_constructor();
 }
 
 static void test_vector_size_capacity_empty(void)
 {
-	print_header("SIZE, CAPACITY, EMPTY TEST", 0);
+	test_name = "SIZE, CAPACITY, EMPTY TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<std::string> ft;
 	std::vector<std::string> std;
@@ -182,13 +206,17 @@ static void test_vector_size_capacity_empty(void)
 	check("ft.capacity() == std.capacity()", ft.capacity(), std.capacity());
 	check("ft.empty() == std.empty()", ft.empty(), std.empty());
 
-	test_vector_time_size_capacity_empty(count);
+	test_vector_time_size_capacity_empty();
 }
 
 static void test_vector_size_capacity_empty_random(void)
 {
-	print_header("SIZE, CAPACITY, EMPTY RANDOM TEST ", 0);
+	test_name = "SIZE, CAPACITY, EMPTY RANDOM TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<std::string> ft;
 	std::vector<std::string> std;
@@ -203,13 +231,17 @@ static void test_vector_size_capacity_empty_random(void)
 	check("ft.capacity() == std.capacity()", ft.capacity(), std.capacity());
 	check("ft.empty() == std.empty()", ft.empty(), std.empty());
 
-	test_vector_time_size_capacity_random(count);
+	test_vector_time_size_capacity_random();
 }
 
 static void test_vector_access(void)
 {
-	print_header("ACCESS - [] operator, at() TEST ", 0);
+	test_name = "ACCESS - [] operator, at() TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 	ft::vector<int> ft;
 	std::vector<int> std;
 	ft.push_back(1);
@@ -221,49 +253,57 @@ static void test_vector_access(void)
 	check("ft[0] == std[0]", ft[0], std[0]);
 	check("ft[1] == std[1]", ft[1], std[1]);
 	check("ft[2] == std[2]", ft[2], std[2]);
-	try
+	if (verbose)
 	{
-		std::cout << MAGENTA << "*         " << RESET;
-		std::cout << "ft.at(100): " << ft.at(100) << ": " << FAIL << std::endl;
+		try
+		{
+			std::cout << MAGENTA << "*         " << RESET;
+			std::cout << "ft.at(100): " << ft.at(100) << ": " << FAIL << std::endl;
+		}
+		catch (std::exception &e)
+		{
+			std::cout << e.what() << ": " << GREEN << GOOD << MAGENTA << "          *" << RESET << std::endl;
+		}
+		try
+		{
+			std::cout << MAGENTA << "*         " << RESET;
+			std::cout << "std.at(100): " << std.at(100) << ": " << FAIL  << std::endl;
+		}
+		catch (std::exception &e)
+		{
+			std::cout << e.what() << ": " << GREEN << GOOD << MAGENTA << "         *" << RESET << std::endl;
+		}
+		try
+		{
+			std::cout << MAGENTA << "*         " << RESET;
+			std::cout << "ft.at(-1): " << ft.at(-1) << ": " << FAIL  << std::endl;
+		}
+		catch (std::exception &e)
+		{
+			std::cout << e.what() << ": " << GREEN << GOOD << MAGENTA << "           *" << RESET << std::endl;
+		}
+		try
+		{
+			std::cout << MAGENTA << "*         " << RESET;
+			std::cout << "std.at(-1): " << std.at(-1) << ": " << FAIL  << std::endl;
+		}
+		catch (std::exception &e)
+		{
+			std::cout << e.what() << ": " << GREEN << GOOD << MAGENTA << "          *" << RESET << std::endl;
+		}
 	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << ": " << GREEN << GOOD << MAGENTA << "          *" << RESET << std::endl;
-	}
-	try
-	{
-		std::cout << MAGENTA << "*         " << RESET;
-		std::cout << "std.at(100): " << std.at(100) << ": " << FAIL  << std::endl;
-	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << ": " << GREEN << GOOD << MAGENTA << "         *" << RESET << std::endl;
-	}
-	try
-	{
-		std::cout << MAGENTA << "*         " << RESET;
-		std::cout << "ft.at(-1): " << ft.at(-1) << ": " << FAIL  << std::endl;
-	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << ": " << GREEN << GOOD << MAGENTA << "           *" << RESET << std::endl;
-	}
-	try
-	{
-		std::cout << MAGENTA << "*         " << RESET;
-		std::cout << "std.at(-1): " << std.at(-1) << ": " << FAIL  << std::endl;
-	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << ": " << GREEN << GOOD << MAGENTA << "          *" << RESET << std::endl;
-	}
-	test_vector_time_access(count);
+	
+	test_vector_time_access();
 }
 
 static void test_vector_resize(void)
 {
-	print_header("RESIZE TEST ", 0);
+	test_name = "RESIZE TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<std::string> ft;
 	std::vector<std::string> std;
@@ -274,13 +314,17 @@ static void test_vector_resize(void)
 	std.resize(2, "42");
 	check("ft == std", (ft == std));
 
-	test_vector_time_resize(count);
+	test_vector_time_resize();
 }
 
 static void test_vector_reserve(void)
 {
-	print_header("RESERVE TEST", 0);
+	test_name = "RESERVE TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<std::string> ft;
 	std::vector<std::string> std;
@@ -291,13 +335,17 @@ static void test_vector_reserve(void)
 	std.reserve(123213);
 	check("ft == std", (ft == std));
 
-	test_vector_time_reserve(count);
+	test_vector_time_reserve();
 }
 
 static void test_vector_push_back(void)
 {
-	print_header("PUSH BACK TEST", 0);
+	test_name = "PUSH BACK TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<int> ft;
 	std::vector<int> std;
@@ -309,13 +357,17 @@ static void test_vector_push_back(void)
 	std.push_back(42);
 	check("ft == std", ft == std);
 
-	test_vector_time_push_back(count);
+	test_vector_time_push_back();
 }
 
 static void test_vector_pop_back(void)
 {
-	print_header("POP BACK TEST ", 0);
+	test_name = "POP BACK TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
     const int M = std::numeric_limits<int>::max();
 	
@@ -327,13 +379,17 @@ static void test_vector_pop_back(void)
 		ft.pop_back();
 	check("ft == std", ft == std);
 
-	test_vector_time_pop_back(count);
+	test_vector_time_pop_back();
 }
 
 static void test_vector_erase_position(void)
 {
-	print_header("ERASE POSITION TEST ", 0);
+	test_name = "ERASE POSITION TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 	
 	std::string test[] = {"Hey", "what's", "up", "?"};
 	ft::vector<std::string> ft;
@@ -345,13 +401,17 @@ static void test_vector_erase_position(void)
 	std.erase(std.begin() + 2);
 	check("ft == std", ft == std);
 
-	test_vector_time_erase_position(count);
+	test_vector_time_erase_position();
 }
 
 static void test_vector_erase_iter(void)
 {
-	print_header("ERASE ITER TEST ", 0);
+	test_name = "ERASE ITER TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 	
     const int M = std::numeric_limits<int>::max();
     std::vector<int> std(count, M);
@@ -362,13 +422,17 @@ static void test_vector_erase_iter(void)
 		ft.erase(ft.begin(), ft.begin() + 1);
 	check("ft == std", ft == std);
 
-	test_vector_time_erase_iter(count);
+	test_vector_time_erase_iter();
 }
 
 static void test_vector_clear(void)
 {
-	print_header("CLEAR TEST", 0);
+	test_name = "CLEAR TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 	
 	std::string test[] = {"Hey", "what's", "up", "?"};
 	ft::vector<std::string> ft;
@@ -380,14 +444,18 @@ static void test_vector_clear(void)
 	std.clear();
 	check("ft == std", ft == std);
 
-	test_vector_time_clear(count);
+	test_vector_time_clear();
 }
 
 
 static void test_vector_insert_position(void)
 {
-	print_header("INSERT POSITION TEST", 0);
+	test_name = "INSERT POSITION TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	int test[] = {1, 2, 3};
 	ft::vector<int> ft;
@@ -411,13 +479,17 @@ static void test_vector_insert_position(void)
 	std.insert(std.begin() + 1, test, test + 3);
 	check("ft == std", ft == std);
 
-	test_vector_time_insert_position(count);
+	test_vector_time_insert_position();
 }
 
 static void test_vector_insert_position_value(void)
 {
-	print_header("INSERT POSITION VALUE TEST", 0);
+	test_name = "INSERT POSITION VALUE TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 	
 	int test[] = {1, 2, 3};
 	ft::vector<int> ft;
@@ -441,13 +513,17 @@ static void test_vector_insert_position_value(void)
 	std.insert(std.begin() + 1, test, test + 3);
 	check("ft == std", ft == std);
 
-	test_vector_time_insert_pos_value(count);
+	test_vector_time_insert_pos_value();
 }
 
 static void test_vector_insert_iter(void)
 {
-	print_header("INSERT ITER TEST", 0);
+	test_name = "INSERT ITER TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	int test[] = {1, 2, 3};
 	ft::vector<int> ft;
@@ -471,13 +547,17 @@ static void test_vector_insert_iter(void)
 	std.insert(std.begin() + 1, test, test + 3);
 	check("ft == std", ft == std);
 
-	test_vector_time_insert_iter(count);
+	test_vector_time_insert_iter();
 }
 
 static void test_vector_assign(void)
 {
-	print_header("ASSIGNMENT OP TEST", 0);
+	test_name = "ASSIGNMENT OP TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	std::string test[] = {"Hey", "what's", "up", "?"};
 	ft::vector<std::string> ft;
@@ -489,13 +569,17 @@ static void test_vector_assign(void)
 	std.assign(10, "?");
 	check("ft == std", ft == std);
 
-	test_vector_time_assign(count);
+	test_vector_time_assign();
 }
 
 static void test_vector_assign_range(void)
 {
-	print_header("ASSIGN RANGE TEST ", 0);
+	test_name = "ASSIGN RANGE TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 	std::string test[] = {"Hey", "what's", "up", "?"};
 	ft::vector<std::string> ft;
 	std::vector<std::string> std;
@@ -506,13 +590,17 @@ static void test_vector_assign_range(void)
 	std.assign(10, "?");
 	check("ft == std", ft == std);
 
-	test_vector_time_assign_range(count);
+	test_vector_time_assign_range();
 }
 
 static void test_vector_assign_value(void)
 {
-	print_header("ASSIGN VALUE TEST ", 0);
+	test_name = "ASSIGN VALUE TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 	std::string test[] = {"Hey", "what's", "up", "?"};
 	ft::vector<std::string> ft;
 	std::vector<std::string> std;
@@ -523,21 +611,29 @@ static void test_vector_assign_value(void)
 	std.assign(10, "?");
 	check("ft == std", ft == std);
 
-	test_vector_time_assign_value(count);
+	test_vector_time_assign_value();
 }
 
 static void test_vector_reverse_iterator(void)
 {
-	print_header("REVERSE ITERATOR TEST ", 0);
+	test_name = "REVERSE ITERATOR TEST ";
 	err_count = 0;
+	names.push_back(test_name);
 
-	test_vector_time_reverse_iter(count);
+	if (verbose)
+		print_header(test_name, 0);
+
+	test_vector_time_reverse_iter();
 }
 
 static void test_vector_swap(void)
 {
-	print_header("SWAP TEST ", 0);
+	test_name = "SWAP TEST ";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<int> ft;
 	std::vector<int> std;
@@ -558,13 +654,17 @@ static void test_vector_swap(void)
 	check("ft == std", ft == std);
 	check("ft2 == std2", ft2 == std2);
 
-	test_vector_time_swap(count);
+	test_vector_time_swap();
 }
 
 static void test_vector_comparison(void)
 {
-	print_header("COMPARISON OP TEST", 0);
+	test_name = "COMPARISON OP TEST";
 	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::vector<int> ft;
 	std::vector<int> std;
@@ -601,13 +701,17 @@ static void test_vector_comparison(void)
 	check("ft >= std", (ft >= ft2), (std >= std2));
 	check("ft <= std", (ft <= ft2), (std <= std2));
 
-	test_vector_time_comparison(count);
+	test_vector_time_comparison();
 }
 
 void	test_vector(void)
 {
 	print_header("VECTOR TESTS", 1);
-	err_count = 0;
+	
+	test_name.clear();
+	names.clear();
+	errors.clear();
+	time_perf.clear();
 
 	test_vector_empty_constructor();
 	test_vector_param_constructor();
@@ -634,5 +738,6 @@ void	test_vector(void)
 	test_vector_swap();
 	test_vector_comparison();
 
+	print_test_results();
 }
 

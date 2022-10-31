@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 01:48:11 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:06:14 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,34 @@
 
 long count;
 long err_count;
+bool verbose;
 std::string test_name;
 std::vector<std::string> names;
 std::vector<long> errors;
-std::vector<double> time_std;
-std::vector<double> time_ft;
+// std::vector<double> time_std;
+// std::vector<double> time_ft;
+std::vector<double> time_perf;
 
 int main(int argc, char **argv)
 {
 	std::string test;
-	if (argc != 2)
+	std::string verb;
+	verbose = false;
+	if (argc < 2 || argc > 3)
 	{
-		std::cout << "No test given. usage: ./containers [container]\n" << std::endl;
+		std::cout << "No test given. usage: ./containers [container] [-verbose]\n" << std::endl;
 		return (1);
 	}
 	else
+	{
 		test = std::string(argv[1]);
-
+		if (argv[2])
+			verb = std::string(argv[2]);
+	}
+	if (verb == "-verbose")
+		verbose = true;
+	count = 100;
 	print_project_title();
-	count = 50;
 	if (test == "vector")
 		test_vector();
 	else if (test == "stack")
@@ -41,8 +50,8 @@ int main(int argc, char **argv)
 	// 	test_map();
 	else if (test == "all")
 	{
-		test_vector();
 		test_stack();
+		test_vector();
 		// test_map();
 	}
 	else

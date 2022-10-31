@@ -6,32 +6,38 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 00:46:33 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:41:43 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.hpp"
 
-void test_vector_time_empty_constructor(long count)
+void test_vector_time_empty_constructor()
 {
 	//std test
 	timer_start();
-	for (int i = 0; i < count; ++i){
+	for (int i = 0; i < count; ++i)
 		std::vector<int> std;
-	}
 	double std_res = timer_stop();
 
 	//ft test
 	timer_start();
-	for (int i = 0; i < count; ++i){
+	for (int i = 0; i < count; ++i)
 		ft::vector<int> ft;
-	}
 	double ft_res = timer_stop();
-	performance_result(std_res, ft_res);
-	comparision_result(0, 0);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+		comparision_result(0);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_param_constructor(long count)
+void test_vector_time_param_constructor()
 {
     const size_t N = 42;
 	std::vector<int> std(N);
@@ -61,11 +67,19 @@ void test_vector_time_param_constructor(long count)
 	double ft_res = timer_stop();
 
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_two_param_constructor(long count)
+void test_vector_time_two_param_constructor()
 {
     const size_t N = 42;
     const int M = 99;
@@ -95,11 +109,19 @@ void test_vector_time_two_param_constructor(long count)
         ft::vector<int> ft(N, M);
 	double ft_res = timer_stop();
 
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_copy_constructor(long count)
+void test_vector_time_copy_constructor()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -145,11 +167,19 @@ void test_vector_time_copy_constructor(long count)
 	double ft_res = timer_stop();
 
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_copy_range_constructor(long count)
+void test_vector_time_copy_range_constructor()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -196,11 +226,19 @@ void test_vector_time_copy_range_constructor(long count)
 	double ft_res = timer_stop();
 
 	//print results
-	performance_result(std_res, ft_res);
-	comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+		comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_size_capacity_empty(long count)
+void test_vector_time_size_capacity_empty()
 {
 	//test: size, capacity, empty, max_size
 	{
@@ -252,11 +290,19 @@ void test_vector_time_size_capacity_empty(long count)
 		ft.empty();
 	}
 	double ft_res = timer_stop();
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_size_capacity_random(long count)
+void test_vector_time_size_capacity_random()
 {
     const size_t N = 42;
     const int M = 99;
@@ -308,11 +354,19 @@ void test_vector_time_size_capacity_random(long count)
 	}
 	double ft_res = timer_stop();
 	
-	performance_result(std_res, ft_res);
-	comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+		comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_access(long count)
+void test_vector_time_access()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -346,11 +400,16 @@ void test_vector_time_access(long count)
 	double comp_res = timer_stop();
 
 	//print results
-	performance_result(0, 0);
-	comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(0, 0);
+		comparision_result(comp_res);
+	}
+	time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_resize(long count)
+void test_vector_time_resize()
 {
     const size_t N = 42;
     const int M = 99;
@@ -399,11 +458,19 @@ void test_vector_time_resize(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-	comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+		comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_reserve(long count)
+void test_vector_time_reserve()
 {
     const size_t N = 42;
     const int M = 99;
@@ -459,11 +526,19 @@ void test_vector_time_reserve(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-	comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+		comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_push_back(long count)
+void test_vector_time_push_back()
 {
     const size_t N = 21;
     const int M = std::numeric_limits<int>::max();
@@ -507,11 +582,19 @@ void test_vector_time_push_back(long count)
 	double ft_res = timer_stop();
 		
 	//print result
-	performance_result(std_res, ft_res);
-	comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+		comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_pop_back(long count)
+void test_vector_time_pop_back()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -565,11 +648,19 @@ void test_vector_time_pop_back(long count)
 	double ft_res = timer_stop();
 	
 	//print result
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_erase_position(long count)
+void test_vector_time_erase_position()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -623,11 +714,19 @@ void test_vector_time_erase_position(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_erase_iter(long count)
+void test_vector_time_erase_iter()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -682,11 +781,19 @@ void test_vector_time_erase_iter(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_clear(long count)
+void test_vector_time_clear()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -737,11 +844,19 @@ void test_vector_time_clear(long count)
 	double ft_res = timer_stop();
 
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_insert_position(long count)
+void test_vector_time_insert_position()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -796,11 +911,19 @@ void test_vector_time_insert_position(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_insert_pos_value(long count)
+void test_vector_time_insert_pos_value()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -852,11 +975,19 @@ void test_vector_time_insert_pos_value(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_insert_iter(long count)
+void test_vector_time_insert_iter()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -914,11 +1045,19 @@ void test_vector_time_insert_iter(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_assign(long count)
+void test_vector_time_assign()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -973,11 +1112,19 @@ void test_vector_time_assign(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_assign_range(long count)
+void test_vector_time_assign_range()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -1032,11 +1179,19 @@ void test_vector_time_assign_range(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_assign_value(long count)
+void test_vector_time_assign_value()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -1082,11 +1237,19 @@ void test_vector_time_assign_value(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_reverse_iter(long count)
+void test_vector_time_reverse_iter()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -1122,11 +1285,16 @@ void test_vector_time_reverse_iter(long count)
 	}
 	double comp_res = timer_stop();
 	//print results
-	performance_result(0, 0);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(0, 0);
+    	comparision_result(comp_res);
+	}
+	time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_swap(long count)
+void test_vector_time_swap()
 {
     const size_t N1 = 21;
     const size_t N2 = 42;
@@ -1177,11 +1345,19 @@ void test_vector_time_swap(long count)
 	double ft_res = timer_stop();
 	
 	//print results
-	performance_result(std_res, ft_res);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+    	comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_vector_time_comparison(long count)
+void test_vector_time_comparison()
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
@@ -1216,6 +1392,11 @@ void test_vector_time_comparison(long count)
 	double comp_res = timer_stop();
 	
 	//print results
-	performance_result(0, 0);
-    comparision_result(err_count, comp_res);
+	if (verbose)
+	{
+		performance_result(0, 0);
+    	comparision_result(comp_res);
+	}
+	time_perf.push_back(0);
+	errors.push_back(err_count);
 }

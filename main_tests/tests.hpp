@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 02:37:58 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 22:39:49 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stack>
 # include <iostream>
 # include <iomanip>
+# include <chrono>
 # include "../vector.hpp"
 # include "../map.hpp"
 # include "../stack.hpp"
@@ -28,20 +29,21 @@
 # define YELLOW "\x1B[0;33m"
 # define BLUE "\x1B[0;34m"
 # define MAGENTA "\033[0;35m"
-# define GREY "\033[2;37m"
+# define GRAY "\x1b[90m"
 # define BOLD "\033[1m"
 
 # define GOOD "✓"
 # define FAIL "x"
 
+/* GLOBAL VARIABLES */
 
 extern long	count;
 extern long	err_count;
 extern std::string test_name;
+extern bool verbose;
 extern std::vector<std::string> names;
 extern std::vector<long> errors;
-extern std::vector<double> time_std;
-extern std::vector<double> time_ft;
+extern std::vector<double> time_perf;
 
 /* MAIN FUNCTIONS */
 
@@ -54,34 +56,8 @@ void	test_stack(void);
 double 	timer_stop();
 void   	timer_start();
 void   	performance_result(double std, double ft);
-void	comparision_result(int err_count, double comp_res);
-
-/* VECTOR FUNCTIONS */
-
-void	test_vector_time_empty_constructor(long count);
-void 	test_vector_time_param_constructor(long count);
-void	test_vector_time_two_param_constructor(long count);
-void 	test_vector_time_copy_constructor(long count);
-void 	test_vector_time_copy_range_constructor(long count);
-void	test_vector_time_size_capacity_empty(long count);
-void	test_vector_time_size_capacity_random(long count);
-void 	test_vector_time_access(long count);
-void 	test_vector_time_resize(long count);
-void 	test_vector_time_reserve(long count);
-void 	test_vector_time_push_back(long count);
-void 	test_vector_time_pop_back(long count);
-void 	test_vector_time_erase_position(long count);
-void 	test_vector_time_erase_iter(long count);
-void 	test_vector_time_clear(long count);
-void 	test_vector_time_insert_position(long count);
-void 	test_vector_time_insert_pos_value(long count);
-void 	test_vector_time_insert_iter(long count);
-void 	test_vector_time_assign(long count);
-void 	test_vector_time_assign_range(long count);
-void 	test_vector_time_assign_value(long count);
-void 	test_vector_time_reverse_iter(long count);
-void 	test_vector_time_swap(long count);
-void 	test_vector_time_comparison(long count);
+void	comparision_result(double comp_res);
+std::string getNewId();
 
 /* STACK FUNCTIONS */
 
@@ -91,6 +67,57 @@ void	test_stack_time_assignment();
 void	test_stack_time_size_empty_top();
 void	test_stack_time_push_pop();
 void	test_stack_time_comparison();
+
+/* VECTOR FUNCTIONS */
+
+void	test_vector_time_empty_constructor();
+void 	test_vector_time_param_constructor();
+void	test_vector_time_two_param_constructor();
+void 	test_vector_time_copy_constructor();
+void 	test_vector_time_copy_range_constructor();
+void	test_vector_time_size_capacity_empty();
+void	test_vector_time_size_capacity_random();
+void 	test_vector_time_access();
+void 	test_vector_time_resize();
+void 	test_vector_time_reserve();
+void 	test_vector_time_push_back();
+void 	test_vector_time_pop_back();
+void 	test_vector_time_erase_position();
+void 	test_vector_time_erase_iter();
+void 	test_vector_time_clear();
+void 	test_vector_time_insert_position();
+void 	test_vector_time_insert_pos_value();
+void 	test_vector_time_insert_iter();
+void 	test_vector_time_assign();
+void 	test_vector_time_assign_range();
+void 	test_vector_time_assign_value();
+void 	test_vector_time_reverse_iter();
+void 	test_vector_time_swap();
+void 	test_vector_time_comparison();
+
+/* MAP FUNCTIONS */
+
+void 	test_map_time_empty_constructor();
+void 	test_map_time_copy_constructor();
+void 	test_map_time_range_constructor();
+void 	test_map_time_size_empty_max();
+void 	test_map_time_assignment_op();
+void 	test_map_time_operator_at();
+void 	test_map_time_insert_val();
+void 	test_map_time_insert_range();
+void 	test_map_time_erase();
+void 	test_map_time_erase_val();
+void 	test_map_time_erase_pos(); 
+void 	test_map_time_swap(); 
+void 	test_map_time_count_clear();
+void 	test_map_time_find();
+
+void 	test_map_time_lower_bound();
+void 	test_map_time_upper_bound();
+void 	test_map_time_equal_range();
+void 	test_map_time_begin_end();
+void 	test_map_time_rbegin_rend();
+void 	test_map_time_comparison();
 
 /* PRINTING FUNCTIONS */
 
@@ -108,12 +135,15 @@ inline void check(std::string name, T a, T b)
 {
 	float margin = (42 - name.length() - 3) / 2;
 	if (a == b)
-		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << GOOD << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
+	{
+		if (verbose)
+			std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << GOOD << MAGENTA << std::right << std::setw(margin) << "*" << RESET << std::endl;
+	}
 	else
 	{
-		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << RED << FAIL << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
+		if (verbose)
+			std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << RED << FAIL << MAGENTA << std::right << std::setw(margin) << "*" << RESET << std::endl;
 		err_count++;
-		std::cout << err_count << std::endl;
 	}
 }
 
@@ -121,10 +151,14 @@ inline void check(std::string name, bool good)
 {
 	float margin = (42 - name.length() - 3) / 2;
 	if (good)
-		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << GOOD << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
+	{
+		if (verbose)
+			std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << GOOD << MAGENTA << std::right << std::setw(margin) << "*" << RESET << std::endl;
+	}
 	else
 	{
-		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << RED << FAIL << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
+		if (verbose)
+			std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << RED << FAIL << MAGENTA << std::right << std::setw(margin) << "*" << RESET << std::endl;
 		err_count++;
 	}
 }

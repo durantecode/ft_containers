@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:40 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 02:32:24 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 17:28:02 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void test_stack_empty_constructor(void)
 	err_count = 0;
 	names.push_back(test_name);
 	
-	print_header(test_name, 0);
+	if (verbose)
+		print_header(test_name, 0);
 	
 	ft::stack<int> ft;
 	std::stack<int> std;
@@ -31,11 +32,12 @@ static void test_stack_empty_constructor(void)
 
 static void test_stack_copy_constructor(void)
 {
-	test_name = "COPY CONSTRUCTOR TEST";
+	test_name = "COPY CONSTRUCTOR TEST ";
 	err_count = 0;
 	names.push_back(test_name);
 
-	print_header(test_name, 0);
+	if (verbose)
+		print_header(test_name, 0);
 	
 	ft::stack<int> ft;
 	std::stack<int> std;
@@ -47,49 +49,42 @@ static void test_stack_copy_constructor(void)
 
 static void test_stack_assignment(void)
 {
-	test_name = "ASSIGNMENT TEST";
+	test_name = "ASSIGNMENT TEST ";
 	err_count = 0;
 	names.push_back(test_name);
 	
-	print_header(test_name, 0);
+	if (verbose)
+		print_header(test_name, 0);
 	
 	test_stack_time_assignment();
 }
 
 static void test_stack_size_empty_top(void)
 {
-	test_name = "SIZE/EMPTY/TOP TEST";
+	test_name = "SIZE/EMPTY/TOP TEST ";
 	err_count = 0;
 	names.push_back(test_name);
-	
-	print_header(test_name, 0);
-	
-	ft::stack<int> ft;
-	ft.push(12);
-	ft.push(12);
-	ft.push(12);
 
-	std::stack<int> std;
-	std.push(143);
-	std.push(143);
-	std.push(143);
+	if (verbose)
+		print_header(test_name, 0);
 
 	test_stack_time_size_empty_top();
 }
 
 static void test_stack_push_pop(void)
 {
-	test_name = "PUSH / POP TEST";
+	test_name = "PUSH / POP TEST ";
 	err_count = 0;
 	names.push_back(test_name);
 	
-	print_header(test_name, 0);
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::stack<int> ft;
 	std::stack<int> std;
 	ft.push(0);
 	ft.push(1);
-	ft.push(5);
+	ft.push(2);
 	std.push(0);
 	std.push(1);
 	std.push(2);
@@ -110,7 +105,8 @@ void test_stack_comparision(void)
 	err_count = 0;
 	names.push_back(test_name);
 	
-	print_header(test_name, 0);
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::stack<int> ft;
 	std::stack<int> std;
@@ -152,12 +148,12 @@ void test_stack_comparision(void)
 
 void test_stack(void)
 {
-	print_header("STACK", 1);
+	print_header("STACK TESTS", 1);
 
+	test_name.clear();
 	names.clear();
 	errors.clear();
-	time_std.clear();
-	time_ft.clear();
+	time_perf.clear();
 
 	test_stack_empty_constructor();
 	test_stack_copy_constructor();

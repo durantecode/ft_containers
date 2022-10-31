@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/10/31 00:16:18 by ldurante         ###   ########.fr        #
+#    Updated: 2022/10/31 18:21:58 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,14 @@ NO_COLOR = \033[0m
 # SRCS = main.cpp
 
 SRCS =  main_tests/main.cpp \
-		main_tests/print_and_comparision.cpp \
 		main_tests/vector_tests.cpp \
 		main_tests/vector_time_tests.cpp \
 		main_tests/stack_tests.cpp \
 		main_tests/stack_time_tests.cpp \
+		main_tests/print_and_comparision.cpp \
+		# main_tests/map_tests.cpp \
+		# main_tests/map_time_tests.cpp \
+		# main_tests/utils_tests.cpp \
 
 # SRCS = main_new.cpp
 
