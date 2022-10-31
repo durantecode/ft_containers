@@ -6,13 +6,13 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/30 01:25:54 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 02:39:46 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.hpp"
 
-void test_stack_time_empty_constructor(long count)
+void test_stack_time_empty_constructor()
 {
 	//std test
 	timer_start();
@@ -28,14 +28,16 @@ void test_stack_time_empty_constructor(long count)
 
 	performance_result(std_res, ft_res);
     comparision_result(0, 0);
+	time_std.push_back(std_res);
+	time_ft.push_back(ft_res);
+	errors.push_back(err_count);
 }
 
-void test_stack_time_copy_constructor(long count)
+void test_stack_time_copy_constructor()
 {
 	//init
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{
@@ -62,7 +64,7 @@ void test_stack_time_copy_constructor(long count)
 	}
 	double comp_res = timer_stop();
 
-	//std test
+	// std test
     std::stack<int> std;
     for (size_t i = 0; i < N * N; ++i)
 		std.push(N);
@@ -82,14 +84,16 @@ void test_stack_time_copy_constructor(long count)
 	
 	performance_result(std_res, ft_res);
     comparision_result(err_count, comp_res);
+	time_std.push_back(std_res);
+	time_ft.push_back(ft_res);
+	errors.push_back(err_count);
 }
 
-void test_stack_time_assignment(long count)
+void test_stack_time_assignment()
 {
 	//init
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{
@@ -144,14 +148,16 @@ void test_stack_time_assignment(long count)
 	
 	performance_result(std_res, ft_res);
     comparision_result(err_count, comp_res);
+	time_std.push_back(std_res);
+	time_ft.push_back(ft_res);
+	errors.push_back(err_count);
 }
 
-void test_stack_time_size_empty_top(long count)
+void test_stack_time_size_empty_top()
 {
 	//init
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -182,14 +188,16 @@ void test_stack_time_size_empty_top(long count)
 
 	// performance_result(0, 0);
     comparision_result(err_count, comp_res);
+	time_std.push_back(0);
+	time_ft.push_back(0);
+	errors.push_back(err_count);
 }
 
-void test_stack_time_push_pop(long count)
+void test_stack_time_push_pop()
 {
 	// //init
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -243,4 +251,50 @@ void test_stack_time_push_pop(long count)
 
 	performance_result(std_res, ft_res);
     comparision_result(err_count, comp_res);
+	time_std.push_back(std_res);
+	time_ft.push_back(ft_res);
+	errors.push_back(err_count);
+}
+
+
+void test_stack_time_comparison()
+{
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();
+	
+	srand(time(NULL));
+	{
+		//loop test
+		timer_start();
+		for (int i = 0; i < count; ++i)
+		{
+			size_t num = rand() % N;
+			std::stack<int> std;
+			std::stack<int> std_s;
+			ft::stack<int> ft;
+			ft::stack<int> ft_s;
+			for (size_t i = 0; i < num; ++i)
+			{
+				int fill = rand() % M;
+				std.push(fill);
+				std_s.push(fill);
+				ft.push(fill);
+				ft_s.push(fill);
+			}
+			if ((std==std_s) != (ft==ft_s)) ++err_count;
+			if ((std<std_s) != (ft<ft_s)) ++err_count;
+			if ((std!=std_s) != (ft!=ft_s)) ++err_count;
+			if ((std>std_s) != (ft>ft_s)) ++err_count;
+			if ((std<=std_s) != (ft<=ft_s)) ++err_count;
+			if ((std>=std_s) != (ft>=ft_s)) ++err_count;
+		}
+	}
+	double comp_res = timer_stop();
+	
+	//print results
+	performance_result(0, 0);
+    comparision_result(err_count, comp_res);
+	time_std.push_back(0);
+	time_ft.push_back(0);
+	errors.push_back(err_count);
 }

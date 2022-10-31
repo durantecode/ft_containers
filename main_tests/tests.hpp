@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 12:42:43 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 02:37:58 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,20 @@
 # define YELLOW "\x1B[0;33m"
 # define BLUE "\x1B[0;34m"
 # define MAGENTA "\033[0;35m"
+# define GREY "\033[2;37m"
 # define BOLD "\033[1m"
 
 # define GOOD "✓"
 # define FAIL "x"
+
+
+extern long	count;
+extern long	err_count;
+extern std::string test_name;
+extern std::vector<std::string> names;
+extern std::vector<long> errors;
+extern std::vector<double> time_std;
+extern std::vector<double> time_ft;
 
 /* MAIN FUNCTIONS */
 
@@ -75,32 +85,23 @@ void 	test_vector_time_comparison(long count);
 
 /* STACK FUNCTIONS */
 
-void	test_stack_time_empty_constructor(long count);
-void	test_stack_time_copy_constructor(long count);
-void	test_stack_time_assignment(long count);
-void	test_stack_time_size_empty_top(long count);
-void	test_stack_time_push_pop(long count);
+void	test_stack_time_empty_constructor();
+void	test_stack_time_copy_constructor();
+void	test_stack_time_assignment();
+void	test_stack_time_size_empty_top();
+void	test_stack_time_push_pop();
+void	test_stack_time_comparison();
 
-inline void print_header(std::string str, bool container)
-{
-	int margin = (40 - str.length()) / 2;
-	int width = (margin * 2 + str.length()) + 2;
-	if (container)
-	{
-		std::cout << BLUE;
-		std::cout << std::string(width, '*') << std::endl;
-		std::cout << "*" << RED << std::string(margin, ' ') << str << std::string(margin, ' ') << BLUE << "*" << std::endl;
-		std::cout << std::string(width, '*') << std::endl << std::endl;
-	}
-	else
-	{
-		std::cout << MAGENTA;
-		std::cout << std::string(width, '*') << std::endl;
-		std::cout << "*" << YELLOW << std::string(margin, ' ') << str << std::string(margin, ' ') << MAGENTA << "*" << std::endl;
-		std::cout << "*" << std::string(40, ' ') << "*" << std::endl;
-		std::cout << RESET;
-	}
-}
+/* PRINTING FUNCTIONS */
+
+void print_project_title(void);
+void print_header(std::string str, bool container);
+void print_test_results(void);
+
+template <typename T>
+static void print_vector(T vec, std::string type);
+template <typename T>
+static void print_vector_reverse(T vec, std::string type);
 
 template <typename T>
 inline void check(std::string name, T a, T b)
@@ -109,7 +110,11 @@ inline void check(std::string name, T a, T b)
 	if (a == b)
 		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << GOOD << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
 	else
+	{
 		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << RED << FAIL << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
+		err_count++;
+		std::cout << err_count << std::endl;
+	}
 }
 
 inline void check(std::string name, bool good)
@@ -118,7 +123,10 @@ inline void check(std::string name, bool good)
 	if (good)
 		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << GREEN << GOOD << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
 	else
+	{
 		std::cout << MAGENTA << "*" << std::setw(margin + 3) << RESET << name << ": " << RED << FAIL << MAGENTA << std::setw(margin) << "*" << RESET << std::endl;
+		err_count++;
+	}
 }
 
 template <typename T>

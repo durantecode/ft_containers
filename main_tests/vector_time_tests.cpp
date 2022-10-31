@@ -6,72 +6,11 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/30 01:08:37 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/31 00:46:33 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.hpp"
-
-std::string		test_name;
-std::clock_t   	start;
-std::string		color;
-
-void timer_start()
-{
-	start = std::clock();
-}
-
-double timer_stop()
-{
-	double	duration;
-    duration = (std::clock() - start) / (double) CLOCKS_PER_SEC;
-	start = 0;
-	return duration;
-}
-
-void performance_result(double std, double ft)
-{
-	print_header("TIME PERFORMANCE", 0);
-	
-	std::string std_len = std::to_string(std);
-	std::string ft_len = std::to_string(ft);
-	if (std < ft)
-	{
-		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "std time: " << GREEN << std_len << MAGENTA << std::setw(13) << "*" << RESET << std::endl;
-		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "ft  time: " << RED << ft_len << MAGENTA << std::setw(13) << "*" << RESET << std::endl;
-	}
-	else
-	{
-		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "std time: " << RED << std_len << std::setw(19) << MAGENTA << "*" << RESET << std::endl;
-		std::cout << MAGENTA << "*" << std::setw(14) << RESET << "ft  time: " << GREEN << ft_len << std::setw(19) << MAGENTA << "*" << RESET << std::endl;
-	}
-	
-	double delta = std / ft;
-    if (delta >= 1)
-        color = GREEN;
-    if (delta < 0.5)
-        color = YELLOW;
-    if (delta < 0.05)
-        color = RED;
-	std::string delta_str = std::to_string(delta);
-	std::cout << MAGENTA << "*" << std::setw(7) << " " << RESET << "performance: "<< color << "x" << delta_str << MAGENTA << std::setw(20 - delta_str.length()) << "*" << RESET << std::endl;
-}
-
-void comparision_result(int err_count, double comp_res)
-{
-	print_header("FINAL RESULT", 0);
-
-	std::string err_len = std::to_string(err_count);
-	std::string comp_len = std::to_string(comp_res);
-    std::string col = GREEN;
-    if (err_count > 0)
-        col = RED;
-    std::cout << MAGENTA << "*" << RESET << " (std vs ft): " << col << err_len << " errors" << RESET;
-	std::cout << " in " << color << comp_len << RESET << " sec" << MAGENTA << std::string(3 - err_len.length(), ' ');
-	std::cout << "*" << std::endl << std::string(42, '*') << std::endl << RESET << "\n";
-	std::cout << BLUE << std::string(42, '*') << std::endl << RESET << "\n";
-
-}
 
 void test_vector_time_empty_constructor(long count)
 {
@@ -100,7 +39,6 @@ void test_vector_time_param_constructor(long count)
 
 	//loop test
 	timer_start();
-	long err_count = 0;
 	for (int i = 0; i < count; ++i)
 	{
 		int std_res = *(std.begin() + i % N);
@@ -136,7 +74,6 @@ void test_vector_time_two_param_constructor(long count)
 
 	//loop test
 	timer_start();
-	long err_count = 0;
 	for (int i = 0; i < count; ++i)
 	{
 		int std_res = *(std.begin() + i % N);
@@ -166,7 +103,6 @@ void test_vector_time_copy_constructor(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	srand(time(NULL));
 	{
 		//loop test
@@ -217,7 +153,6 @@ void test_vector_time_copy_range_constructor(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	srand(time(NULL));
 	{
 		//loop test
@@ -268,7 +203,6 @@ void test_vector_time_copy_range_constructor(long count)
 void test_vector_time_size_capacity_empty(long count)
 {
 	//test: size, capacity, empty, max_size
-	long err_count = 0;
 	{
 		std::vector<int> std;
 		ft::vector<int> ft;
@@ -326,7 +260,6 @@ void test_vector_time_size_capacity_random(long count)
 {
     const size_t N = 42;
     const int M = 99;
-	long err_count = 0;
 	
 	//random test: size, capacity, empty
 	srand(time(NULL));
@@ -383,7 +316,6 @@ void test_vector_time_access(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -422,7 +354,6 @@ void test_vector_time_resize(long count)
 {
     const size_t N = 42;
     const int M = 99;
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -476,7 +407,6 @@ void test_vector_time_reserve(long count)
 {
     const size_t N = 42;
     const int M = 99;
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{
@@ -537,7 +467,6 @@ void test_vector_time_push_back(long count)
 {
     const size_t N = 21;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{
@@ -586,7 +515,6 @@ void test_vector_time_pop_back(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -645,7 +573,6 @@ void test_vector_time_erase_position(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{
@@ -704,7 +631,6 @@ void test_vector_time_erase_iter(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{
@@ -764,7 +690,6 @@ void test_vector_time_clear(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{
@@ -820,7 +745,6 @@ void test_vector_time_insert_position(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{
@@ -880,7 +804,6 @@ void test_vector_time_insert_pos_value(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -937,7 +860,6 @@ void test_vector_time_insert_iter(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -1000,7 +922,6 @@ void test_vector_time_assign(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -1060,7 +981,6 @@ void test_vector_time_assign_range(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -1120,7 +1040,6 @@ void test_vector_time_assign_value(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -1171,7 +1090,6 @@ void test_vector_time_reverse_iter(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 
 	srand(time(NULL));
 	{
@@ -1214,7 +1132,6 @@ void test_vector_time_swap(long count)
     const size_t N2 = 42;
     const int M1 = 99;
     const int M2 = 44;
-	long err_count = 0;
 	
 	{
 		//loop test
@@ -1268,7 +1185,6 @@ void test_vector_time_comparison(long count)
 {
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
-	long err_count = 0;
 	
 	srand(time(NULL));
 	{

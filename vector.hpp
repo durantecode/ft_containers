@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 21:53:19 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/10/30 23:30:03 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ namespace ft
 				typename std::enable_if<!std::is_integral<InputIterator>::value, void>::type* = 0) :
 				m_alloc(alloc),
 				m_size(0),
-				m_capacity(1)
+				m_capacity(1),
+				m_data(m_alloc.allocate(m_capacity))
 			{
-				this->m_data = m_alloc.allocate(this->m_capacity);
 				this->assign(first, last);
 			}
 
@@ -85,9 +85,8 @@ namespace ft
 				m_alloc(toCopy.get_allocator()),
 				m_size(toCopy.m_size),
 				m_capacity(toCopy.m_capacity),
-				m_data(nullptr)
+				m_data(m_alloc.allocate(toCopy.m_capacity))
 			{
-				this->m_data = this->m_alloc.allocate(toCopy.m_capacity);
 				for (size_type i = 0; i < toCopy.m_size; i++)
 					this->m_alloc.construct(&this->m_data[i], toCopy.m_data[i]);
 			}
@@ -100,17 +99,18 @@ namespace ft
 
 			vector& operator = (const vector& toCopy)
 			{
-				if (this == &toCopy)
-					return *this;
-				this->clear();
-				this->m_alloc.deallocate(m_data, m_capacity);
-				this->m_capacity = toCopy.m_capacity;
-				this->m_size = toCopy.m_size;
-				this->m_data = m_alloc.allocate(m_capacity);
-				for (size_type i = 0; i < this->m_size; ++i)
-				{
-					this->m_data[i] = toCopy.m_data[i]; // REVISAR ESTO
-				}
+				// std::cout << "OJETE" << std::endl;
+				if (this != &toCopy)
+					this->assign(toCopy.begin(), toCopy.end());
+					// return *this;
+				// this->clear();
+				// this->m_alloc = toCopy.get_allocator();
+				// this->m_alloc.deallocate(this->m_data, this->m_capacity);
+				// this->m_capacity = toCopy.m_capacity;
+				// this->m_size = toCopy.m_size;
+				// this->m_data = m_alloc.allocate(this->m_capacity);
+				// for (size_type i = 0; i < this->m_size; ++i)
+				// 	this->m_alloc.construct(&this->m_data[i], toCopy.m_data[i]);
 				return *this;
 			}
 
@@ -237,7 +237,6 @@ namespace ft
 					first++;
 				}
 				this->m_size = n;
-
 			}
 
 			void assign (size_type n, const value_type& val)
@@ -317,7 +316,7 @@ namespace ft
 
 				this->m_alloc.destroy(tmp);
 				m_size--;
-				while (pos < m_size)
+				while (pos < this->m_size)
 				{
 					*tmp = *(tmp + 1);
 					tmp++;
@@ -328,9 +327,9 @@ namespace ft
 
 			iterator erase(iterator first, iterator last)
 			{
-				size_type	n	 = first - begin();
+				size_type	n	 = std::distance(first, begin());
 				pointer 	tmp  = &this->m_data[n];
-				size_type	diff = last - first;
+				size_type	diff = std::distance(first, last);
 
 				size_type i = 0;
 				while (n + diff < this->m_size)
