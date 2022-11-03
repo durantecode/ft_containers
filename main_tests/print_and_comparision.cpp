@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 00:01:22 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 22:02:25 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/03 23:42:45 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void print_test_results(void)
 	std::cout << std::setw(40) << "TEST NAME" << std::setw(20) << "PERFORMANCE";
 	std::cout << std::setw(16) << "ERRORS" << std::setw(16) << "RESULT" << std::endl;
 	std::cout << std::string(90, '-') << RESET << std::endl;
-	for(int i = 0; i < names.size(); i++)
+	for(size_t i = 0; i < names.size(); i++)
 	{
 		col = GREEN;
 		result = GOOD;

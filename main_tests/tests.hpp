@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 22:39:49 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/03 23:40:25 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@
 # include <iostream>
 # include <iomanip>
 # include <chrono>
+# include <algorithm>
+# include <type_traits>
+
 # include "../vector.hpp"
 # include "../map.hpp"
 # include "../stack.hpp"
+// # include "../enable_if.hpp"
+// # include "../is_integral.hpp"
+// # include "../pair.hpp"
+// # include "../make_pair.hpp"
+// # include "../lexicographical_compare.hpp"
 
 # define RESET "\033[0m"
 # define RED "\x1B[0;31m"
@@ -50,6 +58,7 @@ extern std::vector<double> time_perf;
 void	test_vector(void);
 void	test_map(void);
 void	test_stack(void);
+void	test_utility(void);
 
 /* PERFORMANCE AND COMPARISION FUNCTIONS */
 
@@ -95,6 +104,19 @@ void 	test_vector_time_reverse_iter();
 void 	test_vector_time_swap();
 void 	test_vector_time_comparison();
 
+/* UTILIYY FUNCTIONS */
+
+void 	test_enableif_integral();
+void 	test_lexicographical_compare();
+void 	test_lexicographical_compare_with_cmp();
+void 	test_equal();
+void 	test_equal_with_pred();
+void 	test_pair_construction();
+void 	test_pair_type_change();
+void 	test_pair_make_pair();
+void 	test_pair_comparisons();
+
+
 /* MAP FUNCTIONS */
 
 void 	test_map_time_empty_constructor();
@@ -111,9 +133,9 @@ void 	test_map_time_erase_pos();
 void 	test_map_time_swap(); 
 void 	test_map_time_count_clear();
 void 	test_map_time_find();
-
 void 	test_map_time_lower_bound();
 void 	test_map_time_upper_bound();
+
 void 	test_map_time_equal_range();
 void 	test_map_time_begin_end();
 void 	test_map_time_rbegin_rend();
@@ -163,6 +185,9 @@ inline void check(std::string name, bool good)
 	}
 }
 
+
+/* Templates to check std vectors against ft vectors */
+
 template <typename T>
 bool operator==(ft::vector<T> &a, std::vector<T> &b)
 {
@@ -177,6 +202,8 @@ bool operator==(ft::vector<T> &a, std::vector<T> &b)
 	}
 	return (true);
 }
+
+/* Templates to check std map against ft map */
 
 // template <typename T, typename S>
 // bool operator==(ft::map<T, S> &a, std::map<T, S> &b)

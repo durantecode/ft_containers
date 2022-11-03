@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 16:57:38 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/03 23:46:02 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void test_vector_param_constructor(void)
 	check("ft == std", ft == std);
 	int std_res = *(ft.begin() + 50 % N);
 	int ft_res = *(std.begin() + 50 % N);
-	check("ft == std", ft == std);
+	check("ft == std", ft_res == std_res);
 
 	test_vector_time_param_constructor();
 }
@@ -123,7 +123,7 @@ static void test_vector_two_param_constructor(void)
 	check("ft == std", ft == std);
 	int std_res = *(ft.begin() + M % N);
 	int ft_res = *(std.begin() + M % N);
-	check("ft == std", ft == std);
+	check("ft == std", ft_res == std_res);
 
 	test_vector_time_two_param_constructor();
 }

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/28 00:36:01 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/03 23:02:56 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ namespace ft
         typedef typename T::difference_type       	difference_type;
         typedef typename T::iterator_category     	iterator_category;
         typedef typename T::pointer               	pointer;
-        typedef typename T::const_pointer         	const_pointer;
         typedef typename T::reference            	reference;
-        typedef typename T::const_reference			const_reference;
     };
 
     template <class T>
@@ -40,6 +38,16 @@ namespace ft
         typedef std::random_access_iterator_tag		iterator_category;
         typedef T*									pointer;
         typedef T&									reference;
+    };
+    
+	template <class T>
+    struct iterator_traits<const T*>
+	{
+        typedef T									value_type;
+        typedef ptrdiff_t                  			difference_type;
+        typedef std::random_access_iterator_tag		iterator_category;
+        typedef const T*							pointer;
+        typedef const T&								reference;
     };
 
 			/*************************************************/

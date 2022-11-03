@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 16:06:14 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:09:43 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ bool verbose;
 std::string test_name;
 std::vector<std::string> names;
 std::vector<long> errors;
-// std::vector<double> time_std;
-// std::vector<double> time_ft;
 std::vector<double> time_perf;
 
 int main(int argc, char **argv)
@@ -48,11 +46,14 @@ int main(int argc, char **argv)
 		test_stack();
 	// else if (test == "map")
 	// 	test_map();
+	// else if (test == "utils")
+	// 	test_map();
 	else if (test == "all")
 	{
 		test_stack();
 		test_vector();
 		// test_map();
+		// test_utility();
 	}
 	else
 		std::cout << "No test for " << test << std::endl;

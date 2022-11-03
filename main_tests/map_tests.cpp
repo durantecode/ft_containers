@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 22:39:14 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/03 20:33:35 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,10 @@ static void test_map_find(void)
 
 static void test_map_bounds()
 {
-	print_header("Bounds");
+	test_name = "LOWER BOUND TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["a"] = 1;
@@ -336,13 +339,22 @@ static void test_map_bounds()
 	m2["d"] = 42;
 	check("m1.lower_bound() == m2.lower_bound()", m1.lower_bound("a")->first, m2.lower_bound("a")->first);
 	check("m1.lower_bound() == m2.lower_bound()", m1.lower_bound("c")->first, m2.lower_bound("c")->first);
+	test_map_time_lower_bound();
+	
+	test_name = "UPPER BOUND TEST";
+	err_count = 0;
+	names.push_back(test_name);
 	check("m1.upper_bound() == m2.upper_bound()", m1.upper_bound("a")->first, m2.upper_bound("a")->first);
 	check("m1.upper_bound() == m2.upper_bound()", m1.upper_bound("c")->first, m2.upper_bound("c")->first);
+	test_map_time_upper_bound();
 }
 
 static void test_map_range(void)
 {
-	print_header("Equal range");
+	test_name = "EQUAL RANGE TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["a"] = 1;
@@ -359,11 +371,34 @@ static void test_map_range(void)
 	check("a.first->second == b.first->second", a.first->second, b.first->second);
 	check("a.second->first == b.second->first", a.second->first, b.second->first);
 	check("a.second->second == b.second->second", a.second->second, b.second->second);
+
+	test_map_time_equal_range();
+}
+
+static void test_map_iterators(void)
+{
+	test_name = "ITERATORS TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	test_map_time_begin_end();
+}
+
+static void test_map_reverse_iterators(void)
+{
+	test_name = "REVERSE ITERATORS TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
+	test_map_time_rbegin_rend();
 }
 
 static void test_map_comparision(void)
 {
-	print_header("Operators");
+	test_name = "COMPARISION TEST";
+	err_count = 0;
+	names.push_back(test_name);
+
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 	m1["a"] = 1;
@@ -400,6 +435,8 @@ static void test_map_comparision(void)
 	check("m1 < m2", (m1 < m3), (m2 < m4));
 	check("m1 >= m2", (m1 >= m3), (m2 >= m4));
 	check("m1 <= m2", (m1 <= m3), (m2 <= m4));
+
+	test_map_time_comparison();
 }
 
 void test_map(void)
@@ -420,6 +457,8 @@ void test_map(void)
 	test_map_clear();
 	test_map_find();
 	test_map_bounds();
+	test_map_iterators();
+	test_map_reverse_iterators();
 	test_map_range();
 	test_map_comparision();
 

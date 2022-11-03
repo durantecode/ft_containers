@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/30 23:30:03 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:52:11 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,8 @@ namespace ft
 
 			vector& operator = (const vector& toCopy)
 			{
-				// std::cout << "OJETE" << std::endl;
 				if (this != &toCopy)
 					this->assign(toCopy.begin(), toCopy.end());
-					// return *this;
-				// this->clear();
-				// this->m_alloc = toCopy.get_allocator();
-				// this->m_alloc.deallocate(this->m_data, this->m_capacity);
-				// this->m_capacity = toCopy.m_capacity;
-				// this->m_size = toCopy.m_size;
-				// this->m_data = m_alloc.allocate(this->m_capacity);
-				// for (size_type i = 0; i < this->m_size; ++i)
-				// 	this->m_alloc.construct(&this->m_data[i], toCopy.m_data[i]);
 				return *this;
 			}
 
@@ -251,6 +241,8 @@ namespace ft
 
 			iterator insert (iterator position, const value_type& value)
 			{
+				if (this->m_size + 1 > this->max_size())
+                    throw (std::length_error("vector: insert"));
 				size_type i = position - this->begin();
 				if (this->m_capacity < this->m_size + 1)
 					this->reserve(this->m_size + 1);
