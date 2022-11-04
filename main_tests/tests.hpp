@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/03 23:40:25 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:45:44 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@
 # include <chrono>
 # include <algorithm>
 # include <type_traits>
+# include <utility>
 
 # include "../vector.hpp"
 # include "../map.hpp"
 # include "../stack.hpp"
-// # include "../enable_if.hpp"
-// # include "../is_integral.hpp"
-// # include "../pair.hpp"
-// # include "../make_pair.hpp"
-// # include "../lexicographical_compare.hpp"
+# include "../enable_if.hpp"
+# include "../lexicographical_compare.hpp"
+# include "../is_integral.hpp"
+# include "../equal.hpp"
+# include "../pair.hpp"
+# include "../make_pair.hpp"
 
 # define RESET "\033[0m"
 # define RED "\x1B[0;31m"

@@ -6,13 +6,14 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 21:24:15 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/03 22:09:05 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:12:52 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.hpp"
 
 /* templates needed only for utility tests */
+
 template <class T>
 typename std::enable_if<std::is_integral<T>::value, bool>::type
 is_odd (T i) { return bool(i % 2); }
@@ -33,9 +34,12 @@ static bool ft_is_first_greater(int& x, int& y)
 
 void test_enableif_integral()
 {
-	test_name = "ENABLE_IF IS INTEGRAL TEST";
+	test_name = "ENABLE_IF / IS INTEGRAL TEST";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	//std test
 	timer_start();
@@ -67,6 +71,9 @@ void test_equal_with_pred()
 	test_name = "EQUAL TEST WITH PRED";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	//init
 	std::vector<int> v1;
@@ -125,12 +132,16 @@ void test_equal_with_pred()
 	else	
 		time_perf.push_back(0);
 	errors.push_back(err_count);
+}
 
 void test_equal()
 {
 	test_name = "EQUAL TEST";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	//init
 	std::vector<int> v1;
@@ -193,9 +204,12 @@ void test_equal()
 
 void test_lexicographical_compare()
 {
-	test_name = "LEXIOGRAPHICAL COMPARE TEST";
+	test_name = "LEXIOGRAPHICAL COMPARE TEST ";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	//init
 	std::vector<char> v1;
@@ -258,9 +272,12 @@ void test_lexicographical_compare()
 
 void test_lexicographical_compare_with_cmp()
 {
-	test_name = "LEXIOGRAPHICAL COMPARE W/ CMP";
+	test_name = "LEXIOGRAPHICAL COMPARE W/ COMP";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	//init
 	std::vector<std::string> v1;
@@ -327,6 +344,9 @@ void test_pair_construction()
 	err_count = 0;
 	names.push_back(test_name);
 
+	if (verbose)
+		print_header(test_name, 0);
+
 	//std test
 	timer_start();
 	for (int i = 0; i < count; ++i)
@@ -362,9 +382,12 @@ void test_pair_construction()
 
 void test_pair_type_change()
 {
-	test_name = "PAIR TYPE CHANGE TEST";
+	test_name = "PAIR TYPE CHANGE TEST ";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	//std test
 	timer_start();
@@ -401,9 +424,12 @@ void test_pair_type_change()
 
 void test_pair_make_pair()
 {
-	test_name = "PAIR MAKE PAIR TEST";
+	test_name = "PAIR MAKE PAIR TEST ";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	//std test
 	timer_start();
@@ -438,9 +464,12 @@ void test_pair_make_pair()
 
 void test_pair_comparisons()
 {
-	test_name = "PAIR COMPARISONS TEST";
+	test_name = "PAIR COMPARISONS TEST ";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	//std test
 	timer_start();

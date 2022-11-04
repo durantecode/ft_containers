@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 00:01:22 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/03 23:42:45 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/04 12:17:57 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ void timer_start()
 	start = std::clock();
 }
 
+double timer_stop()
+{
+	double	duration;
+    duration = (std::clock() - start) / (double) CLOCKS_PER_SEC;
+	start = 0;
+	return duration;
+}
+
 std::string getNewId()
 {
     const char alphanum[] =
@@ -66,14 +74,6 @@ std::string getNewId()
     for (int i = 0; i < len; ++i)
         tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
     return tmp_s;
-}
-
-double timer_stop()
-{
-	double	duration;
-    duration = (std::clock() - start) / (double) CLOCKS_PER_SEC;
-	start = 0;
-	return duration;
 }
 
 void performance_result(double std, double ft)

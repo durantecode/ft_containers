@@ -6,20 +6,18 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/03 22:52:11 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:10:13 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-/* 	THERE'S SOME STD FUNCTIONS LIKE "DISTANCE" AND "ENABLE_IF"
-	REMEMBER TO CHANGE THEM FOR YOUR OWN IMPLEMENTED VERSIONS"
-*/
-
 #include <memory>
 #include <stdexcept>
 #include "utils.hpp"
 #include "vector_iterator.hpp"
+#include "enable_if.hpp"
+#include "is_integral.hpp"
 
 namespace ft
 {
@@ -72,7 +70,7 @@ namespace ft
 
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename std::enable_if<!std::is_integral<InputIterator>::value, void>::type* = 0) :
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type* = 0) :
 				m_alloc(alloc),
 				m_size(0),
 				m_capacity(1),
@@ -214,7 +212,7 @@ namespace ft
 
 			template <class InputIterator>
 			void assign (InputIterator first, InputIterator last,
-			typename std::enable_if<!std::is_integral<InputIterator>::value>::type* = 0)
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 			{
 				size_type n = std::distance(first, last);
 

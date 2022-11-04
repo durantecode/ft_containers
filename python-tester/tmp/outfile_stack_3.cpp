@@ -1,11 +1,17 @@
 #include <iostream>
 #include "test_utils.hpp"
 #include <stack>
+#include "pair.hpp"
+#include "equal.hpp"
 #include "vector.hpp"
 #include "map.hpp"
+#include "is_integral.hpp"
+#include "lexicographical_compare.hpp"
+#include "make_pair.hpp"
 #include "stack.hpp"
 #include "utils.hpp"
 #include "vector_iterator.hpp"
+#include "enable_if.hpp"
 
 extern std::string	test_name;
 void test_stack_assignment(long count){
