@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/11/04 16:50:08 by ldurante         ###   ########.fr        #
+#    Updated: 2022/11/04 20:56:23 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 NAME = containers
 CXX = clang++
 RM = rm -rf
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g3
 
 # COLORS #
 
@@ -50,6 +50,9 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 	@echo "$(GREY) $(NAME) compiled $(GREEN) ✔✔✔ $(NO_COLOR)"
+
+leaks:
+	valgrind --leak-check=full ./containers all
 
 clean:
 	@clear

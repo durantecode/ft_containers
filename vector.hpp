@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/04 17:10:13 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:04:24 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,7 +336,6 @@ namespace ft
 				return first;
 			}
 
-
 			void swap(vector &other)
 			{
 				ft::swap(this->m_alloc, other.m_alloc);
@@ -414,5 +413,4 @@ namespace ft
 	{
 		return (!(lhs < rhs));
 	}
-
 }

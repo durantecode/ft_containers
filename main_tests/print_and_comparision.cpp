@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 00:01:22 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/04 12:17:57 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/04 19:49:57 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void print_test_results(void)
 			col = YELLOW;
 		else if (time_perf[i] < 0.05)
 			col = RED;
-		std::cout << col << "x" << std::setw(19) << time_perf[i];
+		std::cout << col << "x" << std::setw(19) << std::fixed << std::setprecision(2) << time_perf[i];
 		col = GREEN;
 		if (errors[i])
 		{

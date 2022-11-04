@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/04 16:45:44 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/04 19:04:57 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,7 @@ void print_project_title(void);
 void print_header(std::string str, bool container);
 void print_test_results(void);
 
-template <typename T>
-static void print_vector(T vec, std::string type);
-template <typename T>
-static void print_vector_reverse(T vec, std::string type);
+/* CHECK CONTAINERS FUNCTIONS */
 
 template <typename T>
 inline void check(std::string name, T a, T b)
@@ -187,8 +184,7 @@ inline void check(std::string name, bool good)
 	}
 }
 
-
-/* Templates to check std vectors against ft vectors */
+/* TEMPLATE TO CHECK STD VECTOR AGAINST FT VECTOR */
 
 template <typename T>
 bool operator==(ft::vector<T> &a, std::vector<T> &b)
@@ -205,7 +201,7 @@ bool operator==(ft::vector<T> &a, std::vector<T> &b)
 	return (true);
 }
 
-/* Templates to check std map against ft map */
+/* TEMPLATE TO CHECK STD MAP AGAINST FT MAP */
 
 // template <typename T, typename S>
 // bool operator==(ft::map<T, S> &a, std::map<T, S> &b)

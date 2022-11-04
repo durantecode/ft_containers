@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/03 20:33:35 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/04 19:02:02 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void test_map_constructors(void)
 	test_name = "EMPTY CONSTRUCTOR TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	if (verbose)
+		print_header(test_name, 0);
 
 	std::pair<int, int> a[] = {std::make_pair(0, 1), std::make_pair(1, 0), std::make_pair(2, 1)};
 	ft::map<int, int> m1;
@@ -44,6 +46,8 @@ static void test_map_constructors(void)
 	test_name = "RANGE CONSTRUCTOR TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<int, int> m3(a, a + 3);
 	std::map<int, int> m4(a, a + 3);
@@ -54,6 +58,8 @@ static void test_map_constructors(void)
 	test_name = "COPY CONSTRUCTOR TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<int, int> m5(m3);
 	std::map<int, int> m6(m4);
@@ -92,6 +98,10 @@ static void test_map_max_size(void)
 	test_name = "SIZE/EMPTY TEST";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
+
 	ft::map<int, int> m1;
 	std::map<int, int> m2;
 	check("m1.max_size() == m2.max_size()", m1.max_size(), m2.max_size());
@@ -115,6 +125,9 @@ static void test_map_access(void)
 	test_name = "ACCESS OP TEST";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
@@ -143,6 +156,9 @@ static void test_map_access(void)
 	err_count = 0;
 	names.push_back(test_name);
 
+	if (verbose)
+		print_header(test_name, 0);
+
 	check("m1 == m2", m1 == m2);
 	check("m1['a'] == m2['a']", m1["a"], m2["a"]);
 	check("m1['d'] == m2['d']", m1["d"], m2["d"]);
@@ -158,6 +174,9 @@ static void test_map_insert(void)
 	test_name = "INSERT VAL TEST";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	std::pair<int, int> a[] = {std::make_pair(0, 1), std::make_pair(1, 0), std::make_pair(2, 1)};
 	ft::map<int, int> m1(a, a + 3);
@@ -177,6 +196,9 @@ static void test_map_insert(void)
 	test_name = "INSERT RANGE TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 
 	std::pair<int, int> a[] = {std::make_pair(0, 1), std::make_pair(1, 0), std::make_pair(2, 1)};
 	ft::map<int, int> m1(a, a + 3);
@@ -199,6 +221,9 @@ static void test_map_erase(void)
 	test_name = "ERASE TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
@@ -230,12 +255,18 @@ static void test_map_erase(void)
 	test_name = "ERASE VAL TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 	test_map_time_erase_val();
 
 	//erase pos
 	test_name = "ERASE POS TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 	test_map_time_erase_pos();
 }
 
@@ -244,6 +275,9 @@ static void test_map_swap(void)
 	test_name = "SWAP TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
@@ -289,6 +323,9 @@ static void test_map_clear(void)
 	test_name = "COUNT / CLEAR TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
 
@@ -308,6 +345,9 @@ static void test_map_find(void)
 	test_name = "FIND TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
@@ -326,6 +366,9 @@ static void test_map_bounds()
 	test_name = "LOWER BOUND TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
@@ -344,6 +387,8 @@ static void test_map_bounds()
 	test_name = "UPPER BOUND TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	if (verbose)
+		print_header(test_name, 0);
 	check("m1.upper_bound() == m2.upper_bound()", m1.upper_bound("a")->first, m2.upper_bound("a")->first);
 	check("m1.upper_bound() == m2.upper_bound()", m1.upper_bound("c")->first, m2.upper_bound("c")->first);
 	test_map_time_upper_bound();
@@ -354,6 +399,9 @@ static void test_map_range(void)
 	test_name = "EQUAL RANGE TEST";
 	err_count = 0;
 	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
@@ -381,6 +429,9 @@ static void test_map_iterators(void)
 	err_count = 0;
 	names.push_back(test_name);
 
+	if (verbose)
+		print_header(test_name, 0);
+
 	test_map_time_begin_end();
 }
 
@@ -390,6 +441,9 @@ static void test_map_reverse_iterators(void)
 	err_count = 0;
 	names.push_back(test_name);
 
+	if (verbose)
+		print_header(test_name, 0);
+
 	test_map_time_rbegin_rend();
 }
 
@@ -398,6 +452,9 @@ static void test_map_comparision(void)
 	test_name = "COMPARISION TEST";
 	err_count = 0;
 	names.push_back(test_name);
+	
+	if (verbose)
+		print_header(test_name, 0);
 
 	ft::map<std::string, int> m1;
 	std::map<std::string, int> m2;
