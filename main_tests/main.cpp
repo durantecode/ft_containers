@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/04 16:51:54 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/05 02:07:56 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ int main(int argc, char **argv)
 	std::string test;
 	std::string verb;
 	verbose = false;
+
 	if (argc < 2 || argc > 3)
 	{
-		std::cout << "No test given. usage: ./containers [container] [-verbose]\n" << std::endl;
+		std::cout << "usage: ./containers [container] [-verbose]\n" << std::endl;
 		return (1);
 	}
 	else
