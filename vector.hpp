@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/04 21:04:24 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:08:19 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ namespace ft
 			typedef T			value_type;
 			typedef Alloc		allocator_type;
 
-			typedef T*			pointer;
-			typedef const T*	const_pointer;
-			typedef T&			reference;
-			typedef const T&	const_reference;
+			typedef T*				pointer;
+			typedef const T*		const_pointer;
+			typedef T&				reference;
+			typedef const T&		const_reference;
+			typedef std::ptrdiff_t	difference_type;
 
 			typedef ft::VectorIterator<T>						iterator;
 			typedef ft::VectorIterator<const T> 				const_iterator;
 			typedef ft::ReverseVectorIterator<iterator> 		reverse_iterator;
 			typedef ft::ReverseVectorIterator<const_iterator>	const_reverse_iterator;
+
 
 		protected:
 			allocator_type	m_alloc;
