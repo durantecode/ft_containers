@@ -6,13 +6,11 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/03 23:02:56 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:33:04 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-
-#include <iterator>
 
 namespace ft
 {
@@ -20,14 +18,14 @@ namespace ft
 			/*              ITERATOR_TRAITS                  */
 			/*************************************************/
     
-	template <class T>
+	template <class Iter>
     struct iterator_traits
 	{
-        typedef typename T::value_type            	value_type;
-        typedef typename T::difference_type       	difference_type;
-        typedef typename T::iterator_category     	iterator_category;
-        typedef typename T::pointer               	pointer;
-        typedef typename T::reference            	reference;
+        typedef typename Iter::value_type           value_type;
+        typedef typename Iter::difference_type      difference_type;
+        typedef typename Iter::iterator_category    iterator_category;
+        typedef typename Iter::pointer              pointer;
+        typedef typename Iter::reference            reference;
     };
 
     template <class T>
@@ -47,7 +45,7 @@ namespace ft
         typedef ptrdiff_t                  			difference_type;
         typedef std::random_access_iterator_tag		iterator_category;
         typedef const T*							pointer;
-        typedef const T&								reference;
+        typedef const T&							reference;
     };
 
 			/*************************************************/

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/05 02:07:56 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:03:10 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int main(int argc, char **argv)
 		test_stack();
 	else if (test == "utils")
 		test_utility();
-	// else if (test == "map")
-	// 	test_map();
+	else if (test == "map")
+		test_map();
 	else if (test == "all")
 	{
 		test_stack();
 		test_utility();
 		test_vector();
-		// test_map();
+		test_map();
 	}
 	else
 		std::cout << "No test for " << test << std::endl;

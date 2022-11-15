@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/11/04 20:56:23 by ldurante         ###   ########.fr        #
+#    Updated: 2022/11/15 16:02:40 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS =  main_tests/main.cpp \
 		main_tests/stack_time_tests.cpp \
 		main_tests/print_and_comparision.cpp \
 		main_tests/utility_tests.cpp \
-		# main_tests/map_tests.cpp \
+		main_tests/map_tests.cpp \
 		# main_tests/map_time_tests.cpp \
 
 # SRCS = main_new.cpp
