@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/16 00:32:38 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/16 21:18:17 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "red_black_tree.hpp"
 #include "map_iterator.hpp"
+#include "make_pair.hpp"
 
 namespace ft
 {
@@ -31,8 +32,8 @@ namespace ft
 			typedef std::ptrdiff_t						difference_type;
 			typedef ft::RBTree<value_type>				rbtree;
 
-			typedef ft::MapIterator<value_type>					iterator;
-			typedef ft::MapIterator<const value_type>			const_iterator;
+			typedef ft::MapIterator<rbtree, value_type>			iterator;
+			typedef ft::MapIterator<rbtree, const value_type>	const_iterator;
 			typedef ft::ReverseMapIterator<iterator>			reverse_iterator;
 			typedef ft::ReverseMapIterator<const_iterator>		const_reverse_iterator;
 			
@@ -41,6 +42,8 @@ namespace ft
 			typedef typename allocator_type::const_pointer		const_pointer;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
+			
+			typedef typename Alloc::template rebind<rbtree>::other		allocator_node;
 			
 			class value_compare
 			{
@@ -61,10 +64,10 @@ namespace ft
 			};
 
 		protected:
-			allocator_type	m_alloc;
+			allocator_node	m_alloc;
 			size_type		m_size;
 			key_compare		m_compare;
-			rbtree			m_tree;		
+			rbtree			*m_tree;		
 
 			/*************************************************/
 			/*                 CONSTRUCTORS                  */
@@ -75,9 +78,11 @@ namespace ft
 			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
 				m_alloc(alloc),
 				m_size(0),
-				m_compare(comp),
-				m_tree()
-				{}
+				m_compare(comp)
+				{
+					this->m_tree = this->m_alloc.allocate(sizeof(rbtree));
+					this->m_alloc.construct(m_tree, rbtree());
+				}
 
 			template <class InputIterator>
 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
@@ -108,7 +113,28 @@ namespace ft
 			/*                   ITERATORS                   */
 			/*************************************************/
 
-
+			iterator begin()
+			{ 
+				rbtree *tmp;
+				tmp->m_root = this->m_tree->minimum(this->m_tree->m_root);
+				return iterator(*tmp);
+			}
+			// const_iterator begin() const
+			// {
+			// 	this->m_tree->m_root = this->m_tree->minimum(this->m_tree->m_root);
+			// 	return iterator(*this->m_tree);
+			// }
+			iterator end()
+			{
+				rbtree *tmp;
+				tmp->m_root = this->m_tree->maximum(this->m_tree->m_root);
+				return iterator(*tmp);
+			}
+			// const_iterator end() const
+			// {
+			// 	this->m_tree->m_root = this->m_tree->maximum(this->m_tree->m_root);
+			// 	return iterator(*this->m_tree);
+			// }
 
 			/*************************************************/
 			/*                   CAPACITY                    */
@@ -121,7 +147,7 @@ namespace ft
 
 			size_type size() const
 			{
-
+				return (this->m_size);
 			}
 
 			size_type max_size() const
@@ -154,7 +180,9 @@ namespace ft
 
 			pair<iterator,bool> insert (const value_type& val)
 			{
-				
+				this->m_tree->insert(val);
+				this->m_size++;
+				return (ft::make_pair(iterator(*m_tree), true));
 			}
 
 			iterator insert (iterator position, const value_type& val)

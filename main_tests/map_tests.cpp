@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/16 10:36:33 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/16 20:55:35 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 template <class T>
 static void print_map(T &map)
 {
+	std::cout << "hola" << std::endl;
 	typename T::iterator it = map.begin();
 	std::cout << " --- Map of size " << map.size() << " ---" << std::endl;
 	while (it != map.end())
@@ -535,17 +536,21 @@ void test_map(void)
 	std::cout << m["jus"] << std::endl;
 	// print_map(m);
 
-	ft::RBTree<std::pair<std::string, std::string> > bst;
-	bst.insert(p);
-	// bst.insert("adios");
-	// bst.insert("hola");
-	// bst.insert(18);
-	// bst.insert(5);
-	// bst.insert(15);
-	// bst.insert(17);
-	// bst.insert(25);
-	// bst.insert(40);
-	// bst.insert(80);
-	// bst.deleteNode(25);
-	// bst.prettyPrint();
+	ft::pair<int, int> pair(90, 56);
+	ft::pair<int, int> pair2(56, 12);
+	ft::pair<int, int> pair3(8, 123);
+	ft::map<int, int> myMap;
+	myMap.insert(pair);
+	myMap.insert(pair2);
+	myMap.insert(pair3);
+
+	ft::map<int, int>::iterator ite = myMap.begin();
+	ft::map<int, int>::iterator iter = myMap.end();
+	while(ite != iter)
+	{
+		std::cout << ite->first << std::endl;
+		++ite;
+	}
+		
+	// print_map(myMap);
 }
