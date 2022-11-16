@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/16 01:02:17 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:27:27 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ namespace ft
 	class Node
 	{
 		public:
-			T		data; 		// holds the key
+			T		key_data; 		// holds the key
 			Node	*parent; 	// pointer to the parent
 			Node	*left; 		// pointer to left child
 			Node	*right; 	// pointer to right child
 			int		color;		// 1 -> Red, 0 -> Black
 
-			Node(): data(), parent(nullptr), left(nullptr), right(nullptr), color (0) {}
-			Node(const T &data): data(data), parent(nullptr), left(nullptr), right(nullptr), color (0) {}
-			Node(const Node &n): data(n.data), parent(n.parent), left(n.left), right(n.right), color (n.color) {}
+			Node(): key_data(), parent(nullptr), left(nullptr), right(nullptr), color (0) {}
+			Node(const T &key_data): key_data(key_data), parent(nullptr), left(nullptr), right(nullptr), color (0) {}
+			Node(const Node &n): key_data(n.key_data), parent(n.parent), left(n.left), right(n.right), color (n.color) {}
 			~Node() {}
 			Node &operator = (const Node &n)
 			{
 				if (this != n)
 				{
-					data = n.data;
+					key_data = n.key_data;
 					parent = n.parent;
 					left = n.parent;
 					right = n.parent;
@@ -61,46 +61,18 @@ namespace ft
 			// all the pointers are set to point to the null pointer
 			void initializeNULLNode(NodePtr node, NodePtr parent)
 			{
-				node->data = 0;
+				node->key_data = 0;
 				node->parent = parent;
 				node->left = nullptr;
 				node->right = nullptr;
 				node->color = _BLACK;
 			}
 
-			void preOrderHelper(NodePtr node) 
+			NodePtr searchTreeHelper(NodePtr node, value_type key) 
 			{
-				if (node != TNULL) 
-				{
-					preOrderHelper(node->left);
-					preOrderHelper(node->right);
-				} 
-			}
-
-			void inOrderHelper(NodePtr node) 
-			{
-				if (node != TNULL) 
-				{
-					inOrderHelper(node->left);
-					inOrderHelper(node->right);
-				} 
-			}
-
-			void postOrderHelper(NodePtr node) 
-			{
-				if (node != TNULL) 
-				{
-					postOrderHelper(node->left);
-					postOrderHelper(node->right);
-					std::cout<<node->data<<" ";
-				} 
-			}
-
-			NodePtr searchTreeHelper(NodePtr node, int key) 
-			{
-				if (node == TNULL || key == node->data) 
+				if (node == TNULL || key == node->key_data) 
 					return node;
-				if (key < node->data) 
+				if (key < node->key_data) 
 					return searchTreeHelper(node->left, key);
 				return searchTreeHelper(node->right, key);
 			}
@@ -207,9 +179,9 @@ namespace ft
 				NodePtr x, y;
 				while (node != TNULL)
 				{
-					if (node->data == key) 
+					if (node->key_data == key) 
 						z = node;
-					if (node->data <= key) 
+					if (node->key_data <= key) 
 						node = node->right;
 					else
 						node = node->left;
@@ -347,32 +319,11 @@ namespace ft
           		return *this;
 			}
 
-			// Pre-Order traversal
-			// Node->Left Subtree->Right Subtree
-			void preorder() 
-			{
-				preOrderHelper(this->m_root);
-			}
-
-			// In-Order traversal
-			// Left Subtree -> Node -> Right Subtree
-			void inorder() 
-			{
-				inOrderHelper(this->m_root);
-			}
-
-			// Post-Order traversal
-			// Left Subtree -> Right Subtree -> Node
-			void postorder() 
-			{
-				postOrderHelper(this->m_root);
-			}
-
 			// search the tree for the key k
 			// and return the corresponding node
-			NodePtr searchTree(int k) 
+			NodePtr searchTree(value_type key) 
 			{
-				return searchTreeHelper(this->m_root, k);
+				return searchTreeHelper(this->m_root, key);
 			}
 
 			// find the node with the minimum key
@@ -472,7 +423,7 @@ namespace ft
 				// Ordinary Binary Search Insertion
 				NodePtr node = new Node<value_type>(key);
 				node->parent = new Node<value_type>();
-				// node->data = key;
+				// node->key_data = key;
 				node->left = TNULL;
 				node->right = TNULL;
 				node->color = _RED; // new node must be red
@@ -483,7 +434,7 @@ namespace ft
 				while (x != TNULL) 
 				{
 					y = x;
-					if (node->data < x->data) 
+					if (node->key_data < x->key_data) 
 						x = x->left;
 					else
 						x = x->right;
@@ -493,7 +444,7 @@ namespace ft
 				node->parent = y;
 				if (y == nullptr) 
 					m_root = node;
-				else if (node->data < y->data) 
+				else if (node->key_data < y->key_data) 
 					y->left = node;
 				else
 					y->right = node;
@@ -519,9 +470,9 @@ namespace ft
 			}
 
 			// delete the node from the tree
-			void deleteNode(value_type value) 
+			void deleteNode(value_type key)
 			{
-				deleteNodeHelper(this->m_root, value);
+				deleteNodeHelper(this->m_root, key);
 			}
 	};
 }

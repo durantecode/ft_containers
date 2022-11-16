@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/16 00:57:51 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/16 10:36:33 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -532,6 +532,7 @@ void test_map(void)
 
 	std::map<std::string, std::string>::iterator it = m.begin();
 	std::cout << it->second << std::endl;
+	std::cout << m["jus"] << std::endl;
 	// print_map(m);
 
 	ft::RBTree<std::pair<std::string, std::string> > bst;
