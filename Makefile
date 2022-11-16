@@ -6,7 +6,7 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/11/15 16:02:40 by ldurante         ###   ########.fr        #
+#    Updated: 2022/11/15 21:40:32 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@
 NAME = containers
 CXX = clang++
 RM = rm -rf
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g3
+# CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g3
+CXXFLAGS = -std=c++98 -pedantic -g3
 
 # COLORS #
 

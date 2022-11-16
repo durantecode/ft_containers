@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/15 18:19:08 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/16 00:57:51 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -530,19 +530,21 @@ void test_map(void)
 	m["jus"] = "fus";
 	m["a"] = "trocola";
 
-	print_map(m);
+	std::map<std::string, std::string>::iterator it = m.begin();
+	std::cout << it->second << std::endl;
+	// print_map(m);
 
-	// RBTree<std::string> bst;
-	// bst.insert("ojete");
+	ft::RBTree<std::pair<std::string, std::string> > bst;
+	bst.insert(p);
 	// bst.insert("adios");
 	// bst.insert("hola");
-	// // bst.insert(18);
-	// // bst.insert(5);
-	// // bst.insert(15);
-	// // bst.insert(17);
-	// // bst.insert(25);
-	// // bst.insert(40);
-	// // bst.insert(80);
-	// // bst.deleteNode(25);
+	// bst.insert(18);
+	// bst.insert(5);
+	// bst.insert(15);
+	// bst.insert(17);
+	// bst.insert(25);
+	// bst.insert(40);
+	// bst.insert(80);
+	// bst.deleteNode(25);
 	// bst.prettyPrint();
 }

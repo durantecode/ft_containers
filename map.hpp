@@ -6,13 +6,14 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/15 13:57:56 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/16 00:32:38 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-# include "red_black_tree.hpp"
+#include "red_black_tree.hpp"
+#include "map_iterator.hpp"
 
 namespace ft
 {
@@ -26,8 +27,14 @@ namespace ft
 			typedef T									mapped_type;
 			typedef Compare								key_compare;
 			
-			typedef std::pair<const Key, T>				value_type;
+			typedef ft::pair<const Key, T>				value_type;
 			typedef std::ptrdiff_t						difference_type;
+			typedef ft::RBTree<value_type>				rbtree;
+
+			typedef ft::MapIterator<value_type>					iterator;
+			typedef ft::MapIterator<const value_type>			const_iterator;
+			typedef ft::ReverseMapIterator<iterator>			reverse_iterator;
+			typedef ft::ReverseMapIterator<const_iterator>		const_reverse_iterator;
 			
 			typedef Alloc										allocator_type;
 			typedef typename allocator_type::pointer			pointer;
@@ -56,10 +63,197 @@ namespace ft
 		protected:
 			allocator_type	m_alloc;
 			size_type		m_size;
-			key_compare		m_compare;		
+			key_compare		m_compare;
+			rbtree			m_tree;		
 
 			/*************************************************/
 			/*                 CONSTRUCTORS                  */
 			/*************************************************/
+
+		public:
+		
+			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
+				m_alloc(alloc),
+				m_size(0),
+				m_compare(comp),
+				m_tree()
+				{}
+
+			template <class InputIterator>
+			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			{
+				
+			}
+
+			map (const map &toCopy) :
+				m_alloc(toCopy.alloc),
+				m_size(toCopy.m_size),
+				m_compare(toCopy.m_compare),
+				m_tree(toCopy.m_tree)
+			{
+				
+			}
+
+			~map()
+			{
+
+			}
+
+			map &operator = (const map &toCopy)
+			{
+				
+			}
+
+			/*************************************************/
+			/*                   ITERATORS                   */
+			/*************************************************/
+
+
+
+			/*************************************************/
+			/*                   CAPACITY                    */
+			/*************************************************/
+
+			bool empty() const
+			{
+
+			}
+
+			size_type size() const
+			{
+
+			}
+
+			size_type max_size() const
+			{
+
+			}
+
+			/*************************************************/
+			/*                ELEMENT ACCESS                 */
+			/*************************************************/
+
+			mapped_type& operator[] (const key_type& k)
+			{
+
+			}
+
+			mapped_type& at (const key_type& k)
+			{
+
+			}
+			
+			const mapped_type& at (const key_type& k) const
+			{
+
+			}
+
+			/*************************************************/
+			/*                   MODIFIERS                   */
+			/*************************************************/
+
+			pair<iterator,bool> insert (const value_type& val)
+			{
+				
+			}
+
+			iterator insert (iterator position, const value_type& val)
+			{
+
+			}
+
+			template <class InputIterator>
+			void insert (InputIterator first, InputIterator last)
+			{
+
+			}
+			
+			void erase (iterator position)
+			{
+
+			}
+			
+			size_type erase (const key_type& k)
+			{
+
+			}
+
+		    void erase (iterator first, iterator last)
+			{
+
+			}
+
+			void swap (map& x)
+			{
+
+			}
+
+			void clear()
+			{
+
+			}
+
+			/*************************************************/
+			/*                   OBSERVERS                   */
+			/*************************************************/
+
+			key_compare key_comp() const
+			{
+
+			}
+
+			value_compare value_comp() const
+			{
+
+			}
+
+			/*************************************************/
+			/*                   OPERATIONS                  */
+			/*************************************************/
+
+			iterator find (const key_type& k)
+			{
+
+			}
+
+			const_iterator find (const key_type& k) const
+			{
+
+			}
+
+			size_type count (const key_type& k) const
+			{
+
+			}
+			
+			iterator lower_bound (const key_type& k)
+			{
+
+			}
+			
+			const_iterator lower_bound (const key_type& k) const
+			{
+
+			}
+
+			iterator upper_bound (const key_type& k)
+			{
+
+			}
+
+			const_iterator upper_bound (const key_type& k) const
+			{
+				
+			}
+
+			pair<const_iterator, const_iterator> equal_range (const key_type& k) const
+			{
+
+			}
+			
+			pair<iterator, iterator> equal_range (const key_type& k)
+			{
+
+			}
 	};
 }
