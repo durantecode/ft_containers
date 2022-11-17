@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/16 21:27:59 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/18 00:28:31 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ namespace ft
 
 			RBTree &operator = (const RBTree &toCopy)
        		{
+
 				if (this != &toCopy)
 				{
 					m_root = toCopy.m_root;
@@ -229,6 +230,16 @@ namespace ft
 			NodePtr getRoot()
 			{
 				return this->m_root;
+			}
+
+			NodePtr getEnd()
+			{
+				NodePtr tmp = m_root;
+				while (tmp->right != TNULL) 
+				{
+					tmp = tmp->right;
+				}
+				return tmp->right;
 			}
 
 			// delete the node from the tree
