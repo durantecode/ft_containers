@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/18 00:34:46 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:33:26 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,11 @@ namespace ft
 			{
 				node *tmp;
 				// tmp = this->m_tree->maximum(this->m_tree->m_root);
-				tmp = this->m_tree->getEnd();
-				// std::cout << "TMP: " << tmp->right->pair_data.first << std::endl;
-				return iterator(tmp, this->m_tree);
+				// tmp = this->m_tree->getEnd(this->m_tree->m_root);
+				tmp = this->m_tree->m_root;
+				// std::cout << "tmp: " << tmp->pair_data.first << std::endl;
+				iterator it(tmp, this->m_tree);
+				return iterator(it);
 			}
 			// const_iterator end() const
 			// {

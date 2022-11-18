@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 21:58:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/18 00:34:27 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:31:31 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ namespace ft
 			MapIterator& operator ++ ()
 			{
 				this->m_currentNode = this->m_tree->successor(this->m_currentNode);
+				if (!this->m_currentNode)
+					this->m_currentNode = this->m_tree->m_root;
 				return (*this);
 			}
 			// MapIterator operator ++ (int)
@@ -75,7 +77,7 @@ namespace ft
 			// 	this->m_currentNode->m_root = this->m_currentNode->predecessor(this->m_currentNode->m_root);
 			// 	return it;
 			// }
-			// bool operator == (const MapIterator &it) const { return (this->m_currentNode->m_root == it.m_currentNode->m_root); }
+			bool operator == (const MapIterator &it) const { return (this->m_currentNode == it.m_currentNode); }
 			bool operator != (const MapIterator &it) const { return (this->m_currentNode != it.m_currentNode); }
 			// bool operator > (const MapIterator &it) const { return (this->m_currentNode->m_root > it.m_currentNode->m_root); }
 			// bool operator >= (const MapIterator &it) const { return (this->m_currentNode->m_root >= it.m_currentNode->m_root); }

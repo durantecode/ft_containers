@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/18 00:19:23 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:32:33 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -544,6 +544,18 @@ void test_map(void)
 
 
 	ft::map<int, int>::iterator ite = myMap.begin();
+		// std::cout << ite->first << std::endl;
+		// ++ite;
+		// std::cout << ite->first << std::endl;
+		// ++ite;
+		// std::cout << ite->first << std::endl;
+		// ++ite;
+		// ++ite;
+		// ++ite;
+		// ++ite;
+		// ++ite;
+		// ++ite;
+
 	ft::map<int, int>::iterator iter = myMap.end();
 	
 	while(ite != iter)

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/18 00:28:31 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:21:48 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ namespace ft
 			Node	*right; 	// pointer to right child
 			int		color;		// 1 -> Red, 0 -> Black
 
-			Node(): pair_data(), parent(nullptr), left(nullptr), right(nullptr), color (0) {}
-			Node(const T &pair_data): pair_data(pair_data), parent(nullptr), left(nullptr), right(nullptr), color (0) {}
+			Node(): pair_data(), parent(NULL), left(NULL), right(NULL), color (0) {}
+			Node(const T &pair_data): pair_data(pair_data), parent(NULL), left(NULL), right(NULL), color (0) {}
 			Node(const Node &n): pair_data(n.pair_data), parent(n.parent), left(n.left), right(n.right), color (n.color) {}
 			~Node() {}
 			Node &operator = (const Node &n)
@@ -51,24 +51,24 @@ namespace ft
 	class RBTree
 	{
 		private:
-			typedef Node<value_type>		*NodePtr;
+			typedef Node<value_type>*	node_ptr;
 
 		public:
-			NodePtr m_root;
-			NodePtr TNULL;
+			node_ptr m_root;
+			node_ptr m_nullNode;
 	
 			RBTree() 
 			{
-				TNULL = new Node<value_type>;
-				TNULL->color = _BLACK;
-				TNULL->left = nullptr;
-				TNULL->right = nullptr;
-				m_root = TNULL;
+				m_nullNode = new Node<value_type>;
+				m_nullNode->color = _BLACK;
+				m_nullNode->left = NULL;
+				m_nullNode->right = NULL;
+				m_root = m_nullNode;
 			}
 
 			RBTree(RBTree const &toCopy) :
 				m_root(toCopy.m_root),
-				TNULL(toCopy.TNULL)
+				m_nullNode(toCopy.m_nullNode)
 				{}
 
 			~RBTree() {}
@@ -79,122 +79,118 @@ namespace ft
 				if (this != &toCopy)
 				{
 					m_root = toCopy.m_root;
-					TNULL = toCopy.TNULL;
+					m_nullNode = toCopy.m_nullNode;
 				}
           		return *this;
 			}
 
 			// search the tree for the key k
 			// and return the corresponding node
-			NodePtr searchTree(value_type key) 
+			node_ptr searchTree(value_type key) 
 			{
 				return searchTreeAux(this->m_root, key);
 			}
 
 			// find the node with the minimum key
-			NodePtr minimum(NodePtr node) 
+			node_ptr minimum(node_ptr node) 
 			{
-				while (node->left != TNULL) 
+				while (node->left != m_nullNode) 
 					node = node->left;
 				return node;
 			}
 
 			// find the node with the maximum key
-			NodePtr maximum(NodePtr node) 
+			node_ptr maximum(node_ptr node) 
 			{
-				while (node->right != TNULL) 
+				while (node->right != m_nullNode) 
 					node = node->right;
 				return node;
 			}
 
 			// find the successor of a given node
-			NodePtr successor(NodePtr x) 
+			node_ptr successor(node_ptr n) 
 			{
 				// if the right subtree is not null,
 				// the successor is the leftmost node in the
 				// right subtree
-				if (x->right != TNULL) 
-					return minimum(x->right);
-				// else it is the lowest ancestor of x whose
-				// left child is also an ancestor of x.
-				NodePtr y = x->parent;
-				while (y != TNULL && x == y->right) 
-				{
-					x = y;
-					y = y->parent;
-				}
-				return y;
+				if (n->right != m_nullNode) 
+					return minimum(n->right);
+				// else it is the lowest ancestor of n whose
+				// left child is also an ancestor of n.
+				node_ptr next = n;
+				while (next->parent && next == next->parent->right)
+					next = next->parent;
+				next = next->parent;
+				return next;
 			}
 
 			// find the predecessor of a given node
-			NodePtr predecessor(NodePtr x) 
+			node_ptr predecessor(node_ptr n) 
 			{
 				// if the left subtree is not null,
 				// the predecessor is the rightmost node in the 
 				// left subtree
-				if (x->left != TNULL) 
-					return maximum(x->left);
+				if (n->left != m_nullNode) 
+					return maximum(n->left);
 
-				NodePtr y = x->parent;
-				while (y != TNULL && x == y->left) 
-				{
-					x = y;
-					y = y->parent;
-				}
-				return y;
+				node_ptr next = n;
+				while (next->parent && next == next->parent->left)
+					next = next->parent;
+				next = next->parent;
+				return next;
 			}
 
-			// rotate left at node x
-			void leftRotate(NodePtr x) 
+			// rotate left at node n
+			void leftRotate(node_ptr n) 
 			{
-				NodePtr y = x->right;
-				x->right = y->left;
-				if (y->left != TNULL) 
-					y->left->parent = x;
-				y->parent = x->parent;
-				if (x->parent == nullptr) 
+				node_ptr y = n->right;
+				n->right = y->left;
+				if (y->left != m_nullNode) 
+					y->left->parent = n;
+				y->parent = n->parent;
+				if (n->parent == NULL) 
 					this->m_root = y;
-				else if (x == x->parent->left) 
-					x->parent->left = y;
+				else if (n == n->parent->left) 
+					n->parent->left = y;
 				else
-					x->parent->right = y;
-				y->left = x;
-				x->parent = y;
+					n->parent->right = y;
+				y->left = n;
+				n->parent = y;
 			}
 
-			// rotate right at node x
-			void rightRotate(NodePtr x) 
+			// rotate right at node n
+			void rightRotate(node_ptr n) 
 			{
-				NodePtr y = x->left;
-				x->left = y->right;
-				if (y->right != TNULL) 
-					y->right->parent = x;
-				y->parent = x->parent;
-				if (x->parent == nullptr) 
+				node_ptr y = n->left;
+				n->left = y->right;
+				if (y->right != m_nullNode) 
+					y->right->parent = n;
+				y->parent = n->parent;
+				if (n->parent == NULL) 
 					this->m_root = y;
-				else if (x == x->parent->right)
-					x->parent->right = y;
+				else if (n == n->parent->right)
+					n->parent->right = y;
 				else
-					x->parent->left = y;
-				y->right = x;
-				x->parent = y;
+					n->parent->left = y;
+				y->right = n;
+				n->parent = y;
 			}
 
 			// insert the key to the tree in its appropriate position
 			// and fix the tree
-			NodePtr insert(const value_type &key) 
+			node_ptr insert(const value_type &key) 
 			{
 				// Ordinary Binary Search Insertion
-				NodePtr node = new Node<value_type>(key);
+				node_ptr node = new Node<value_type>(key);
 				node->parent = new Node<value_type>();
-				node->left = TNULL;
-				node->right = TNULL;
+				node->left = m_nullNode;
+				node->right = m_nullNode;
 				node->color = _RED; // new node must be red
 
-				NodePtr y = nullptr;
-				NodePtr x = this->m_root;
+				node_ptr y = NULL;
+				node_ptr x = this->m_root;
 
-				while (x != TNULL) 
+				while (x != m_nullNode) 
 				{
 					y = x;
 					if (node->pair_data < x->pair_data) 
@@ -205,7 +201,7 @@ namespace ft
 
 				// y is parent of x
 				node->parent = y;
-				if (y == nullptr) 
+				if (y == NULL) 
 					m_root = node;
 				else if (node->pair_data < y->pair_data) 
 					y->left = node;
@@ -213,33 +209,32 @@ namespace ft
 					y->right = node;
 
 				// if new node is a m_root node, simply return
-				if (node->parent == nullptr)
+				if (node->parent == NULL)
 				{
 					node->color = _BLACK;
 					return node;
 				}
 
 				// if the grandparent is null, simply return
-				if (node->parent->parent == nullptr) 
+				if (node->parent->parent == NULL) 
 					return node;
 
 				// Fix the tree
 				return (fixAfterInsert(node));
 			}
 
-			NodePtr getRoot()
+			node_ptr getRoot()
 			{
 				return this->m_root;
 			}
 
-			NodePtr getEnd()
+			node_ptr getEnd(node_ptr node)
 			{
-				NodePtr tmp = m_root;
-				while (tmp->right != TNULL) 
+				while (node->right != m_nullNode) 
 				{
-					tmp = tmp->right;
+					node = node->right;
 				}
-				return tmp->right;
+				return node->right;
 			}
 
 			// delete the node from the tree
@@ -248,9 +243,9 @@ namespace ft
 				deleteNodeAux(this->m_root, key);
 			}
 
-			NodePtr searchTreeAux(NodePtr node, value_type key) 
+			node_ptr searchTreeAux(node_ptr node, value_type key) 
 			{
-				if (node == TNULL || key == node->pair_data) 
+				if (node == m_nullNode || key == node->pair_data) 
 					return node;
 				if (key < node->pair_data) 
 					return searchTreeAux(node->left, key);
@@ -258,9 +253,9 @@ namespace ft
 			}
 
 			// fix the rb tree modified by the delete operation
-			void fixAfterDelete(NodePtr x) 
+			void fixAfterDelete(node_ptr x) 
 			{
-				NodePtr s;
+				node_ptr s;
 				while (x != m_root && x->color == _BLACK) 
 				{
 					if (x == x->parent->left) 
@@ -341,9 +336,9 @@ namespace ft
 				x->color = _BLACK;
 			}
 
-			void rbTransplant(NodePtr u, NodePtr v)
+			void rbTransplant(node_ptr u, node_ptr v)
 			{
-				if (u->parent == nullptr) 
+				if (u->parent == NULL) 
 					m_root = v;
 				else if (u == u->parent->left)
 					u->parent->left = v;
@@ -352,12 +347,12 @@ namespace ft
 				v->parent = u->parent;
 			}
 
-			void deleteNodeAux(NodePtr node, value_type key) 
+			void deleteNodeAux(node_ptr node, value_type key) 
 			{
 				// find the node containing key
-				NodePtr z = TNULL;
-				NodePtr x, y;
-				while (node != TNULL)
+				node_ptr z = m_nullNode;
+				node_ptr x, y;
+				while (node != m_nullNode)
 				{
 					if (node->pair_data == key) 
 						z = node;
@@ -367,7 +362,7 @@ namespace ft
 						node = node->left;
 				}
 
-				if (z == TNULL) 
+				if (z == m_nullNode) 
 				{
 					std::cout<<"Couldn't find key in the tree"<<std::endl;
 					return;
@@ -375,12 +370,12 @@ namespace ft
 
 				y = z;
 				int y_original_color = y->color;
-				if (z->left == TNULL) 
+				if (z->left == m_nullNode) 
 				{
 					x = z->right;
 					rbTransplant(z, z->right);
 				}
-				else if (z->right == TNULL) 
+				else if (z->right == m_nullNode) 
 				{
 					x = z->left;
 					rbTransplant(z, z->left);
@@ -410,9 +405,9 @@ namespace ft
 			}
 			
 			// fix the red-black tree
-			NodePtr fixAfterInsert(NodePtr k)
+			node_ptr fixAfterInsert(node_ptr k)
 			{
-				NodePtr u;
+				node_ptr u;
 				while (k->parent->color == _RED) 
 				{
 					if (k->parent == k->parent->parent->right) 
