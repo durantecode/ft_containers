@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/18 15:32:33 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:32:28 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 template <class T>
 static void print_map(T &map)
 {
-	std::cout << "hola" << std::endl;
 	typename T::iterator it = map.begin();
 	std::cout << " --- Map of size " << map.size() << " ---" << std::endl;
 	while (it != map.end())
@@ -524,45 +523,84 @@ void test_map(void)
 
 	std::map<std::string, std::string> m;
 	
-	std::pair<std::string, std::string> p("hola", "adios");
+	std::pair<std::string, std::string> p("hosssss", "adios");
 	m.insert(p);
 	// m["hola"] = "pepino";
 	m["hi"] = "chau";
 	m["jus"] = "fus";
 	m["a"] = "trocola";
 
-	std::map<std::string, std::string>::iterator it = m.end();
-	// print_map(m);
+	// std::map<std::string, std::string>::iterator it = m.begin();
+	// std::cout << it->first << std::endl;
+	// --it;
+	// std::cout << it->first << std::endl;
+	// --it;
+	// std::cout << it->first << std::endl;
+	// std::map<std::string, std::string>::iterator it = m.end();
+
+
 
 	ft::pair<int, int> pair(90, 56);
-	ft::pair<int, int> pair2(56, 12);
+	ft::pair<int, int> pair2(34, 12);
 	ft::pair<int, int> pair3(8, 123);
 	ft::map<int, int> myMap;
 	myMap.insert(pair);
 	myMap.insert(pair2);
 	myMap.insert(pair3);
 
-
 	ft::map<int, int>::iterator ite = myMap.begin();
-		// std::cout << ite->first << std::endl;
-		// ++ite;
-		// std::cout << ite->first << std::endl;
-		// ++ite;
-		// std::cout << ite->first << std::endl;
-		// ++ite;
-		// ++ite;
-		// ++ite;
-		// ++ite;
-		// ++ite;
-		// ++ite;
-
 	ft::map<int, int>::iterator iter = myMap.end();
-	
+
 	while(ite != iter)
 	{
 		std::cout << ite->first << std::endl;
-		++ite;
+		ite++;
 	}
+
+	ite = myMap.begin();
+	// --iter;
+	while(iter != ite)
+	{
+		std::cout << iter->first << std::endl;
+		iter--;
+	}
+	std::cout << iter->first << std::endl;
+
+	// ++ite;
+	// std::cout << ite->first << std::endl;
+	// ++ite;
+	// std::cout << ite->first << std::endl;
+	// ++ite;
+	// --ite;
+	// std::cout << ite->first << std::endl;
+	
+	// std::cout << iter->first << std::endl;
+	// --iter;
+	// std::cout << iter->first << std::endl;
+	// --ite;
+	// std::cout << ite->first << std::endl;
+	// --ite;
+	// std::cout << ite->first << std::endl;
+	// --ite;
+	// std::cout << ite->first << std::endl;
+	// std::cout << ite->first << std::endl;
+	
+	// std::cout << ite->first << std::endl;
+	// --ite;
+	// std::cout << ite->first << std::endl;
+	// --ite;
+	// std::cout << ite->first << std::endl;
+	// --ite;
+	// std::cout << ite->first << std::endl;
+	// --ite;
+	// std::cout << ite->first << std::endl;
+
+	// --iter;
+	// while(iter != ite)
+	// {
+	// 	std::cout << iter->first << std::endl;
+	// 	--iter;
+	// }
 		
 	print_map(myMap);
 }

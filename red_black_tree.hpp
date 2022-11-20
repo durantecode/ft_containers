@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/18 15:21:48 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:18:44 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@
 // class to represent a node in the tree
 namespace ft
 {
-	template <class T>
-	class Node
+	template <class value_type>
+	struct Node
 	{
 		public:
-			T		pair_data; 	// holds the key
-			Node	*parent; 	// pointer to the parent
-			Node	*left; 		// pointer to left child
-			Node	*right; 	// pointer to right child
-			int		color;		// 1 -> Red, 0 -> Black
+			value_type		pair_data; 	// holds the key
+			Node			*parent; 	// pointer to the parent
+			Node			*left; 		// pointer to left child
+			Node			*right; 	// pointer to right child
+			int				color;		// 1 -> Red, 0 -> Black
 
 			Node(): pair_data(), parent(NULL), left(NULL), right(NULL), color (0) {}
-			Node(const T &pair_data): pair_data(pair_data), parent(NULL), left(NULL), right(NULL), color (0) {}
+			Node(const value_type &pair_data): pair_data(pair_data), parent(NULL), left(NULL), right(NULL), color (0) {}
 			Node(const Node &n): pair_data(n.pair_data), parent(n.parent), left(n.left), right(n.right), color (n.color) {}
 			~Node() {}
 			Node &operator = (const Node &n)
@@ -74,8 +74,7 @@ namespace ft
 			~RBTree() {}
 
 			RBTree &operator = (const RBTree &toCopy)
-       		{
-
+       		{				
 				if (this != &toCopy)
 				{
 					m_root = toCopy.m_root;
@@ -91,53 +90,20 @@ namespace ft
 				return searchTreeAux(this->m_root, key);
 			}
 
-			// find the node with the minimum key
-			node_ptr minimum(node_ptr node) 
+			// find the node with the minNode key
+			node_ptr minNode(node_ptr node) 
 			{
 				while (node->left != m_nullNode) 
 					node = node->left;
 				return node;
 			}
 
-			// find the node with the maximum key
-			node_ptr maximum(node_ptr node) 
+			// find the node with the maxNode key
+			node_ptr maxNode(node_ptr node) 
 			{
 				while (node->right != m_nullNode) 
 					node = node->right;
 				return node;
-			}
-
-			// find the successor of a given node
-			node_ptr successor(node_ptr n) 
-			{
-				// if the right subtree is not null,
-				// the successor is the leftmost node in the
-				// right subtree
-				if (n->right != m_nullNode) 
-					return minimum(n->right);
-				// else it is the lowest ancestor of n whose
-				// left child is also an ancestor of n.
-				node_ptr next = n;
-				while (next->parent && next == next->parent->right)
-					next = next->parent;
-				next = next->parent;
-				return next;
-			}
-
-			// find the predecessor of a given node
-			node_ptr predecessor(node_ptr n) 
-			{
-				// if the left subtree is not null,
-				// the predecessor is the rightmost node in the 
-				// left subtree
-				if (n->left != m_nullNode) 
-					return maximum(n->left);
-
-				node_ptr next = n;
-				while (next->parent && next == next->parent->left)
-					next = next->parent;
-				next = next->parent;
-				return next;
 			}
 
 			// rotate left at node n
@@ -226,15 +192,6 @@ namespace ft
 			node_ptr getRoot()
 			{
 				return this->m_root;
-			}
-
-			node_ptr getEnd(node_ptr node)
-			{
-				while (node->right != m_nullNode) 
-				{
-					node = node->right;
-				}
-				return node->right;
 			}
 
 			// delete the node from the tree
@@ -363,11 +320,7 @@ namespace ft
 				}
 
 				if (z == m_nullNode) 
-				{
-					std::cout<<"Couldn't find key in the tree"<<std::endl;
 					return;
-				} 
-
 				y = z;
 				int y_original_color = y->color;
 				if (z->left == m_nullNode) 
@@ -382,7 +335,7 @@ namespace ft
 				}
 				else
 				{
-					y = minimum(z->right);
+					y = minNode(z->right);
 					y_original_color = y->color;
 					x = y->right;
 					if (y->parent == z) 

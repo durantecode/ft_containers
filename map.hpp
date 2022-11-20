@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/18 15:33:26 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:34:23 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ namespace ft
 			typedef ft::pair<const Key, T>				value_type;
 			typedef std::ptrdiff_t						difference_type;
 			typedef ft::RBTree<value_type>				rbtree;
-			typedef ft::Node<value_type>				node;
+			// typedef ft::Node<value_type>				node;
 
-			typedef ft::MapIterator<value_type>			iterator;
-			typedef ft::MapIterator<const value_type>	const_iterator;
+			typedef ft::MapIterator<rbtree, value_type>			iterator;
+			typedef ft::MapIterator<rbtree, const value_type>	const_iterator;
 			typedef ft::ReverseMapIterator<iterator>			reverse_iterator;
 			typedef ft::ReverseMapIterator<const_iterator>		const_reverse_iterator;
 			
@@ -68,8 +68,8 @@ namespace ft
 			allocator_node	m_alloc;
 			size_type		m_size;
 			key_compare		m_compare;
-			rbtree			*m_tree;
-			// rbtree			*m_end;		
+			rbtree			m_tree;
+			// rbtree			*m_end;
 
 			/*************************************************/
 			/*                 CONSTRUCTORS                  */
@@ -82,8 +82,8 @@ namespace ft
 				m_size(0),
 				m_compare(comp)
 				{
-					this->m_tree = this->m_alloc.allocate(sizeof(rbtree));
-					this->m_alloc.construct(m_tree, rbtree());
+					// this->m_tree = this->m_alloc.allocate(sizeof(rbtree));
+					// this->m_alloc.construct(m_tree, rbtree());
 					// this->m_end = this->m_alloc.allocate(sizeof(rbtree));
 					// this->m_alloc.construct(m_end, rbtree());
 				}
@@ -119,9 +119,8 @@ namespace ft
 
 			iterator begin()
 			{ 
-				node *tmp;
-				tmp = this->m_tree->minimum(this->m_tree->m_root);
-				return iterator(tmp, this->m_tree);
+				// this->m_tree->m_root = this->m_tree->first(this->m_tree->m_root);
+				return iterator(this->m_tree.minNode(this->m_tree.m_root), &this->m_tree);
 			}
 			// const_iterator begin() const
 			// {
@@ -130,13 +129,7 @@ namespace ft
 			// }
 			iterator end()
 			{
-				node *tmp;
-				// tmp = this->m_tree->maximum(this->m_tree->m_root);
-				// tmp = this->m_tree->getEnd(this->m_tree->m_root);
-				tmp = this->m_tree->m_root;
-				// std::cout << "tmp: " << tmp->pair_data.first << std::endl;
-				iterator it(tmp, this->m_tree);
-				return iterator(it);
+				return iterator(this->m_tree.m_nullNode, &this->m_tree);
 			}
 			// const_iterator end() const
 			// {
@@ -188,9 +181,9 @@ namespace ft
 
 			pair<iterator,bool> insert (const value_type& val)
 			{
-				this->m_tree->insert(val);
+				this->m_tree.insert(val);
 				this->m_size++;
-				return (ft::make_pair(iterator(this->m_tree->m_root, this->m_tree), true));
+				return (ft::make_pair(iterator(this->m_tree.m_root, &this->m_tree), true));
 			}
 
 			iterator insert (iterator position, const value_type& val)
