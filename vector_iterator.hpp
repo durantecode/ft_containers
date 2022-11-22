@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/15 21:57:58 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/22 13:47:41 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ namespace ft
 			typedef typename iterator_traits<T>::difference_type	difference_type;
 			typedef typename iterator_traits<T>::pointer			pointer;
 			typedef typename iterator_traits<T>::reference			reference;
+			typedef typename iterator_traits<T>::const_pointer		const_pointer;
+			typedef typename iterator_traits<T>::const_reference	const_reference;
 
 		private:
 			iterator_type m_iter;
@@ -156,13 +158,21 @@ namespace ft
 			}
 			ReverseVectorIterator operator -= (difference_type n) { this->m_iter += n; return *this; }
 
-			reference operator*() const
+			reference operator*()
 			{
 				iterator_type tmp = this->m_iter;
 				return *(--tmp);
 			}
-			pointer operator->() const { return &(operator*()); }
-			reference operator[] (difference_type n) const { return base()[-n - 1]; }
+			const_reference operator*() const
+			{
+				iterator_type tmp = this->m_iter;
+				return *(--tmp);
+			}
+			pointer operator->() { return &(operator*()); }
+			const_pointer operator->() const { return &(operator*()); }
+			
+			reference operator[] (difference_type n) { return base()[-n - 1]; }
+			const_reference operator[] (difference_type n) const { return base()[-n - 1]; }
 	};
 
 	

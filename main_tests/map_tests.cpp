@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/20 01:32:28 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:51:14 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -529,78 +529,43 @@ void test_map(void)
 	m["hi"] = "chau";
 	m["jus"] = "fus";
 	m["a"] = "trocola";
-
-	// std::map<std::string, std::string>::iterator it = m.begin();
-	// std::cout << it->first << std::endl;
-	// --it;
-	// std::cout << it->first << std::endl;
-	// --it;
-	// std::cout << it->first << std::endl;
-	// std::map<std::string, std::string>::iterator it = m.end();
-
-
-
-	ft::pair<int, int> pair(90, 56);
-	ft::pair<int, int> pair2(34, 12);
-	ft::pair<int, int> pair3(8, 123);
-	ft::map<int, int> myMap;
-	myMap.insert(pair);
-	myMap.insert(pair2);
-	myMap.insert(pair3);
-
-	ft::map<int, int>::iterator ite = myMap.begin();
-	ft::map<int, int>::iterator iter = myMap.end();
-
-	while(ite != iter)
-	{
-		std::cout << ite->first << std::endl;
-		ite++;
-	}
-
-	ite = myMap.begin();
-	// --iter;
-	while(iter != ite)
-	{
-		std::cout << iter->first << std::endl;
-		iter--;
-	}
-	std::cout << iter->first << std::endl;
-
-	// ++ite;
-	// std::cout << ite->first << std::endl;
-	// ++ite;
-	// std::cout << ite->first << std::endl;
-	// ++ite;
-	// --ite;
-	// std::cout << ite->first << std::endl;
 	
-	// std::cout << iter->first << std::endl;
-	// --iter;
-	// std::cout << iter->first << std::endl;
-	// --ite;
-	// std::cout << ite->first << std::endl;
-	// --ite;
-	// std::cout << ite->first << std::endl;
-	// --ite;
-	// std::cout << ite->first << std::endl;
-	// std::cout << ite->first << std::endl;
-	
-	// std::cout << ite->first << std::endl;
-	// --ite;
-	// std::cout << ite->first << std::endl;
-	// --ite;
-	// std::cout << ite->first << std::endl;
-	// --ite;
-	// std::cout << ite->first << std::endl;
-	// --ite;
-	// std::cout << ite->first << std::endl;
 
-	// --iter;
-	// while(iter != ite)
-	// {
-	// 	std::cout << iter->first << std::endl;
-	// 	--iter;
-	// }
-		
-	print_map(myMap);
+	std::pair<int, int> p1(1, 11);
+	std::pair<int, int> p2(2, 22);
+	std::pair<int, int> p3(3, 33);
+	std::map<int, int> std_map;
+	
+	ft::pair<int, int> pair(1, 11);
+	ft::pair<int, int> pair2(2, 22);
+	ft::pair<int, int> pair3(3, 33);
+	ft::map<int, int> ft_map;
+
+	std_map.insert(p1);
+	std_map.insert(p2);
+	// std_map.insert(p1);
+	
+	ft_map.insert(pair);
+	ft_map.insert(pair2);
+	ft_map.insert(pair3);
+
+	print_map(std_map);
+	print_map(ft_map);
+
+	// std_map[8] = 3456;
+	// ft_map[8] = 3456;
+	
+	// print_map(std_map);
+	// print_map(ft_map);
+	// myMap[8] = 12345;
+	std::map<int, int>::iterator ite = std_map.end();
+	// ite--;
+	std::cout << "FT ITER ENDDDD: " << ite->second << std::endl;
+	
+	std::cout << "STD AT: " << std_map[5] << std::endl;
+	// std::cout << "STD []: " << std_map.at(34) << std::endl;
+	std::cout << "FT []: " << ft_map[5] << std::endl;
+	// std::cout << "FT AT: " << ft_map.at(34) << std::endl;
+
+	
 }

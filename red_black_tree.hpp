@@ -6,11 +6,12 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/20 01:18:44 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:49:41 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <memory>
 #include "pair.hpp"
 #define _BLACK 0
 #define _RED 1
@@ -47,19 +48,25 @@ namespace ft
 	};
 
 	// class RBTree implements the operations in Red Black Tree
-	template <class value_type>
+	template <typename value_type, typename Alloc = std::allocator<value_type> >
 	class RBTree
 	{
-		private:
+		public:
 			typedef Node<value_type>*	node_ptr;
+			typedef typename Alloc::template rebind<Node<value_type> >::other		allocator_type;
 
 		public:
-			node_ptr m_root;
-			node_ptr m_nullNode;
+			node_ptr		m_root;
+			node_ptr		m_nullNode;
+			allocator_type	m_alloc;
+			size_t			m_size;
 	
-			RBTree() 
+			RBTree(const Alloc& alloc = allocator_type())
 			{
-				m_nullNode = new Node<value_type>;
+				m_size = 0;
+				m_alloc = alloc;
+				// m_nullNode = new Node<value_type>;
+				m_nullNode = allocNode(nullptr, value_type());
 				m_nullNode->color = _BLACK;
 				m_nullNode->left = NULL;
 				m_nullNode->right = NULL;
@@ -68,10 +75,17 @@ namespace ft
 
 			RBTree(RBTree const &toCopy) :
 				m_root(toCopy.m_root),
-				m_nullNode(toCopy.m_nullNode)
+				m_nullNode(toCopy.m_nullNode),
+				m_alloc(toCopy.m_alloc),
+				m_size(toCopy.m_size)
 				{}
 
-			~RBTree() {}
+			~RBTree()
+			{
+				clear(m_root);
+				m_alloc.destroy(m_nullNode);
+				m_alloc.deallocate(m_nullNode, 1);	
+			}
 
 			RBTree &operator = (const RBTree &toCopy)
        		{				
@@ -79,10 +93,52 @@ namespace ft
 				{
 					m_root = toCopy.m_root;
 					m_nullNode = toCopy.m_nullNode;
+					m_alloc = toCopy.m_alloc;
+					m_size = toCopy.m_size;
 				}
           		return *this;
 			}
 
+			// allocate & construct node
+			node_ptr allocNode(node_ptr node, const value_type &key = value_type())
+			{
+				node_ptr allocatedNode;
+				allocatedNode = m_alloc.allocate(1);
+				m_alloc.construct(allocatedNode, key);
+				allocatedNode->parent = node;
+				allocatedNode->left = m_nullNode;
+				allocatedNode->right = m_nullNode;
+				allocatedNode->color = _RED;
+				return allocatedNode;
+			}
+	
+			void clear(node_ptr node)
+			{
+				if (node != m_nullNode)
+				{
+					clear(node->left);
+					clear(node->right);
+					seekAndDestroy(node);
+				}
+			}
+
+			// seek node and destroy/deallocate
+			void seekAndDestroy(node_ptr node)
+			{
+				if (node->parent)
+				{
+					if (node == node->parent->left)
+						node->parent->left = m_nullNode;
+					else if (node == node->parent->right)
+						node->parent->right = m_nullNode;
+				}
+				else
+					m_root = m_nullNode;
+				m_alloc.destroy(node);
+				m_alloc.deallocate(node, 1);
+				
+			}
+			
 			// search the tree for the key k
 			// and return the corresponding node
 			node_ptr searchTree(value_type key) 
@@ -146,52 +202,53 @@ namespace ft
 			// and fix the tree
 			node_ptr insert(const value_type &key) 
 			{
-				// Ordinary Binary Search Insertion
-				node_ptr node = new Node<value_type>(key);
-				node->parent = new Node<value_type>();
-				node->left = m_nullNode;
-				node->right = m_nullNode;
-				node->color = _RED; // new node must be red
-
-				node_ptr y = NULL;
-				node_ptr x = this->m_root;
-
-				while (x != m_nullNode) 
+				if (!m_size)
 				{
-					y = x;
-					if (node->pair_data < x->pair_data) 
-						x = x->left;
-					else
-						x = x->right;
+					m_root = allocNode(NULL, key);
+					m_root->color = _BLACK;
+					m_size++;
+					return m_root;
 				}
-
-				// y is parent of x
-				node->parent = y;
-				if (y == NULL) 
-					m_root = node;
-				else if (node->pair_data < y->pair_data) 
-					y->left = node;
 				else
-					y->right = node;
-
-				// if new node is a m_root node, simply return
-				if (node->parent == NULL)
 				{
-					node->color = _BLACK;
-					return node;
+					node_ptr currentNode	= m_root;
+					node_ptr previousNode	= m_root;
+					while (currentNode != m_nullNode)
+					{
+						previousNode = currentNode;
+						if (key.first == currentNode->pair_data.first)
+								return currentNode;
+						if  (key.first < currentNode->pair_data.first)
+							currentNode = currentNode->left;
+						else
+							currentNode = currentNode->right;
+					}
+					if (key.first < previousNode->pair_data.first)
+					{
+						previousNode->left = allocNode(previousNode, key);
+						currentNode = previousNode->left;
+					}
+					else
+					{
+						previousNode->right = allocNode(previousNode, key);
+						currentNode = previousNode->right;
+					}
+					m_size++;
+					if (!previousNode->parent)
+						return currentNode;
+					fixAfterInsert(currentNode);
+					return currentNode;
 				}
-
-				// if the grandparent is null, simply return
-				if (node->parent->parent == NULL) 
-					return node;
-
-				// Fix the tree
-				return (fixAfterInsert(node));
 			}
 
 			node_ptr getRoot()
 			{
 				return this->m_root;
+			}
+			
+			size_t getSize() const
+			{
+				return this->m_size;
 			}
 
 			// delete the node from the tree
@@ -293,7 +350,7 @@ namespace ft
 				x->color = _BLACK;
 			}
 
-			void rbTransplant(node_ptr u, node_ptr v)
+			void transplantNode(node_ptr u, node_ptr v)
 			{
 				if (u->parent == NULL) 
 					m_root = v;
@@ -326,12 +383,12 @@ namespace ft
 				if (z->left == m_nullNode) 
 				{
 					x = z->right;
-					rbTransplant(z, z->right);
+					transplantNode(z, z->right);
 				}
 				else if (z->right == m_nullNode) 
 				{
 					x = z->left;
-					rbTransplant(z, z->left);
+					transplantNode(z, z->left);
 				}
 				else
 				{
@@ -342,17 +399,18 @@ namespace ft
 						x->parent = y;
 					else
 					{
-						rbTransplant(y, y->right);
+						transplantNode(y, y->right);
 						y->right = z->right;
 						y->right->parent = y;
 					}
 
-					rbTransplant(z, y);
+					transplantNode(z, y);
 					y->left = z->left;
 					y->left->parent = y;
 					y->color = z->color;
 				}
-				delete z;
+				m_alloc.destroy(z);
+				m_alloc.deallocate(z, 1);
 				if (y_original_color == _BLACK)
 					fixAfterDelete(x);
 			}
