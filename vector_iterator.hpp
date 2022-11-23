@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/22 13:47:41 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/23 23:41:04 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,82 +20,81 @@ namespace ft
 			/*                 VECTOR_ITERATOR               */
 			/*************************************************/
 	
-	template <class T>
+	template <class T, class Pointer, class Reference>
 	class VectorIterator
 	{
 		public:
-			typedef T									value_type;
-			typedef std::random_access_iterator_tag		iterator_category;
-			typedef std::ptrdiff_t						difference_type;
-			typedef T*									pointer;
-			typedef const T*							const_pointer;
-			typedef T&									reference;
-			typedef const T&							const_reference;
+			typedef T					value_type;
+			typedef std::ptrdiff_t		difference_type;
+			typedef Pointer				pointer;
+			typedef Reference			reference;
+
+			typedef VectorIterator<T, Pointer, Reference>	iter_type;
+			typedef VectorIterator<T, T*, T&>				iterator;
+			typedef VectorIterator<T, const T*, const T&>	const_iterator;
+			typedef std::random_access_iterator_tag			iterator_category;
 
 		protected:
 			pointer m_ptr;
 		
 		public:
-			VectorIterator() : m_ptr(nullptr) {}
-			VectorIterator(pointer ptr) : m_ptr(ptr) {}
-			VectorIterator(VectorIterator const &toCopy) : m_ptr(toCopy.m_ptr) {}
+			VectorIterator() : m_ptr(NULL) {}
+			VectorIterator(const pointer ptr) : m_ptr(ptr) {}
+			VectorIterator(iterator const &toCopy) : m_ptr(const_cast<pointer>(toCopy.m_ptr)) {}
 			~VectorIterator() {}
-			VectorIterator &operator = (VectorIterator const &toCopy)
+			iter_type &operator = (iter_type const &toCopy)
 			{
 				this->m_ptr = toCopy.m_ptr;
 				return (*this);
 			}
 
-			VectorIterator& operator ++ ()
+			iter_type& operator ++ ()
 			{
 				this->m_ptr++;
 				return (*this);
 			}
-			VectorIterator operator ++ (int)
+			iter_type operator ++ (int)
 			{
-				VectorIterator it(*this);
+				iter_type it(*this);
 				++(*this);
 				return it;
 			}
-			VectorIterator &operator += (difference_type val)
+			iter_type &operator += (difference_type val)
 			{
 				this->m_ptr += val;
 				return (*this);
 			}
-			VectorIterator operator + (difference_type val) const
+			iter_type operator + (difference_type val) const
 			{
-				VectorIterator it(*this);
+				iter_type it(*this);
 				return (it += val);
 			}
-			VectorIterator& operator -- ()
+			iter_type& operator -- ()
 			{
 				this->m_ptr--;
 				return *this;
 			}
-			VectorIterator operator -- (int)
+			iter_type operator -- (int)
 			{
-				VectorIterator it(*this);
+				iter_type it(*this);
 				--(*this);
 				return it;
 			}
-			VectorIterator &operator -= (difference_type val)
+			iter_type &operator -= (difference_type val)
 			{
 				this->m_ptr -= val;
 				return (*this);
 			}
-			VectorIterator operator - (difference_type val) const
+			iter_type operator - (difference_type val) const
 			{
-				VectorIterator it(*this);
+				iter_type it(*this);
 				return (it -= val);
 			}
-			difference_type operator - (VectorIterator const &other) const { return (this->m_ptr - other.m_ptr); }
+			difference_type operator - (iter_type const &other) const { return (this->m_ptr - other.m_ptr); }
 
 			reference operator * () { return (*this->m_ptr); }
-			const_reference operator * () const { return (*this->m_ptr); }
 			pointer operator -> () { return (this->m_ptr); }
-			const_pointer operator -> () const { return (this->m_ptr); }
 			reference operator [] (difference_type val) { return (*(this->m_ptr + val)); }
-			const_reference operator [] (difference_type val) const { return (*(this->m_ptr + val)); }
 			bool operator == (const VectorIterator &it) const { return (this->m_ptr == it.m_ptr); }
 			bool operator != (const VectorIterator &it) const { return (this->m_ptr != it.m_ptr); }
 			bool operator > (const VectorIterator &it) const { return (this->m_ptr > it.m_ptr); }
@@ -103,6 +102,7 @@ namespace ft
 			bool operator < (const VectorIterator &it) const { return (this->m_ptr < it.m_ptr); }
 			bool operator <= (const VectorIterator &it) const { return (this->m_ptr <= it.m_ptr); }
 
+			operator const_iterator () const { return const_iterator(this->m_ptr); }
 	};
 
 
@@ -120,8 +120,6 @@ namespace ft
 			typedef typename iterator_traits<T>::difference_type	difference_type;
 			typedef typename iterator_traits<T>::pointer			pointer;
 			typedef typename iterator_traits<T>::reference			reference;
-			typedef typename iterator_traits<T>::const_pointer		const_pointer;
-			typedef typename iterator_traits<T>::const_reference	const_reference;
 
 		private:
 			iterator_type m_iter;
@@ -163,19 +161,10 @@ namespace ft
 				iterator_type tmp = this->m_iter;
 				return *(--tmp);
 			}
-			const_reference operator*() const
-			{
-				iterator_type tmp = this->m_iter;
-				return *(--tmp);
-			}
 			pointer operator->() { return &(operator*()); }
-			const_pointer operator->() const { return &(operator*()); }
-			
 			reference operator[] (difference_type n) { return base()[-n - 1]; }
-			const_reference operator[] (difference_type n) const { return base()[-n - 1]; }
 	};
 
-	
 	/*************************************************/
 	/*        NON-MEMBER FUNCTIONS OVERLOADS         */
 	/*************************************************/

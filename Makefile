@@ -6,9 +6,15 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/11/15 21:40:32 by ldurante         ###   ########.fr        #
+#    Updated: 2022/11/24 00:01:04 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+#
+# Implementar las funciones que faltan de map
+# Revisar los const_iterator tanto de map como de vector
+#
+
 
 # VARIABLE DECLARATIONS #
 
@@ -40,7 +46,7 @@ SRCS =  main_tests/main.cpp \
 		main_tests/map_tests.cpp \
 		# main_tests/map_time_tests.cpp \
 
-# SRCS = main_new.cpp
+# SRCS = main-test.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

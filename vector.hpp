@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/22 13:39:46 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/24 00:04:59 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,20 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef size_t		size_type;
-			typedef T			value_type;
-			typedef Alloc		allocator_type;
+			typedef size_t				size_type;
+			typedef T					value_type;
+			typedef Alloc				allocator_type;
+			typedef std::ptrdiff_t		difference_type;
 
-			typedef T*				pointer;
-			typedef const T*		const_pointer;
-			typedef T&				reference;
-			typedef const T&		const_reference;
-			typedef std::ptrdiff_t	difference_type;
+			typedef value_type*				pointer;
+			typedef value_type&				reference;
+			typedef const value_type*		const_pointer;
+			typedef const value_type&		const_reference;
 
-			typedef ft::VectorIterator<T>						iterator;
-			typedef ft::VectorIterator<const T> 				const_iterator;
-			typedef ft::ReverseVectorIterator<iterator> 		reverse_iterator;
-			typedef ft::ReverseVectorIterator<const_iterator>	const_reverse_iterator;
+			typedef ft::VectorIterator<value_type, pointer, reference>					iterator;
+			typedef ft::VectorIterator<value_type, const_pointer, const_reference>		const_iterator;
+			typedef ft::ReverseVectorIterator<iterator>							 		reverse_iterator;
+			typedef ft::ReverseVectorIterator<const_iterator>							const_reverse_iterator;
 
 
 		protected:
@@ -116,10 +116,10 @@ namespace ft
 			iterator end() { return iterator(&m_data[m_size]); }
 			const_iterator end() const { return const_iterator(&m_data[m_size]); }
 
-			reverse_iterator rbegin() { return reverse_iterator(end()); }
-			const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
-			reverse_iterator rend() { return reverse_iterator(begin()); }
-			const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
+			reverse_iterator rbegin() { return reverse_iterator(iterator(end())); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(const_iterator(end())); }
+			reverse_iterator rend() { return reverse_iterator(iterator(begin())); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(const_iterator(begin())); }
 
 
 			/*************************************************/

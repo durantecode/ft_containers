@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/22 21:51:14 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/24 00:30:02 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -543,7 +543,7 @@ void test_map(void)
 
 	std_map.insert(p1);
 	std_map.insert(p2);
-	// std_map.insert(p1);
+	std_map.insert(p3);
 	
 	ft_map.insert(pair);
 	ft_map.insert(pair2);
@@ -552,20 +552,34 @@ void test_map(void)
 	print_map(std_map);
 	print_map(ft_map);
 
+	std::cout << ft_map.count(3) << std::endl;
+
+	ft::map<int, int>::const_iterator rev(ft_map.end());
+	rev--;
+	std::cout << rev->second << std::endl;
+	rev--;
+	std::cout << rev->second << std::endl;
+	// std::map<int, int>::const_iterator const_itend = std_map.end();
+
+	// std::cout << ft_map.find(2)->second << std::endl;
+
+	// std::map<int, int>::iterator it = std_map.lower_bound(4);
+	// std::cout << "LB: " << it->first << std::endl;
+	// std::cout << ft_map.count(9) << std::endl;
+	// std::cout << ft_map.at(3) << std::endl;
+	// std::cout << ft_map.at(2) << std::endl;
+	// std::cout << ft_map.at(9) << std::endl;
 	// std_map[8] = 3456;
 	// ft_map[8] = 3456;
 	
 	// print_map(std_map);
 	// print_map(ft_map);
 	// myMap[8] = 12345;
-	std::map<int, int>::iterator ite = std_map.end();
-	// ite--;
-	std::cout << "FT ITER ENDDDD: " << ite->second << std::endl;
+	// std::map<int, int>::iterator ite = std_map.end();
+	// // ite--;
+	// std::cout << "FT ITER ENDDDD: " << ite->second << std::endl;
 	
-	std::cout << "STD AT: " << std_map[5] << std::endl;
-	// std::cout << "STD []: " << std_map.at(34) << std::endl;
-	std::cout << "FT []: " << ft_map[5] << std::endl;
-	// std::cout << "FT AT: " << ft_map.at(34) << std::endl;
+
 
 	
 }

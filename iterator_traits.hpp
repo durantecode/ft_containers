@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 21:55:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/22 13:19:51 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/23 22:11:16 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ namespace ft
         typedef typename Iter::iterator_category    iterator_category;
         typedef typename Iter::pointer              pointer;
         typedef typename Iter::reference            reference;
-        typedef typename Iter::const_pointer		const_pointer;
-        typedef typename Iter::const_reference		const_reference;
     };
 
     template <class T>
@@ -34,7 +32,14 @@ namespace ft
         typedef std::random_access_iterator_tag		iterator_category;
         typedef T*									pointer;
         typedef T&									reference;
-        typedef const T*							const_pointer;
-        typedef const T&							const_reference;
     };
+	template <class T>
+	struct iterator_traits<const T*>
+	{
+		typedef T								    value_type;
+		typedef std::ptrdiff_t					    difference_type;
+		typedef std::random_access_iterator_tag	    iterator_category;
+		typedef const T*						    pointer;
+		typedef const T&						    reference;
+	};
 }
