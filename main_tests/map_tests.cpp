@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/24 20:58:16 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 00:50:21 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -552,7 +552,7 @@ void test_map(void)
 	print_map(std_map);
 	print_map(ft_map);
 
-	std::cout << ft_map.count(3) << std::endl;
+	// std::cout << ft_map.count(3) << std::endl;
 
 	// ft::map<int, int>::const_iterator rev(ft_map.end());
 	// ft::map<int, int>::iterator itiii = ft_map.begin();

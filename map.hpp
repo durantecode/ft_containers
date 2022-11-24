@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/24 20:59:36 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 00:50:13 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,7 @@ namespace ft
 				return (end());
 			}
 
-			size_type count (const key_type& k) const
+			size_type count (const key_type& k)
 			{
 				const_iterator it = this->begin();
 				// while (it != end())

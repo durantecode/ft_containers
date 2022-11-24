@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 21:58:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/24 21:15:14 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 00:50:18 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ namespace ft
 		
 		public:
 			MapIterator() : m_currentNode(0), m_tree(0) {}
-			MapIterator(node_ptr ptr) : m_currentNode(ptr) {}
 			MapIterator(node_ptr ptr, rbtree_ptr tree) : m_currentNode(ptr), m_tree(tree) {}
 			MapIterator(iterator const &toCopy) : m_currentNode(const_cast<node_ptr>(toCopy.m_currentNode)), m_tree(const_cast<rbtree_ptr>(toCopy.m_tree)) {}
 			~MapIterator() {}
