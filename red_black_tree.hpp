@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/24 00:45:41 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:27:22 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,14 +140,14 @@ namespace ft
 			node_ptr getRoot() { return this->m_root; }			
 			size_t getSize() const { return this->m_size; }
 
-			node_ptr getMin(node_ptr node)
+			node_ptr getMin(node_ptr node) const
 			{
 				while (node->left != m_nullNode) 
 					node = node->left;
 				return node;
 			}
 
-			node_ptr getMax(node_ptr node)
+			node_ptr getMax(node_ptr node) const
 			{
 				while (node->right != m_nullNode) 
 					node = node->right;

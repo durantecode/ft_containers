@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/24 00:30:02 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/24 20:58:16 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -554,11 +554,14 @@ void test_map(void)
 
 	std::cout << ft_map.count(3) << std::endl;
 
-	ft::map<int, int>::const_iterator rev(ft_map.end());
-	rev--;
-	std::cout << rev->second << std::endl;
-	rev--;
-	std::cout << rev->second << std::endl;
+	// ft::map<int, int>::const_iterator rev(ft_map.end());
+	// ft::map<int, int>::iterator itiii = ft_map.begin();
+	
+	// rev--;
+	// std::cout << rev->second << std::endl;
+	// rev--;
+	// std::cout << rev->second << std::endl;
+	// std::cout << itiii->second << std::endl;
 	// std::map<int, int>::const_iterator const_itend = std_map.end();
 
 	// std::cout << ft_map.find(2)->second << std::endl;
