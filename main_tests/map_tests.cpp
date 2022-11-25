@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/24 20:58:16 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:43:22 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -549,35 +549,49 @@ void test_map(void)
 	ft_map.insert(pair2);
 	ft_map.insert(pair3);
 
-	print_map(std_map);
+	// print_map(std_map);
 	print_map(ft_map);
+
 
 	std::cout << ft_map.count(3) << std::endl;
 
-	// ft::map<int, int>::const_iterator rev(ft_map.end());
-	// ft::map<int, int>::iterator itiii = ft_map.begin();
+	ft::map<int, int>::const_iterator rev(ft_map.end());
+	ft::map<int, int>::iterator itiii = ft_map.begin();
+	// ft::map<int, int>::iterator iteee = ft_map.end();
+
+	while (itiii != ft_map.end())
+	{
+		std::cout << itiii->second << std::endl;
+		itiii++;
+	}
 	
-	// rev--;
-	// std::cout << rev->second << std::endl;
-	// rev--;
-	// std::cout << rev->second << std::endl;
-	// std::cout << itiii->second << std::endl;
-	// std::map<int, int>::const_iterator const_itend = std_map.end();
+	rev--;
+	std::cout << rev->second << std::endl;
+	rev--;
+	std::cout << rev->second << std::endl;
+	std::cout << itiii->second << std::endl;
+	std::map<int, int>::const_iterator const_itend = std_map.end();
 
-	// std::cout << ft_map.find(2)->second << std::endl;
+	std::cout << ft_map.find(2)->second << std::endl;
 
-	// std::map<int, int>::iterator it = std_map.lower_bound(4);
-	// std::cout << "LB: " << it->first << std::endl;
-	// std::cout << ft_map.count(9) << std::endl;
-	// std::cout << ft_map.at(3) << std::endl;
+	std::map<int, int>::iterator it = std_map.lower_bound(4);
+	std::cout << "LB: " << it->first << std::endl;
+	std::cout << ft_map.count(9) << std::endl;
+	std::cout << "AT: " << ft_map.at(1) << std::endl;
 	// std::cout << ft_map.at(2) << std::endl;
 	// std::cout << ft_map.at(9) << std::endl;
-	// std_map[8] = 3456;
-	// ft_map[8] = 3456;
+	std_map[10] = 100;
+	ft::pair<int, int> pair4(4, 44);
+	ft::pair<int, int> pair5(-5, 55);
+	// ft_map.insert(pair4);
+	// ft_map.insert(pair5);
+	ft_map[-5] = 100;
+	ft_map[-5] = 100;
+	ft_map[-5] = 100;
+	ft_map[-5] = 100;
 	
-	// print_map(std_map);
-	// print_map(ft_map);
-	// myMap[8] = 12345;
+	print_map(std_map);
+	print_map(ft_map);
 	// std::map<int, int>::iterator ite = std_map.end();
 	// // ite--;
 	// std::cout << "FT ITER ENDDDD: " << ite->second << std::endl;

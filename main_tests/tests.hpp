@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/15 14:00:47 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:15:45 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ bool operator==(ft::vector<T> &a, std::vector<T> &b)
 // 		return (false);
 // 	if (a.empty() != b.empty())
 // 		return (false);
-// 	typename ft::Map<T, S>::iterator it = a.begin();
+// 	typename ft::map<T, S>::iterator it = a.begin();
 // 	typename std::map<T, S>::iterator it2 = b.begin();
 // 	while (it != a.end())
 // 	{

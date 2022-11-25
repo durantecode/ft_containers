@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/24 17:27:22 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:44:17 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ namespace ft
 			/*                ALLOC / DEALLOC                */
 			/*************************************************/
 
-			node_ptr allocNode(node_ptr node, const value_type &key = value_type())
+			node_ptr allocNode(node_ptr node, const value_type &key)
 			{
 				node_ptr allocatedNode;
-				allocatedNode = m_alloc.allocate(1);
+				allocatedNode = m_alloc.allocate(100);
 				m_alloc.construct(allocatedNode, key);
 				allocatedNode->parent = node;
 				allocatedNode->left = m_nullNode;
@@ -158,7 +158,7 @@ namespace ft
 			/*             PREVIOUS / NEXT NODE              */
 			/*************************************************/
 
-			node_ptr nextNode(node_ptr node)
+			node_ptr nextNode(node_ptr node) const
 			{
 				if (node == m_nullNode)
 					return node;
@@ -180,7 +180,7 @@ namespace ft
 				}
 			}
 
-			node_ptr prevNode(node_ptr node)
+			node_ptr prevNode(node_ptr node) const
 			{
 				if (!node)
 					return node;
@@ -450,58 +450,50 @@ namespace ft
 
 			node_ptr fixAfterInsert(node_ptr k)
 			{
-				node_ptr u;
-				while (k->parent->color == _RED) 
-				{
-					if (k->parent == k->parent->parent->right) 
-					{
-						u = k->parent->parent->left;
-						if (u->color == _RED) 
-						{
-							u->color = _BLACK;
-							k->parent->color = _BLACK;
-							k->parent->parent->color = _RED;
-							k = k->parent->parent;
-						}
-						else
-						{
-							if (k == k->parent->left) 
-							{
-								k = k->parent;
-								rightRotate(k);
-							}
-							k->parent->color = _BLACK;
-							k->parent->parent->color = _RED;
-							leftRotate(k->parent->parent);
-						}
-					}
-					else
-					{
-						u = k->parent->parent->right;
-						if (u->color == _RED) 
-						{
-							u->color = _BLACK;
-							k->parent->color = _BLACK;
-							k->parent->parent->color = _RED;
-							k = k->parent->parent;	
-						}
-						else
-						{
-							if (k == k->parent->right) 
-							{
-								k = k->parent;
-								leftRotate(k);
-							}
-							k->parent->color = _BLACK;
-							k->parent->parent->color = _RED;
-							rightRotate(k->parent->parent);
-						}
-					}
-					if (k == m_root) 
-						break;
-				}
-				m_root->color = _BLACK;
-				return (k);
-			}
+		       node_ptr u;
+          while (k->parent && k->parent->color == 1) {
+            if (k->parent == k->parent->parent->right) {
+              u = k->parent->parent->left;
+              if (u->color == 1) {
+                u->color = 0;
+                k->parent->color = 0;
+                k->parent->parent->color = 1;
+                k = k->parent->parent;
+              } else {
+                if (k == k->parent->left) {
+                  k = k->parent;
+                  rightRotate(k);
+                }
+                k->parent->color = 0;
+                k->parent->parent->color = 1;
+                leftRotate(k->parent->parent);
+              }
+            } else {
+              u = k->parent->parent->right;
+              if (u->color == 1) {
+                u->color = 0;
+                k->parent->color = 0;
+                k->parent->parent->color = 1;
+                //std::cout << "Value of k->parent: " << k->parent->value.second << "second parent: " << k->parent->parent->value.second   << "| I am not rotating 2 \n";
+                k = k->parent->parent;
+              } else {
+                if (k == k->parent->right) {
+                  k = k->parent;
+                  leftRotate(k);
+                }
+                k->parent->color = 0;
+                k->parent->parent->color = 1;
+                rightRotate(k->parent->parent);
+              }
+            }
+            if (k == m_root) {
+            	break;
+            }
+          }
+
+          m_root->color = 0;
+
+          return (k);
+		}
 	};
 }
