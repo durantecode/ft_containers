@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/25 18:09:50 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 19:24:19 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,109 +149,109 @@ namespace ft
 			node_ptr getNull() const { return m_nullNode; }
 			size_t getSize() const { return m_size; }
 
-			node_ptr getMin(node_ptr start) const
+			node_ptr getMin(node_ptr node) const
 			{
-				while (start->left != m_nullNode)
-					start = start->left;
-				return start;
+				while (node->left != m_nullNode)
+					node = node->left;
+				return node;
 			}
 
-			node_ptr getMax(node_ptr start) const
+			node_ptr getMax(node_ptr node) const
 			{
-				while (start->right != m_nullNode)
-					start = start->right;
-				return start;
+				while (node->right != m_nullNode)
+					node = node->right;
+				return node;
 			}
 
 			/*************************************************/
 			/*             PREVIOUS / NEXT NODE              */
 			/*************************************************/
 
-			node_ptr nextNode(node_ptr start)
+			node_ptr nextNode(node_ptr node)
 			{
-				if (start == m_nullNode)
-					return start;
-				else if (start == getMax(m_root))
+				if (node == m_nullNode)
+					return node;
+				else if (node == getMax(m_root))
 					return m_nullNode;
-				else if (!start)
+				else if (!node)
 					return getMin(m_root);
-				else if (start->right != m_nullNode)
-					return getMin(start->right);
+				else if (node->right != m_nullNode)
+					return getMin(node->right);
 				else
 				{
-					node_ptr rval = start->parent;
-					while (rval && start == rval->right)
+					node_ptr next = node->parent;
+					while (next && node == next->right)
 					{
-						start = rval;
-						rval = rval->parent;
+						node = next;
+						next = next->parent;
 					}
-					return rval;
+					return next;
 				}
 			}
 
-			node_ptr nextNode(node_ptr start) const
+			node_ptr nextNode(node_ptr node) const
 			{
-				if (start == m_nullNode)
-					return start;
-				else if (start == getMax(m_root))
+				if (node == m_nullNode)
+					return node;
+				else if (node == getMax(m_root))
 					return m_nullNode;
-				else if (!start)
+				else if (!node)
 					return getMin(m_root);
-				else if (start->right != m_nullNode)
-					return getMin(start->right);
+				else if (node->right != m_nullNode)
+					return getMin(node->right);
 				else
 				{
-					node_ptr rval = start->parent;
-					while (rval && start == rval->right)
+					node_ptr next = node->parent;
+					while (next && node == next->right)
 					{
-						start = rval;
-						rval = rval->parent;
+						node = next;
+						next = next->parent;
 					}
-					return rval;
+					return next;
 				}
 			}
 
-			node_ptr prevNode(node_ptr start)
+			node_ptr prevNode(node_ptr node)
 			{
-				if (!start)
-					return start;
-				else if (start == m_nullNode)
+				if (!node)
+					return node;
+				else if (node == m_nullNode)
 					return getMax(m_root);
-				else if (start == getMin(m_root))
+				else if (node == getMin(m_root))
 					return nullptr;
-				else if (start->left != m_nullNode)
-					return getMax(start->left);
+				else if (node->left != m_nullNode)
+					return getMax(node->left);
 				else
 				{
-					node_ptr rval = start->parent;
-					while (rval && start == rval->left)
+					node_ptr prev = node->parent;
+					while (prev && node == prev->left)
 					{
-						start = rval;
-						rval = rval->parent;
+						node = prev;
+						prev = prev->parent;
 					}
-					return rval;
+					return prev;
 				}
 			}
 
-			node_ptr prevNode(node_ptr start) const
+			node_ptr prevNode(node_ptr node) const
 			{
-				if (!start)
-					return start;
-				if (start == m_nullNode)
+				if (!node)
+					return node;
+				if (node == m_nullNode)
 					return getMax(m_root);
-				else if (start == getMin(m_root))
+				else if (node == getMin(m_root))
 					return nullptr;
-				else if (start->left != m_nullNode)
-					return getMax(start->left);
+				else if (node->left != m_nullNode)
+					return getMax(node->left);
 				else
 				{
-					node_ptr rval = start->parent;
-					while (rval && start == rval->left)
+					node_ptr prev = node->parent;
+					while (prev && node == prev->left)
 					{
-						start = rval;
-						rval = rval->parent;
+						node = prev;
+						prev = prev->parent;
 					}
-					return rval;
+					return prev;
 				}
 			}
 
