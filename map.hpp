@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/25 16:41:07 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:25:11 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ namespace ft
 	class map
 	{
 		public:
+			typedef ft::map<Key, T, Compare>			Container;
 			typedef size_t								size_type;
 			typedef Key									key_type;
 			typedef T									mapped_type;
 			typedef Compare								key_compare;
 			typedef Alloc								allocator_type;
+			typedef ptrdiff_t							difference_type;
 			
 			typedef ft::pair<const Key, T>				value_type;
 			typedef value_type*							pointer;
@@ -35,17 +37,9 @@ namespace ft
 			typedef const value_type*					const_pointer;
 			typedef const value_type&					const_reference;
 
-			typedef ft::RBTree<value_type, allocator_type>		rbtree;
-			typedef ft::Node<value_type>*						node_ptr;
-
-			// typedef ft::bidirectionnal_iterator<rbtree, value_type>					iterator;
-			// typedef ft::const_bidirectionnal_iterator<rbtree, value_type, iterator>		const_iterator;
-			// typedef ft::ReverseMapIterator<iterator>								reverse_iterator;
-			// typedef ft::ReverseMapIterator<const_iterator>							const_reverse_iterator;
-			// typedef typename iterator_traits<iterator>::difference_type				difference_type;
-			typedef ptrdiff_t				difference_type;
+			typedef RBTree<Container, allocator_type>	rbtree;
+			typedef Node<value_type>*					node_ptr;
 			
-					
 			class value_compare
 			{
 				friend class map;
@@ -210,7 +204,7 @@ namespace ft
 
 			~map()
 			{
-				this->m_tree.clear(this->m_tree.m_root);
+				this->m_tree.clear(this->m_tree.getRoot());
 			}
 
 			map &operator = (const map &toCopy)
@@ -230,28 +224,28 @@ namespace ft
 
 			iterator begin()
 			{ 
-				return iterator(this->m_tree.getMin(this->m_tree.m_root), &this->m_tree);
+				return iterator(this->m_tree.getMin(this->m_tree.getRoot()), &this->m_tree);
 			}
 			const_iterator begin() const
 			{
-				return const_iterator(this->m_tree.getMin(this->m_tree.m_root), &this->m_tree);
+				return const_iterator(this->m_tree.getMin(this->m_tree.getRoot()), &this->m_tree);
 			}
 			iterator end()
 			{
-				return iterator(this->m_tree.m_nullNode, &this->m_tree);
+				return iterator(this->m_tree.getNull(), &this->m_tree);
 			}
 			const_iterator end() const
 			{
-				return const_iterator(this->m_tree.m_nullNode, &this->m_tree);
+				return const_iterator(this->m_tree.getNull(), &this->m_tree);
 			}
 
 			// reverse_iterator rbegin()
 			// {
-			// 	return reverse_iterator(iterator(this->m_tree.getMax(this->m_tree.m_root), &this->m_tree));
+			// 	return reverse_iterator(iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree));
 			// }
 			// const_reverse_iterator rbegin() const
 			// {
-			// 	return const_reverse_iterator(const_iterator(this->m_tree.getMax(this->m_tree.m_root), &this->m_tree));
+			// 	return const_reverse_iterator(const_iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree));
 			// }
 			// reverse_iterator rend()
 			// {
@@ -284,26 +278,12 @@ namespace ft
 
 			mapped_type& operator[] (const key_type& k)
 			{
-				// // node_ptr tmp = this->m_tree.searchTree(this->m_tree.m_root, ft::make_pair(k, T()));
-				// // if (tmp->pair_data.first == k)
-				// // 	return tmp->pair_data.second;
 				return (insert(ft::make_pair(k, T())).first->second);
-				// iterator tmp = find(k);
-				// if (tmp != end())
-				// 	return tmp->second;
-				// ft:pair ft::make_pair(k, T());
-				// std::cout << "K: " << k << std::endl;
-				// std::cout << "VAL: " << T().first->second << std::endl;
-				// node_ptr found = this->m_tree.searchTree(this->m_tree.m_root, ft::make_pair(k, T()));
-				// if (found)
-				// 	return (found->pair_data.second);
-				// // ++this->m_size;
-				// return (this->m_tree.insertNode(ft::make_pair(k, T()))->pair_data.second);
 			}
 
 			mapped_type& at (const key_type& k)
 			{
-				node_ptr tmp = this->m_tree.searchTree(this->m_tree.m_root, ft::make_pair(k, T()));
+				node_ptr tmp = this->m_tree.searchTree(this->m_tree.getRoot(), k);
 				if (tmp->pair_data.first != k)
 					throw std::out_of_range("key not found");
 				return tmp->pair_data.second;
@@ -311,7 +291,7 @@ namespace ft
 			
 			const mapped_type& at (const key_type& k) const
 			{
-				node_ptr tmp = this->m_tree.searchTree(this->m_tree.m_root, ft::make_pair(k, T()));
+				node_ptr tmp = this->m_tree.searchTree(this->m_tree.getRoot(), k);
 				if (tmp->pair_data.first != k)
 					throw std::out_of_range("key not found");
 				return tmp->pair_data.second;
@@ -323,18 +303,13 @@ namespace ft
 
 			pair<iterator,bool> insert (const value_type& val)
 			{
-				std::cout << "VALLL: " << val.first << std::endl;
-				// std::cout << "VALLL SECOND: " << val.second << std::endl;
-				size_type	sizeBefore(this->m_tree.getSize());
-				node_ptr	tmp = this->m_tree.insertNode(val);
-				std::cout << "TMP FIRST: " << tmp->pair_data.first << std::endl;
-				std::cout << "TMP SECOND: " << tmp->pair_data.second << std::endl;
-				if (this->m_tree.getSize() != sizeBefore)
-				{
-					std::cout << "MUST INSERT: " << tmp->pair_data.first << std::endl;
-					return ft::make_pair<iterator, bool>(iterator(tmp, &this->m_tree), true);
-				}
-				return ft::make_pair<iterator, bool>(iterator(tmp, &this->m_tree), false);
+				size_type	prevSize(this->m_tree.getSize());
+				node_ptr	inserted = this->m_tree.insertNode(val);
+				size_type	postSize(this->m_tree.getSize());
+
+				bool ret = (this->m_tree.getSize() == prevSize);
+				
+				return ft::make_pair<iterator, bool>(iterator(inserted, &this->m_tree), ret);
 			}
 
 			iterator insert (iterator position, const value_type& val)
@@ -370,7 +345,7 @@ namespace ft
 
 			void clear()
 			{
-				this->m_tree.clear(this->m_tree.m_root);
+				this->m_tree.clear(this->m_tree.getRoot());
 			}
 
 			/*************************************************/
@@ -395,7 +370,7 @@ namespace ft
 			{
 				if (!empty())
 				{
-					node_ptr tmp = this->m_tree.searchTree(this->m_tree.m_root, ft::make_pair(k, T()));
+					node_ptr tmp = this->m_tree.searchTree(this->m_tree.getRoot(), k);
 					if (tmp)
 						return (iterator(tmp, &this->m_tree));
 				}
@@ -406,7 +381,7 @@ namespace ft
 			{
 				if (!empty())
 				{
-					node_ptr tmp = this->m_tree.searchTree(this->m_tree.m_root, ft::make_pair(k, T()));
+					node_ptr tmp = this->m_tree.searchTree(this->m_tree.getRoot(), k);
 					if (tmp)
 						return (const_iterator(tmp, &this->m_tree));
 				}

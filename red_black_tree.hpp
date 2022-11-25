@@ -6,19 +6,20 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/25 16:44:17 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:09:50 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <memory>
 #include "pair.hpp"
+#include "make_pair.hpp"
 #define _BLACK 0
 #define _RED 1
 
 namespace ft
 {
-	template <class value_type>
+	template <typename value_type>
 	struct Node
 	{
 		public:
@@ -28,8 +29,8 @@ namespace ft
 			Node			*right;
 			int				color;
 
-			Node(): pair_data(), parent(NULL), left(NULL), right(NULL), color (0) {}
-			Node(const value_type &pair_data): pair_data(pair_data), parent(NULL), left(NULL), right(NULL), color (0) {}
+			Node(): pair_data(), parent(NULL), left(NULL), right(NULL), color (_BLACK) {}
+			Node(const value_type &pair_data): pair_data(pair_data), parent(NULL), left(NULL), right(NULL), color (_BLACK) {}
 			Node(const Node &n): pair_data(n.pair_data), parent(n.parent), left(n.left), right(n.right), color (n.color) {}
 			~Node() {}
 			Node &operator = (const Node &n)
@@ -46,28 +47,35 @@ namespace ft
 			}
 	};
 
-	template <typename value_type, typename Alloc = std::allocator<value_type> >
+	template<class Container, class Alloc = std::allocator<Node<typename Container::value_type> > >
 	class RBTree
 	{
 		public:
-			typedef Node<value_type>*	node_ptr;
-			typedef typename Alloc::template rebind<Node<value_type> >::other		allocator_type;
 
+			typedef typename Container::value_type			value_type;
+			typedef typename Container::key_type			key_type;
+			typedef typename Container::mapped_type			mapped_type;
+			typedef typename Container::size_type			size_type;
+
+			typedef Node<value_type>*						node_ptr;
+			typedef typename Alloc::template rebind<Node<value_type> >::other	allocator_type;
+
+		private:
 			node_ptr		m_root;
 			node_ptr		m_nullNode;
+			size_type 		m_size;
 			allocator_type	m_alloc;
-			size_t			m_size;
-	
-			/*************************************************/
-			/*                RBT CONSTRUCTORS               */
-			/*************************************************/
+
+				/*************************************************/
+				/*                RBT CONSTRUCTORS               */
+				/*************************************************/
 
 		public:
 			RBTree(const Alloc& alloc = allocator_type())
 			{
 				m_size = 0;
 				m_alloc = alloc;
-				m_nullNode = allocNode(nullptr, value_type());
+				m_nullNode = allocNode(value_type(), NULL);
 				m_nullNode->color = _BLACK;
 				m_nullNode->left = NULL;
 				m_nullNode->right = NULL;
@@ -100,23 +108,22 @@ namespace ft
           		return *this;
 			}
 
-		private:
 			/*************************************************/
 			/*                ALLOC / DEALLOC                */
 			/*************************************************/
-
-			node_ptr allocNode(node_ptr node, const value_type &key)
+		
+		private:
+			node_ptr	allocNode(value_type val, node_ptr parent)
 			{
-				node_ptr allocatedNode;
-				allocatedNode = m_alloc.allocate(100);
-				m_alloc.construct(allocatedNode, key);
-				allocatedNode->parent = node;
+				node_ptr allocatedNode = m_alloc.allocate(1);
+				m_alloc.construct(allocatedNode, val);
+				allocatedNode->parent = parent;
 				allocatedNode->left = m_nullNode;
 				allocatedNode->right = m_nullNode;
 				allocatedNode->color = _RED;
 				return allocatedNode;
 			}
-	
+
 			void seekAndDestroy(node_ptr node)
 			{
 				if (node->parent)
@@ -129,76 +136,122 @@ namespace ft
 				else
 					m_root = m_nullNode;
 				m_alloc.destroy(node);
-				m_alloc.deallocate(node, 1);	
+				m_alloc.deallocate(node, 1);
+				m_size--;
 			}
 
-		public:
 			/*************************************************/
 			/*                    GETTERS                    */
 			/*************************************************/
+			
+		public:
+			node_ptr getRoot() const { return m_root; }
+			node_ptr getNull() const { return m_nullNode; }
+			size_t getSize() const { return m_size; }
 
-			node_ptr getRoot() { return this->m_root; }			
-			size_t getSize() const { return this->m_size; }
-
-			node_ptr getMin(node_ptr node) const
+			node_ptr getMin(node_ptr start) const
 			{
-				while (node->left != m_nullNode) 
-					node = node->left;
-				return node;
+				while (start->left != m_nullNode)
+					start = start->left;
+				return start;
 			}
 
-			node_ptr getMax(node_ptr node) const
+			node_ptr getMax(node_ptr start) const
 			{
-				while (node->right != m_nullNode) 
-					node = node->right;
-				return node;
+				while (start->right != m_nullNode)
+					start = start->right;
+				return start;
 			}
 
 			/*************************************************/
 			/*             PREVIOUS / NEXT NODE              */
 			/*************************************************/
 
-			node_ptr nextNode(node_ptr node) const
+			node_ptr nextNode(node_ptr start)
 			{
-				if (node == m_nullNode)
-					return node;
-				else if (node == getMax(m_root))
+				if (start == m_nullNode)
+					return start;
+				else if (start == getMax(m_root))
 					return m_nullNode;
-				else if (!node)
+				else if (!start)
 					return getMin(m_root);
-				else if (node->right != m_nullNode)
-					return getMin(node->right);
+				else if (start->right != m_nullNode)
+					return getMin(start->right);
 				else
 				{
-					node_ptr next = node->parent;
-					while (next && node == next->right)
+					node_ptr rval = start->parent;
+					while (rval && start == rval->right)
 					{
-						node = next;
-						next = next->parent;
+						start = rval;
+						rval = rval->parent;
 					}
-					return next;
+					return rval;
 				}
 			}
 
-			node_ptr prevNode(node_ptr node) const
+			node_ptr nextNode(node_ptr start) const
 			{
-				if (!node)
-					return node;
-				else if (node == m_nullNode)
-					return getMax(m_root);
-				else if (node == getMin(m_root))
-					return nullptr;
-				else if (node->left != m_nullNode)
-					return getMin(node->left);
+				if (start == m_nullNode)
+					return start;
+				else if (start == getMax(m_root))
+					return m_nullNode;
+				else if (!start)
+					return getMin(m_root);
+				else if (start->right != m_nullNode)
+					return getMin(start->right);
 				else
 				{
-					node_ptr prev = node->parent;
-					while (prev && node == prev->left)
+					node_ptr rval = start->parent;
+					while (rval && start == rval->right)
 					{
-						node = prev;
-						prev = prev->parent;
+						start = rval;
+						rval = rval->parent;
 					}
-					return prev;
+					return rval;
+				}
+			}
+
+			node_ptr prevNode(node_ptr start)
+			{
+				if (!start)
+					return start;
+				else if (start == m_nullNode)
+					return getMax(m_root);
+				else if (start == getMin(m_root))
+					return nullptr;
+				else if (start->left != m_nullNode)
+					return getMax(start->left);
+				else
+				{
+					node_ptr rval = start->parent;
+					while (rval && start == rval->left)
+					{
+						start = rval;
+						rval = rval->parent;
+					}
+					return rval;
+				}
+			}
+
+			node_ptr prevNode(node_ptr start) const
+			{
+				if (!start)
+					return start;
+				if (start == m_nullNode)
+					return getMax(m_root);
+				else if (start == getMin(m_root))
+					return nullptr;
+				else if (start->left != m_nullNode)
+					return getMax(start->left);
+				else
+				{
+					node_ptr rval = start->parent;
+					while (rval && start == rval->left)
+					{
+						start = rval;
+						rval = rval->parent;
+					}
+					return rval;
 				}
 			}
 
@@ -206,13 +259,13 @@ namespace ft
 			/*                SEARCH/CLEAR NODE              */
 			/*************************************************/
 
-			node_ptr searchTree(node_ptr node, value_type key) const
+			node_ptr searchTree(node_ptr node, key_type key) const
 			{
-				if (node == m_nullNode || key.first == node->pair_data.first) 
+				if (key == node->pair_data.first || node == m_nullNode)
 					return node;
-				if (key < node->pair_data) 
+				if (key < node->pair_data.first)
 					return searchTree(node->left, key);
-				return searchTree(node->right, key);
+				else return searchTree(node->right, key);
 			}
 
 			void clear(node_ptr node)
@@ -223,17 +276,17 @@ namespace ft
 					clear(node->right);
 					seekAndDestroy(node);
 				}
-			}	
+			}
 
 			/*************************************************/
 			/*                  INSERT NODE                  */
 			/*************************************************/
-			
-			node_ptr insertNode(const value_type &key) 
+
+			node_ptr insertNode(value_type val)
 			{
 				if (!m_size)
 				{
-					m_root = allocNode(NULL, key);
+					m_root = allocNode(val, nullptr);
 					m_root->color = _BLACK;
 					m_size++;
 					return m_root;
@@ -245,27 +298,28 @@ namespace ft
 					while (currentNode != m_nullNode)
 					{
 						previousNode = currentNode;
-						if (key.first == currentNode->pair_data.first)
+						if (val.first == currentNode->pair_data.first)
 								return currentNode;
-						if  (key.first < currentNode->pair_data.first)
+						if  (val.first < currentNode->pair_data.first)
 							currentNode = currentNode->left;
 						else
 							currentNode = currentNode->right;
 					}
-					if (key.first < previousNode->pair_data.first)
+					if (val.first < previousNode->pair_data.first)
 					{
-						previousNode->left = allocNode(previousNode, key);
+						previousNode->left = allocNode(val, previousNode);
 						currentNode = previousNode->left;
 					}
 					else
 					{
-						previousNode->right = allocNode(previousNode, key);
+						previousNode->right = allocNode(val, previousNode);
 						currentNode = previousNode->right;
 					}
 					m_size++;
 					if (!previousNode->parent)
 						return currentNode;
-					return (fixAfterInsert(currentNode));
+					fixAfterInsert(currentNode);
+					return currentNode;
 				}
 			}
 
@@ -450,50 +504,100 @@ namespace ft
 
 			node_ptr fixAfterInsert(node_ptr k)
 			{
-		       node_ptr u;
-          while (k->parent && k->parent->color == 1) {
-            if (k->parent == k->parent->parent->right) {
-              u = k->parent->parent->left;
-              if (u->color == 1) {
-                u->color = 0;
-                k->parent->color = 0;
-                k->parent->parent->color = 1;
-                k = k->parent->parent;
-              } else {
-                if (k == k->parent->left) {
-                  k = k->parent;
-                  rightRotate(k);
-                }
-                k->parent->color = 0;
-                k->parent->parent->color = 1;
-                leftRotate(k->parent->parent);
-              }
-            } else {
-              u = k->parent->parent->right;
-              if (u->color == 1) {
-                u->color = 0;
-                k->parent->color = 0;
-                k->parent->parent->color = 1;
-                //std::cout << "Value of k->parent: " << k->parent->value.second << "second parent: " << k->parent->parent->value.second   << "| I am not rotating 2 \n";
-                k = k->parent->parent;
-              } else {
-                if (k == k->parent->right) {
-                  k = k->parent;
-                  leftRotate(k);
-                }
-                k->parent->color = 0;
-                k->parent->parent->color = 1;
-                rightRotate(k->parent->parent);
-              }
-            }
-            if (k == m_root) {
-            	break;
-            }
-          }
+				node_ptr u;
+				while (k->parent->color == _RED) 
+				{
+					if (k->parent == k->parent->parent->right) 
+					{
+						u = k->parent->parent->left;
+						if (u->color == _RED) 
+						{
+							u->color = _BLACK;
+							k->parent->color = _BLACK;
+							k->parent->parent->color = _RED;
+							k = k->parent->parent;
+						}
+						else
+						{
+							if (k == k->parent->left) 
+							{
+								k = k->parent;
+								rightRotate(k);
+							}
+							k->parent->color = _BLACK;
+							k->parent->parent->color = _RED;
+							leftRotate(k->parent->parent);
+						}
+					}
+					else
+					{
+						u = k->parent->parent->right;
+						if (u->color == _RED) 
+						{
+							u->color = _BLACK;
+							k->parent->color = _BLACK;
+							k->parent->parent->color = _RED;
+							k = k->parent->parent;	
+						}
+						else
+						{
+							if (k == k->parent->right) 
+							{
+								k = k->parent;
+								leftRotate(k);
+							}
+							k->parent->color = _BLACK;
+							k->parent->parent->color = _RED;
+							rightRotate(k->parent->parent);
+						}
+					}
+					if (k == m_root) 
+						break;
+				}
+				m_root->color = _BLACK;
+				return (k);
+			}
 
-          m_root->color = 0;
+			/*************************************************/
+			/*                 MISC FUNCTIONS                */
+			/*************************************************/
 
-          return (k);
-		}
+			void copy(node_ptr node, const RBTree &tree)
+			{
+				if (node != tree.m_nullNode)
+				{
+					copy(node->left, tree);
+					copy(node->right, tree);
+					insert(ft::make_pair<key_type, mapped_type>(node->pair_data.first, node->pair_data.second));
+				}
+			}
+
+			void swap(RBTree &tree)
+			{
+				node_ptr				tmpm_root  = tree.m_root;
+				size_type 				tmpm_size  = tree.m_size;
+				node_ptr				tmpm_nullNode  = tree.m_nullNode;
+				allocator_type			tmpm_alloc = tree.m_alloc;
+
+				tree.m_root  = m_root;
+				tree.m_size  = m_size;
+				tree.m_nullNode  = m_nullNode;
+				tree.m_alloc = m_alloc;
+
+				m_root = tmpm_root;
+				m_size = tmpm_size;
+				m_nullNode = tmpm_nullNode;
+				m_alloc = tmpm_alloc;
+			}
+
+			bool is_end(node_ptr A) {
+				if (A->left && A->left == m_nullNode && A->right && A->right == m_nullNode)
+					return true;
+				return false;
+			}
+
+			bool one_child(node_ptr A) {
+				return ((A->left && A->left != m_nullNode) + (A->right && A->right != m_nullNode)) == 1;
+			}
 	};
 }
