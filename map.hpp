@@ -6,15 +6,15 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/25 18:25:11 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/27 14:51:02 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "red_black_tree.hpp"
-// #include "map_iterator.hpp"
-#include "make_pair.hpp"
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 namespace ft
 {
@@ -36,9 +36,10 @@ namespace ft
 			typedef value_type&							reference;
 			typedef const value_type*					const_pointer;
 			typedef const value_type&					const_reference;
+			typedef std::random_access_iterator_tag		iter_tag;
 
-			typedef RBTree<Container, allocator_type>	rbtree;
-			typedef Node<value_type>*					node_ptr;
+			typedef Node<value_type>*								node_ptr;
+			typedef RBTree<value_type, Key, T, allocator_type>		rbtree;
 			
 			class value_compare
 			{
@@ -61,123 +62,226 @@ namespace ft
 		private:
 			allocator_type	m_alloc;
 			size_type		m_size;
-			key_compare		m_compare;
+			Compare			m_compare;
 			rbtree			m_tree;
 
-	public:
-	class map_iter : public ft::iterator<ft::random_access_iterator_tag, T, difference_type, pointer, reference>
-		{
 		public:
-			node_ptr	NodePtr;
-			rbtree*		Tree;
-	
-			map_iter(): NodePtr(nullptr), Tree(nullptr) {}
-			map_iter(const map_iter& cpy): NodePtr(cpy.NodePtr), Tree(cpy.Tree) {}
-			map_iter(node_ptr ptr, rbtree* rbt): NodePtr(ptr), Tree(rbt) {}
-			map_iter& operator=(const map_iter& rhs) {
-				NodePtr = rhs.NodePtr;
-				Tree	= rhs.Tree;
-				return *this;
-			}
-			~map_iter(){}
+
+				/*************************************************/
+				/*                  MAP ITERATOR                 */
+				/*************************************************/
+
+			class MapIterator : public ft::iterator<iter_tag, T, difference_type, pointer, reference>
+			{
+				public:
+					node_ptr	m_iterNode;
+					rbtree*		m_iterTree;
 			
-		reference	operator*() const {return (*NodePtr).pair_data;}
-		pointer		operator->() const {return &(operator*());}
-
-		bool		operator== (const map_iter& rhs) const {return NodePtr == rhs.NodePtr;}
-		bool		operator!= (const map_iter& rhs) const {return NodePtr != rhs.NodePtr;}
-		map_iter&	operator++ () {
-				NodePtr = Tree->nextNode(NodePtr);
-				return *this;
-			}
-		map_iter	operator++ (int dummy) {
-				(void)dummy;
-				map_iter tmp(*this);
-				NodePtr = Tree->nextNode(NodePtr);
-				return tmp;
-			}
-		map_iter&	operator-- () {
-				NodePtr = Tree->prevNode(NodePtr);
-				return *this;
-			}
-		map_iter	operator-- (int dummy) {
-				(void)dummy;
-				map_iter tmp(*this);
-				NodePtr = Tree->prevNode(NodePtr);
-				return tmp;
-			}
-		map_iter&	operator+ (size_type offset) {
-			for (size_type n = 0; n < offset; n++)
-				operator++();
-			return *this;
-			}
-		map_iter&	operator- (size_type offset) {
-			for (size_type n = 0; n < offset; n++)
-				operator--();
-			return *this;
-			}
-		};
-
-		class const_map_iter : public ft::iterator<ft::random_access_iterator_tag, T, difference_type, pointer, reference>
-		{	
-		public:	
-			node_ptr			NodePtr;
-			const rbtree*		Tree;
-	
-			const_map_iter(): NodePtr(nullptr), Tree(nullptr) {}
-			const_map_iter(const map_iter& cpy): NodePtr(cpy.NodePtr), Tree(cpy.Tree) {}
-			const_map_iter(const const_map_iter& cpy): NodePtr(cpy.NodePtr), Tree(cpy.Tree) {}
-			const_map_iter(const node_ptr& ptr, rbtree* rbt): NodePtr(ptr), Tree(rbt) {}
-			const_map_iter(const node_ptr& ptr, const rbtree* rbt): NodePtr(ptr), Tree(rbt) {}
-			const_map_iter& operator=(const const_map_iter& rhs) {
-				NodePtr = rhs.NodePtr;
-				Tree	= rhs.Tree;
-				return *this;
-			}
-			~const_map_iter(){}
+					MapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
+					MapIterator(const MapIterator& toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
+					MapIterator(node_ptr node, rbtree* tree): m_iterNode(node), m_iterTree(tree) {}
+					MapIterator& operator=(const MapIterator& toCopy)
+					{
+						m_iterNode = toCopy.m_iterNode;
+						m_iterTree	= toCopy.m_iterTree;
+						return *this;
+					}
+					~MapIterator() {}
+					
+					node_ptr 	getBase() const { return (m_iterNode); }
+					reference	operator * () const { return (*m_iterNode).pair_data; }
+					pointer		operator -> () const { return (&m_iterNode->pair_data); }
+					bool		operator == (const MapIterator& toCopy) const { return (m_iterNode == toCopy.m_iterNode); }
+					bool		operator != (const MapIterator& toCopy) const { return (m_iterNode != toCopy.m_iterNode); }
 			
-		reference	operator*()  const {return (*NodePtr).pair_data;}
-		pointer		operator->() const {return &(operator*());}
+					MapIterator&	operator++ ()
+					{
+							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							return *this;
+					}
+					MapIterator	operator++ (int)
+					{
+							MapIterator tmp(*this);
+							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							return tmp;
+					}
+					MapIterator&	operator-- ()
+					{
+							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							return *this;
+					}
+					MapIterator	operator-- (int)
+					{
+							MapIterator tmp(*this);
+							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							return tmp;
+					}
+			};
 
-		bool		operator== (const const_map_iter& rhs) const {return NodePtr == rhs.NodePtr;}
-		bool		operator!= (const const_map_iter& rhs) const {return NodePtr != rhs.NodePtr;}
-		const_map_iter&	operator++ () {
-				NodePtr = Tree->nextNode(NodePtr);
-				return *this;
-			}
-		const_map_iter	operator++ (int dummy) {
-				(void)dummy;
-				const_map_iter tmp(*this);
-				NodePtr = Tree->nextNode(NodePtr);
-				return tmp;
-			}
-		const_map_iter&	operator-- () {
-				NodePtr = Tree->prevNode(NodePtr);
-				return *this;
-			}
-		const_map_iter	operator-- (int dummy) {
-				(void)dummy;
-				const_map_iter tmp(*this);
-				NodePtr = Tree->prevNode(NodePtr);
-				return tmp;
-			}
-		const_map_iter&	operator+ (size_type offset) {
-			for (size_type n = 0; n < offset; n++)
-				operator++();
-			return *this;
-			}
-		const_map_iter&	operator- (size_type offset) {
-			for (size_type n = 0; n < offset; n++)
-				operator--();
-			return *this;
-			}
-		};
+				/*************************************************/
+				/*               CONST MAP ITERATOR              */
+				/*************************************************/
 
-		typedef map_iter				iterator;	
-		typedef const_map_iter			const_iterator;
+			class ConstMapIterator : public ft::iterator<iter_tag, T, difference_type, pointer, reference>
+			{	
+				public:	
+					node_ptr			m_iterNode;
+					const rbtree*		m_iterTree;
+			
+					ConstMapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
+					ConstMapIterator(const MapIterator &toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
+					ConstMapIterator(const ConstMapIterator &toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
+					ConstMapIterator(const node_ptr &node, rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
+					ConstMapIterator(const node_ptr &node, const rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
+					ConstMapIterator& operator=(const ConstMapIterator &toCopy)
+					{
+						m_iterNode = toCopy.m_iterNode;
+						m_iterTree	= toCopy.m_iterTree;
+						return *this;
+					}
+					~ConstMapIterator() {}
+					
+					node_ptr 	getBase() const { return (m_iterNode); }
+					reference	operator * () const {return (*m_iterNode).pair_data; }
+					pointer		operator -> () const {return (&m_iterNode->pair_data); }
+					bool		operator == (const ConstMapIterator& it) const { return (m_iterNode == it.m_iterNode); }
+					bool		operator != (const ConstMapIterator& it) const { return (m_iterNode != it.m_iterNode); }
+
+					ConstMapIterator&	operator++ ()
+					{
+							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							return *this;
+					}
+					ConstMapIterator	operator++ (int)
+					{
+							ConstMapIterator tmp(*this);
+							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							return tmp;
+					}
+					ConstMapIterator&	operator-- ()
+					{
+							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							return *this;
+					}
+					ConstMapIterator	operator-- (int)
+					{
+							ConstMapIterator tmp(*this);
+							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							return tmp;
+					}
+			};
+
+				/*************************************************/
+				/*             REVERSE MAP ITERATOR              */
+				/*************************************************/
+
+			class ReverseMapIterator : public ft::iterator<iter_tag, T, difference_type, pointer, reference>
+			{
+				public:
+					node_ptr	m_iterNode;
+					rbtree*		m_iterTree;
+			
+					ReverseMapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
+					ReverseMapIterator(const ReverseMapIterator& toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
+					ReverseMapIterator(node_ptr node, rbtree* tree): m_iterNode(node), m_iterTree(tree) {}
+					ReverseMapIterator& operator=(const ReverseMapIterator& toCopy)
+					{
+						m_iterNode = toCopy.m_iterNode;
+						m_iterTree	= toCopy.m_iterTree;
+						return *this;
+					}
+					~ReverseMapIterator() {}
+					
+					node_ptr 	getBase() const { return (m_iterNode); }
+					reference	operator * () const { return (*m_iterNode).pair_data; }
+					pointer		operator -> () const { return (&m_iterNode->pair_data); }
+					bool		operator == (const ReverseMapIterator& toCopy) const { return (m_iterNode == toCopy.m_iterNode); }
+					bool		operator != (const ReverseMapIterator& toCopy) const { return (m_iterNode != toCopy.m_iterNode); }
+			
+					ReverseMapIterator&	operator++ ()
+					{
+							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							return *this;
+					}
+					ReverseMapIterator	operator++ (int)
+					{
+							ReverseMapIterator tmp(*this);
+							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							return tmp;
+					}
+					ReverseMapIterator&	operator-- ()
+					{
+							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							return *this;
+					}
+					ReverseMapIterator	operator-- (int)
+					{
+							MapIterator tmp(*this);
+							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							return tmp;
+					}
+			};
+
+				/*************************************************/
+				/*           CONST REVERSE MAP ITERATOR          */
+				/*************************************************/
+
+			class ConstReverseMapIterator : public ft::iterator<iter_tag, T, difference_type, pointer, reference>
+			{	
+				public:	
+					node_ptr			m_iterNode;
+					const rbtree*		m_iterTree;
+			
+					ConstReverseMapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
+					ConstReverseMapIterator(const ReverseMapIterator &toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
+					ConstReverseMapIterator(const ConstReverseMapIterator &toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
+					ConstReverseMapIterator(const node_ptr &node, rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
+					ConstReverseMapIterator(const node_ptr &node, const rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
+					ConstReverseMapIterator& operator=(const ConstReverseMapIterator &toCopy)
+					{
+						m_iterNode = toCopy.m_iterNode;
+						m_iterTree	= toCopy.m_iterTree;
+						return *this;
+					}
+					~ConstReverseMapIterator() {}
+					
+					node_ptr 	getBase() const { return (m_iterNode); }
+					reference	operator * () const {return (*m_iterNode).pair_data; }
+					pointer		operator -> () const {return (&m_iterNode->pair_data); }
+					bool		operator == (const ConstReverseMapIterator& it) const { return (m_iterNode == it.m_iterNode); }
+					bool		operator != (const ConstReverseMapIterator& it) const { return (m_iterNode != it.m_iterNode); }
+
+					ConstReverseMapIterator&	operator++ ()
+					{
+							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							return *this;
+					}
+					ConstReverseMapIterator	operator++ (int)
+					{
+							ConstReverseMapIterator tmp(*this);
+							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							return tmp;
+					}
+					ConstReverseMapIterator&	operator-- ()
+					{
+							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							return *this;
+					}
+					ConstReverseMapIterator	operator-- (int)
+					{
+							ConstMapIterator tmp(*this);
+							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							return tmp;
+					}
+			};
+
+			typedef	MapIterator					iterator;
+			typedef ConstMapIterator			const_iterator;
+			typedef ReverseMapIterator			reverse_iterator;
+			typedef ConstReverseMapIterator		const_reverse_iterator;
 
 			/*************************************************/
-			/*                 CONSTRUCTORS                  */
+			/*               MAP CONSTRUCTORS                */
 			/*************************************************/
 
 		public:
@@ -238,23 +342,22 @@ namespace ft
 			{
 				return const_iterator(this->m_tree.getNull(), &this->m_tree);
 			}
-
-			// reverse_iterator rbegin()
-			// {
-			// 	return reverse_iterator(iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree));
-			// }
-			// const_reverse_iterator rbegin() const
-			// {
-			// 	return const_reverse_iterator(const_iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree));
-			// }
-			// reverse_iterator rend()
-			// {
-			// 	return reverse_iterator(iterator(NULL, &this->m_tree));
-			// }
-			// const_reverse_iterator rend() const
-			// {
-			// 	return const_reverse_iterator(const_iterator(NULL, &this->m_tree));
-			// }
+			reverse_iterator rbegin()
+			{
+				return reverse_iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree);
+			}
+			const_reverse_iterator rbegin() const
+			{
+				return const_reverse_iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree);
+			}
+			reverse_iterator rend()
+			{
+				return reverse_iterator(this->m_tree.getNull(), &this->m_tree);
+			}
+			const_reverse_iterator rend() const
+			{
+				return const_reverse_iterator(this->m_tree.getNull(), &this->m_tree);
+			}
 
 			/*************************************************/
 			/*                   CAPACITY                    */
@@ -320,22 +423,32 @@ namespace ft
 			template <class InputIterator>
 			void insert (InputIterator first, InputIterator last)
 			{
-
+				while (first != last)
+				{
+					insert(*first);
+					first++;
+				}
 			}
 			
 			void erase (iterator position)
 			{
-
+				node_ptr tmp = position.getBase();
+				this->m_tree.deleteNode(tmp, *position);
 			}
 			
 			size_type erase (const key_type& k)
 			{
-
+				iterator it = find(k);
+				erase(it);
 			}
 
 		    void erase (iterator first, iterator last)
 			{
-
+				while (first != last)
+				{
+					erase(first);
+					first++;
+				}
 			}
 
 			void swap (map& x)
@@ -352,15 +465,8 @@ namespace ft
 			/*                   OBSERVERS                   */
 			/*************************************************/
 
-			key_compare key_comp() const
-			{
-
-			}
-
-			value_compare value_comp() const
-			{
-
-			}
+			key_compare key_comp() const { return (this->m_compare); }
+			value_compare value_comp() const { return value_compare(key_compare()); }
 
 			/*************************************************/
 			/*                   OPERATIONS                  */
@@ -368,62 +474,81 @@ namespace ft
 
 			iterator find (const key_type& k)
 			{
-				if (!empty())
+				if (!this->empty())
 				{
 					node_ptr tmp = this->m_tree.searchTree(this->m_tree.getRoot(), k);
 					if (tmp)
 						return (iterator(tmp, &this->m_tree));
 				}
-				return (end());
+				return (this->end());
 			}
 
 			const_iterator find (const key_type& k) const
 			{
-				if (!empty())
+				if (!this->empty())
 				{
 					node_ptr tmp = this->m_tree.searchTree(this->m_tree.getRoot(), k);
 					if (tmp)
 						return (const_iterator(tmp, &this->m_tree));
 				}
-				return (end());
+				return (this->end());
 			}
 
 			size_type count (const key_type& k) const
 			{
-				const_iterator it = find(k);
-					if (it == end())
+				const_iterator it = this->find(k);
+					if (it == this->end())
 						return (1);
 				return (0);
 			}
 			
 			iterator lower_bound (const key_type& k)
 			{
-				
+				iterator it = this->find(k);
+				if (it->first < k)
+					return it;
+				return this->end();
 			}
 			
 			const_iterator lower_bound (const key_type& k) const
 			{
-
+				const_iterator it = this->find(k);
+				if (it->first < k)
+					return it;
+				return this->end();
 			}
 
 			iterator upper_bound (const key_type& k)
 			{
-
+				iterator it = this->find(k);
+				if (it->first > k)
+					return it;
+				return this->end();
 			}
 
 			const_iterator upper_bound (const key_type& k) const
 			{
-				
+				const_iterator it = this->find(k);
+				if (it->first > k)
+					return it;
+				return this->end();
+			}
+
+			pair<iterator, iterator> equal_range (const key_type& k)
+			{
+				return (ft::make_pair(lower_bound(k), upper_bound(k)));
 			}
 
 			pair<const_iterator, const_iterator> equal_range (const key_type& k) const
 			{
-
+				return (ft::make_pair(lower_bound(k), upper_bound(k)));
 			}
-			
-			pair<iterator, iterator> equal_range (const key_type& k)
-			{
-
-			}
+					
+			friend bool operator == (const map &lhs, const map &rhs) { return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()); }
+			friend bool operator != (const map &lhs, const map &rhs) { return !(lhs == rhs); }
+			friend bool operator <  (const map &lhs, const map &rhs) { return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); }
+			friend bool operator >  (const map &lhs, const map &rhs) { return rhs < lhs; }
+			friend bool operator >= (const map &lhs, const map &rhs) { return !(lhs < rhs); }
+			friend bool operator <= (const map &lhs, const map &rhs) { return !(rhs < lhs); }
 	};
 }

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/25 16:43:22 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/27 14:51:07 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -583,15 +583,24 @@ void test_map(void)
 	std_map[10] = 100;
 	ft::pair<int, int> pair4(4, 44);
 	ft::pair<int, int> pair5(-5, 55);
-	// ft_map.insert(pair4);
-	// ft_map.insert(pair5);
-	ft_map[-5] = 100;
-	ft_map[-5] = 100;
-	ft_map[-5] = 100;
-	ft_map[-5] = 100;
-	
-	print_map(std_map);
+	ft_map.insert(pair4);
+	ft_map.insert(pair5);
 	print_map(ft_map);
+	ft_map[-5] = 100;
+	ft_map[-5] = 100;
+	ft_map[-5] = 100;
+	ft_map[-5] = 100;
+	print_map(ft_map);
+
+	ft::map<int, int>::iterator pit = ft_map.begin();
+	
+	pit++;
+	pit++;
+	ft_map.erase(pit);
+	print_map(ft_map);
+
+	std::cout << ft_map.lower_bound(2)->first << std::endl;
+	// print_map(std_map);
 	// std::map<int, int>::iterator ite = std_map.end();
 	// // ite--;
 	// std::cout << "FT ITER ENDDDD: " << ite->second << std::endl;

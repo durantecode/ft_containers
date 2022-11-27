@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/25 19:24:19 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/27 12:32:01 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 namespace ft
 {
-	template <typename value_type>
+	template <class value_type>
 	struct Node
 	{
 		public:
@@ -47,17 +47,17 @@ namespace ft
 			}
 	};
 
-	template<class Container, class Alloc = std::allocator<Node<typename Container::value_type> > >
+	template<class Value, class Key, class Mapped, class Alloc = std::allocator<Node<Value> > >
 	class RBTree
 	{
 		public:
 
-			typedef typename Container::value_type			value_type;
-			typedef typename Container::key_type			key_type;
-			typedef typename Container::mapped_type			mapped_type;
-			typedef typename Container::size_type			size_type;
+			typedef Value		value_type;
+			typedef Key			key_type;
+			typedef Mapped		mapped_type;
+			typedef size_t		size_type;
 
-			typedef Node<value_type>*						node_ptr;
+			typedef Node<value_type>*		node_ptr;
 			typedef typename Alloc::template rebind<Node<value_type> >::other	allocator_type;
 
 		private:
@@ -562,16 +562,6 @@ namespace ft
 			/*                 MISC FUNCTIONS                */
 			/*************************************************/
 
-			void copy(node_ptr node, const RBTree &tree)
-			{
-				if (node != tree.m_nullNode)
-				{
-					copy(node->left, tree);
-					copy(node->right, tree);
-					insert(ft::make_pair<key_type, mapped_type>(node->pair_data.first, node->pair_data.second));
-				}
-			}
-
 			void swap(RBTree &tree)
 			{
 				node_ptr				tmpm_root  = tree.m_root;
@@ -588,16 +578,6 @@ namespace ft
 				m_size = tmpm_size;
 				m_nullNode = tmpm_nullNode;
 				m_alloc = tmpm_alloc;
-			}
-
-			bool is_end(node_ptr A) {
-				if (A->left && A->left == m_nullNode && A->right && A->right == m_nullNode)
-					return true;
-				return false;
-			}
-
-			bool one_child(node_ptr A) {
-				return ((A->left && A->left != m_nullNode) + (A->right && A->right != m_nullNode)) == 1;
 			}
 	};
 }
