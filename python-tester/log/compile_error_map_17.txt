@@ -1,0 +1,10 @@
+-MAP ERASE VALUE TEST-
+
+In file included from ./tmp/outfile_map_17.cpp:9:
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/map.hpp:450:4: error: non-void function does not return a value [-Werror,-Wreturn-type]
+                        }
+                        ^
+./tmp/outfile_map_17.cpp:52:7: note: in instantiation of member function 'ft::map<std::__1::basic_string<char>, int, std::__1::less<std::__1::basic_string<char> >, std::__1::allocator<std::__1::pair<const std::__1::basic_string<char>, int> > >::erase' requested here
+                        v2.erase(save[i]);
+                           ^
+1 error generated.

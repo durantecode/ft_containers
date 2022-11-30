@@ -1,12 +1,16 @@
 #include <iostream>
+#include <map>
+#include <utility>
+#include <vector>
 #include "test_utils.hpp"
-#include <stack>
 #include "pair.hpp"
 #include "equal.hpp"
 #include "vector.hpp"
 #include "map.hpp"
+#include "red_black_tree.hpp"
 #include "is_integral.hpp"
 #include "lexicographical_compare.hpp"
+#include "iterator_traits.hpp"
 #include "make_pair.hpp"
 #include "stack.hpp"
 #include "utils.hpp"
@@ -14,15 +18,15 @@
 #include "enable_if.hpp"
 
 extern std::string	test_name;
-void test_stack_empty_constructor(long count){
+void test_map_empty_ctor(long count){
 	//print job name
-	test_name = "-STACK EMPTY CONSTRUCTION TEST-";
+	test_name = "-MAP EMPTY CONSTRUCTION TEST-";
 	print_test_name(count);
 
 	//std working
 	timer_start();
 	for (int i = 0; i < count; ++i){
-		std::stack<int> p1;
+		std::map<std::string, int> p1;
 	}
 	double std_res = timer_stop();
 	std::cout << "std result: " << std_res << " sec | " << std::flush;
@@ -30,7 +34,7 @@ void test_stack_empty_constructor(long count){
 	//ft working
 	timer_start();
 	for (int i = 0; i < count; ++i){
-		ft::stack<int> p1;
+		ft::map<std::string, int> p2;
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
@@ -38,5 +42,5 @@ void test_stack_empty_constructor(long count){
 }
 
 int main(){
-	test_stack_empty_constructor(100000);
+	test_map_empty_ctor(100000);
 }

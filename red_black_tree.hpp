@@ -6,14 +6,17 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/27 12:32:01 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/30 00:55:25 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
 
 #include <iostream>
 #include <memory>
 #include "pair.hpp"
 #include "make_pair.hpp"
+
 #define _BLACK 0
 #define _RED 1
 
@@ -77,35 +80,42 @@ namespace ft
 				m_alloc = alloc;
 				m_nullNode = allocNode(value_type(), NULL);
 				m_nullNode->color = _BLACK;
-				m_nullNode->left = NULL;
-				m_nullNode->right = NULL;
 				m_root = m_nullNode;
 			}
 
-			RBTree(RBTree const &toCopy) :
-				m_root(toCopy.m_root),
-				m_nullNode(toCopy.m_nullNode),
-				m_alloc(toCopy.m_alloc),
-				m_size(toCopy.m_size)
-				{}
+			RBTree(RBTree const &toCopy)
+			{
+				m_size = 0;
+				m_nullNode = allocNode(value_type(), NULL);
+				m_nullNode->color = _BLACK;
+				m_root = m_nullNode;
+				*this = toCopy;
+			}
 
 			~RBTree()
 			{
 				clear(m_root);
 				m_alloc.destroy(m_nullNode);
-				m_alloc.deallocate(m_nullNode, 1);	
+				m_alloc.deallocate(m_nullNode, sizeof(Node<value_type>));	
 			}
 
 			RBTree &operator = (const RBTree &toCopy)
        		{				
-				if (this != &toCopy)
+				clear(m_root);
+				copyTree(toCopy.m_root, toCopy);
+				m_alloc	= toCopy.m_alloc;
+				return *this;
+			}
+
+			void copyTree(node_ptr node, const RBTree &tree)
+			{
+				if (node != tree.m_nullNode)
 				{
-					m_root = toCopy.m_root;
-					m_nullNode = toCopy.m_nullNode;
-					m_alloc = toCopy.m_alloc;
-					m_size = toCopy.m_size;
+					copyTree(node->left, tree);
+					copyTree(node->right, tree);
+					ft::pair<key_type, mapped_type> val(node->pair_data.first, node->pair_data.second);
+					insertNode(val);
 				}
-          		return *this;
 			}
 
 			/*************************************************/
@@ -115,7 +125,7 @@ namespace ft
 		private:
 			node_ptr	allocNode(value_type val, node_ptr parent)
 			{
-				node_ptr allocatedNode = m_alloc.allocate(1);
+				node_ptr allocatedNode = m_alloc.allocate(sizeof(Node<value_type>));
 				m_alloc.construct(allocatedNode, val);
 				allocatedNode->parent = parent;
 				allocatedNode->left = m_nullNode;
@@ -286,7 +296,7 @@ namespace ft
 			{
 				if (!m_size)
 				{
-					m_root = allocNode(val, nullptr);
+					m_root = allocNode(val, NULL);
 					m_root->color = _BLACK;
 					m_size++;
 					return m_root;

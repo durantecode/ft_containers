@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/27 14:51:07 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/30 01:07:29 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,71 +27,72 @@ static void print_map(T &map)
 	std::cout << " --- " << std::endl;
 }
 
-// static void test_map_constructors(void)
-// {
-// 	//empty
-// 	test_name = "EMPTY CONSTRUCTOR TEST";
-// 	err_count = 0;
-// 	names.push_back(test_name);
-// 	if (verbose)
-// 		print_header(test_name, 0);
+static void test_map_constructors(void)
+{
+	//empty
+	test_name = "EMPTY CONSTRUCTOR TEST";
+	err_count = 0;
+	names.push_back(test_name);
+	if (verbose)
+		print_header(test_name, 0);
 
-// 	std::pair<int, int> a[] = {std::make_pair(0, 1), std::make_pair(1, 0), std::make_pair(2, 1)};
-// 	ft::map<int, int> m1;
-// 	std::map<int, int> m2;
-// 	check("(default) m1 == m2", (m1 == m2));
-// 	test_map_time_empty_constructor();
+	std::pair<int, int> a[] = {std::make_pair(0, 1), std::make_pair(1, 0), std::make_pair(2, 1)};
+	ft::pair<int, int> b[] = {ft::make_pair(0, 1), ft::make_pair(1, 0), ft::make_pair(2, 1)};
+	ft::map<int, int> m1;
+	std::map<int, int> m2;
+	check("(default) m1 == m2", (m1 == m2));
+	test_map_time_empty_constructor();
 
-// 	//range
-// 	test_name = "RANGE CONSTRUCTOR TEST";
-// 	err_count = 0;
-// 	names.push_back(test_name);
-// 	if (verbose)
-// 		print_header(test_name, 0);
+	//range
+	test_name = "RANGE CONSTRUCTOR TEST";
+	err_count = 0;
+	names.push_back(test_name);
+	if (verbose)
+		print_header(test_name, 0);
 
-// 	ft::map<int, int> m3(a, a + 3);
-// 	std::map<int, int> m4(a, a + 3);
-// 	check("(range) m3 == m4", (m3 == m4));
-// 	test_map_time_range_constructor();
+	ft::map<int, int> m3(b, b + 3);
+	std::map<int, int> m4(a, a + 3);
+	check("(range) m3 == m4", (m3 == m4));
+	test_map_time_range_constructor();
 
-// 	//copy
-// 	test_name = "COPY CONSTRUCTOR TEST";
-// 	err_count = 0;
-// 	names.push_back(test_name);
-// 	if (verbose)
-// 		print_header(test_name, 0);
+	//copy
+	test_name = "COPY CONSTRUCTOR TEST";
+	err_count = 0;
+	names.push_back(test_name);
+	if (verbose)
+		print_header(test_name, 0);
 
-// 	ft::map<int, int> m5(m3);
-// 	std::map<int, int> m6(m4);
-// 	check("(copy) m5 == m6", (m3 == m4));
-// 	ft::map<int, int> m7;
-// 	std::map<int, int> m8;
-// 	m7[0] = 1;
-// 	m7[1] = 2;
-// 	m7[2] = 3;
-// 	m8[0] = 1;
-// 	m8[1] = 2;
-// 	m8[2] = 3;
-// 	// print_map(m7);
-// 	// print_map(m8);
-// 	// std::cout << (++m7.begin())->second << std::endl;
-// 	// ft::map<int, int>::iterator it = m7.begin();
-// 	// while (it != m7.end())
-// 	// {
-// 	// 	// ft::map<int, int>::iterator it2 = m7.find(it->first);
-// 	// 	std::cout << it.node()->pair.second << std::endl;
-// 	// 	// std::cout << it->first << "=" << it2->second << std::endl;
-// 	// 	++it;
-// 	// }
-// 	check("(copy) m7 == m8", (m7 == m8));
-// 	ft::map<int, int> m9;
-// 	std::map<int, int> m10;
-// 	m9 = m7;
-// 	m10 = m8;
-// 	check("(copy) m9 == m10", (m9 == m10));
+	ft::map<int, int> m5(m3);
+	std::map<int, int> m6(m4);
+	check("(copy) m5 == m6", (m5 == m6));
+	ft::map<int, int> m7;
+	std::map<int, int> m8;
+	m7[0] = 1;
+	m7[1] = 2;
+	m7[2] = 3;
+	m8[0] = 1;
+	m8[1] = 2;
+	m8[2] = 3;
+	// print_map(m7);
+	// print_map(m8);
+	// std::cout << (++m7.begin())->second << std::endl;
+	// ft::map<int, int>::iterator it = m7.begin();
+	// while (it != m7.end())
+	// {
+	// 	// ft::map<int, int>::iterator it2 = m7.find(it->first);
+	// 	std::cout << it.node()->pair.second << std::endl;
+	// 	// std::cout << it->first << "=" << it2->second << std::endl;
+	// 	++it;
+	// }
+	check("(copy) m7 == m8", (m7 == m8));
+	ft::map<int, int> m9;
+	std::map<int, int> m10;
+	m9 = m7;
+	m10 = m8;
+	check("(copy) m9 == m10", (m9 == m10));
 
-// 	test_map_time_copy_constructor();	
-// }
+	test_map_time_copy_constructor();	
+}
 
 // static void test_map_max_size(void)
 // {
@@ -505,7 +506,10 @@ void test_map(void)
 	errors.clear();
 	time_perf.clear();
 
-	// test_map_constructors();
+	// ft::map<int, int> map;
+	// ft::map<int, int>::iterator it = map.begin();
+
+	test_map_constructors();
 	// test_map_max_size();
 	// test_map_access();
 	// test_map_insert();
@@ -519,87 +523,97 @@ void test_map(void)
 	// test_map_range();
 	// test_map_comparision();
 
-	// print_test_results();
+	print_test_results();
 
-	std::map<std::string, std::string> m;
+	// std::map<std::string, std::string> m;
 	
-	std::pair<std::string, std::string> p("hosssss", "adios");
-	m.insert(p);
-	// m["hola"] = "pepino";
-	m["hi"] = "chau";
-	m["jus"] = "fus";
-	m["a"] = "trocola";
+	// std::pair<std::string, std::string> p("hosssss", "adios");
+	// m.insert(p);
+	// // m["hola"] = "pepino";
+	// m["hi"] = "chau";
+	// m["jus"] = "fus";
+	// m["a"] = "trocola";
 	
 
-	std::pair<int, int> p1(1, 11);
-	std::pair<int, int> p2(2, 22);
-	std::pair<int, int> p3(3, 33);
-	std::map<int, int> std_map;
+	// std::pair<int, int> p1(1, 11);
+	// std::pair<int, int> p2(2, 22);
+	// std::pair<int, int> p3(8, 88);
+	// std::map<int, int> std_map;
 	
 	ft::pair<int, int> pair(1, 11);
 	ft::pair<int, int> pair2(2, 22);
 	ft::pair<int, int> pair3(3, 33);
 	ft::map<int, int> ft_map;
 
-	std_map.insert(p1);
-	std_map.insert(p2);
-	std_map.insert(p3);
+	// std_map.insert(p1);
+	// // std_map.insert(p2);
+	// // std_map.insert(p3);
 	
-	ft_map.insert(pair);
-	ft_map.insert(pair2);
-	ft_map.insert(pair3);
+	// ft_map.insert(pair);
+	// ft_map.insert(pair2);
+	// ft_map.insert(pair3);
 
+	// // // print_map(std_map);
+	// // print_map(ft_map);
+
+
+	// // std::cout << ft_map.count(3) << std::endl;
+
+	// ft::map<int, int>::iterator it = ft_map.begin();
+	// std::cout << it->first << std::endl;
+	// ft::map<int, int>::iterator ite = ft_map.end();
+	// std::map<int, int>::iterator std_it = std_map.begin();
+	// std::map<int, int>::iterator std_ite = std_map.end();
+
+	// if (*std_it != *it)
+	// 	std::cout << "OJETE" << std::endl;
+	// // if (*std_ite != *std_it)
+	// // ft::map<int, int>::iterator iteee = ft_map.end();
+
+	// while (itiii != ft_map.end())
+	// {
+	// 	std::cout << itiii->second << std::endl;
+	// 	itiii++;
+	// }
+	
+	// rev--;
+	// std::cout << rev->second << std::endl;
+	// rev--;
+	// std::cout << rev->second << std::endl;
+	// std::cout << itiii->second << std::endl;
+	// std::map<int, int>::const_iterator const_itend = std_map.end();
+
+	// std::cout << ft_map.find(2)->second << std::endl;
+
+	// std::map<int, int>::iterator it = std_map.lower_bound(4);
+	// std::cout << "LB: " << it->first << std::endl;
+	// std::cout << ft_map.count(9) << std::endl;
+	// std::cout << "AT: " << ft_map.at(1) << std::endl;
+	// // std::cout << ft_map.at(2) << std::endl;
+	// // std::cout << ft_map.at(9) << std::endl;
+	// std_map[20] = 100;
+	// ft::pair<int, int> pair4(4, 44);
+	// ft::pair<int, int> pair5(-5, 55);
+	// ft_map.insert(pair4);
+	// ft_map.insert(pair5);
+	// print_map(ft_map);
+	// ft_map[-5] = 100;
+	// ft_map[-5] = 100;
+	// ft_map[-5] = 100;
+	// ft_map[-5] = 100;
+	// print_map(ft_map);
+
+	// ft::map<int, int>::iterator pit = ft_map.begin();
+	
+	// pit++;
+	// pit++;
+	// ft_map.erase(pit);
+	// print_map(ft_map);
+
+	// std::cout << ft_map.lower_bound(0)->first << std::endl;
 	// print_map(std_map);
-	print_map(ft_map);
-
-
-	std::cout << ft_map.count(3) << std::endl;
-
-	ft::map<int, int>::const_iterator rev(ft_map.end());
-	ft::map<int, int>::iterator itiii = ft_map.begin();
-	// ft::map<int, int>::iterator iteee = ft_map.end();
-
-	while (itiii != ft_map.end())
-	{
-		std::cout << itiii->second << std::endl;
-		itiii++;
-	}
+	// std::cout << std_map.lower_bound(3)->first << std::endl;
 	
-	rev--;
-	std::cout << rev->second << std::endl;
-	rev--;
-	std::cout << rev->second << std::endl;
-	std::cout << itiii->second << std::endl;
-	std::map<int, int>::const_iterator const_itend = std_map.end();
-
-	std::cout << ft_map.find(2)->second << std::endl;
-
-	std::map<int, int>::iterator it = std_map.lower_bound(4);
-	std::cout << "LB: " << it->first << std::endl;
-	std::cout << ft_map.count(9) << std::endl;
-	std::cout << "AT: " << ft_map.at(1) << std::endl;
-	// std::cout << ft_map.at(2) << std::endl;
-	// std::cout << ft_map.at(9) << std::endl;
-	std_map[10] = 100;
-	ft::pair<int, int> pair4(4, 44);
-	ft::pair<int, int> pair5(-5, 55);
-	ft_map.insert(pair4);
-	ft_map.insert(pair5);
-	print_map(ft_map);
-	ft_map[-5] = 100;
-	ft_map[-5] = 100;
-	ft_map[-5] = 100;
-	ft_map[-5] = 100;
-	print_map(ft_map);
-
-	ft::map<int, int>::iterator pit = ft_map.begin();
-	
-	pit++;
-	pit++;
-	ft_map.erase(pit);
-	print_map(ft_map);
-
-	std::cout << ft_map.lower_bound(2)->first << std::endl;
 	// print_map(std_map);
 	// std::map<int, int>::iterator ite = std_map.end();
 	// // ite--;

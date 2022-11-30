@@ -1,12 +1,16 @@
 #include <iostream>
+#include <map>
+#include <utility>
+#include <vector>
 #include "test_utils.hpp"
-#include <stack>
 #include "pair.hpp"
 #include "equal.hpp"
 #include "vector.hpp"
 #include "map.hpp"
+#include "red_black_tree.hpp"
 #include "is_integral.hpp"
 #include "lexicographical_compare.hpp"
+#include "iterator_traits.hpp"
 #include "make_pair.hpp"
 #include "stack.hpp"
 #include "utils.hpp"
@@ -14,35 +18,27 @@
 #include "enable_if.hpp"
 
 extern std::string	test_name;
-void test_stack_assignment(long count){
+void test_map_insert_val(long count){
 	//print job name
-	test_name = "-STACK ASSIGNMENT OP TEST-";
+	test_name = "-MAP INSERT VALUE TEST-";
 	print_test_name(count);
 
 	//init
     const size_t N = 42;
-    const int M = std::numeric_limits<int>::max();
+    const int M = std::numeric_limits<int>::max();    
 	srand(time(NULL));
 	{
 	//output test
 	timer_start();
 	long err_count = 0;
-	for (int i = 0; i < count; ++i){
-		size_t num = rand() % N;
-		std::stack<int> v1;
-		ft::stack<int> v2;
-		for (size_t i = 0; i < num; ++i){
-			int fill = rand() % M;
-			v1.push(fill);
-			v2.push(fill);
-		}
-		std::stack<int> v1_r;
-		ft::stack<int> v2_r;
-		v1_r = v1;
-		v2_r = v2;
-		int std_res = v1_r.size();
-		int ft_res = v2_r.size();
-		if (std_res != ft_res)
+		std::map<std::string, int> v1;
+		ft::map<std::string, int> v2;
+		for (size_t i = 0; i < N * N; ++i){
+			std::string fill = getNewId();
+            int val = rand() % M;
+			v1.insert(std::make_pair<std::string, int>(fill, val));
+			v2.insert(ft::make_pair<std::string, int>(fill, val));
+		if (!std::equal(v1.begin(),v1.end(),v2.begin()))
 			++err_count;
 	}
 	double comp_res = timer_stop();
@@ -50,23 +46,21 @@ void test_stack_assignment(long count){
 	}
 
 	//std working
-    std::stack<int> v1;
-    for (size_t i = 0; i < N * N; ++i) v1.push(N);
+	std::map<std::string, int> v1;
 	timer_start();
 	for (int i = 0; i < count; ++i){
-    	std::stack<int> v1_r;
-		v1_r = v1;
+        std::string fill = getNewId();
+		v1.insert(std::make_pair<std::string, int>(fill, N));
 	}
 	double std_res = timer_stop();
 	std::cout << "std result: " << std_res << " sec | " << std::flush;
 	
-	//ft working
-    ft::stack<int> v2;
-    for (size_t i = 0; i < N * N; ++i) v2.push(N);
+	//ft working 
+	ft::map<std::string, int> v2;
 	timer_start();
 	for (int i = 0; i < count; ++i){
-    	ft::stack<int> v2_r;
-		v2_r = v2;
+        std::string fill = getNewId();
+		v2.insert(ft::make_pair<std::string, int>(fill, N));
 	}
 	double ft_res = timer_stop();
 	std::cout << "ft result: " << ft_res << " sec | " << std::flush;
@@ -74,5 +68,5 @@ void test_stack_assignment(long count){
 }
 
 int main(){
-	test_stack_assignment(100000);
+	test_map_insert_val(100000);
 }

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/27 14:51:02 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/30 01:05:24 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "red_black_tree.hpp"
 #include "equal.hpp"
 #include "lexicographical_compare.hpp"
+#include "iterator_traits.hpp"
 
 namespace ft
 {
@@ -90,7 +91,7 @@ namespace ft
 					
 					node_ptr 	getBase() const { return (m_iterNode); }
 					reference	operator * () const { return (*m_iterNode).pair_data; }
-					pointer		operator -> () const { return (&m_iterNode->pair_data); }
+					pointer		operator -> () const { return &(operator*()); }
 					bool		operator == (const MapIterator& toCopy) const { return (m_iterNode == toCopy.m_iterNode); }
 					bool		operator != (const MapIterator& toCopy) const { return (m_iterNode != toCopy.m_iterNode); }
 			
@@ -143,7 +144,7 @@ namespace ft
 					
 					node_ptr 	getBase() const { return (m_iterNode); }
 					reference	operator * () const {return (*m_iterNode).pair_data; }
-					pointer		operator -> () const {return (&m_iterNode->pair_data); }
+					pointer		operator -> () const {return &(operator*()); }
 					bool		operator == (const ConstMapIterator& it) const { return (m_iterNode == it.m_iterNode); }
 					bool		operator != (const ConstMapIterator& it) const { return (m_iterNode != it.m_iterNode); }
 
@@ -194,7 +195,7 @@ namespace ft
 					
 					node_ptr 	getBase() const { return (m_iterNode); }
 					reference	operator * () const { return (*m_iterNode).pair_data; }
-					pointer		operator -> () const { return (&m_iterNode->pair_data); }
+					pointer		operator -> () const { return &(operator*()); }
 					bool		operator == (const ReverseMapIterator& toCopy) const { return (m_iterNode == toCopy.m_iterNode); }
 					bool		operator != (const ReverseMapIterator& toCopy) const { return (m_iterNode != toCopy.m_iterNode); }
 			
@@ -247,7 +248,7 @@ namespace ft
 					
 					node_ptr 	getBase() const { return (m_iterNode); }
 					reference	operator * () const {return (*m_iterNode).pair_data; }
-					pointer		operator -> () const {return (&m_iterNode->pair_data); }
+					pointer		operator -> () const {return &(operator*()); }
 					bool		operator == (const ConstReverseMapIterator& it) const { return (m_iterNode == it.m_iterNode); }
 					bool		operator != (const ConstReverseMapIterator& it) const { return (m_iterNode != it.m_iterNode); }
 
@@ -294,17 +295,19 @@ namespace ft
 				{}
 
 			template <class InputIterator>
-			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
+				m_alloc(alloc),
+				m_size(0),
+				m_compare(comp),
+				m_tree(alloc)
 			{
-				
+				this->insert(first, last);
 			}
 
-			map (const map &toCopy) :
-				m_alloc(toCopy.m_alloc),
-				m_size(toCopy.m_size),
-				m_compare(toCopy.m_compare),
-				m_tree(toCopy.m_tree)
-			{}
+			map (const map &toCopy)
+			{
+				*this = toCopy;
+			}
 
 			~map()
 			{
@@ -313,13 +316,9 @@ namespace ft
 
 			map &operator = (const map &toCopy)
 			{
-				if (*this != &toCopy)
-				{
-					this->m_alloc = toCopy.m_alloc;
-					this->m_compare = toCopy.m_compare;
-					this->m_size = toCopy.m_size;
-					this->m_tree = toCopy.m_tree;
-				}
+				clear();
+				insert(toCopy.begin(), toCopy.end());
+				return (*this);
 			}
 
 			/*************************************************/
@@ -327,11 +326,15 @@ namespace ft
 			/*************************************************/
 
 			iterator begin()
-			{ 
-				return iterator(this->m_tree.getMin(this->m_tree.getRoot()), &this->m_tree);
+			{
+				if (!this->size())
+					return end();
+				return (iterator(this->m_tree.getMin(this->m_tree.getRoot()), &this->m_tree));
 			}
 			const_iterator begin() const
 			{
+				// if (!this->size())
+				// 	return end();
 				return const_iterator(this->m_tree.getMin(this->m_tree.getRoot()), &this->m_tree);
 			}
 			iterator end()
@@ -365,7 +368,7 @@ namespace ft
 
 			bool empty() const
 			{
-				if (!this->m_size)
+				if (!this->size())
 					return (true);
 				return (false);
 			}
@@ -407,17 +410,21 @@ namespace ft
 			pair<iterator,bool> insert (const value_type& val)
 			{
 				size_type	prevSize(this->m_tree.getSize());
-				node_ptr	inserted = this->m_tree.insertNode(val);
+				node_ptr	insertedNode = this->m_tree.insertNode(val);
 				size_type	postSize(this->m_tree.getSize());
 
-				bool ret = (this->m_tree.getSize() == prevSize);
+				bool ret = (prevSize == postSize);
 				
-				return ft::make_pair<iterator, bool>(iterator(inserted, &this->m_tree), ret);
+				return ft::make_pair<iterator, bool>(iterator(insertedNode, &this->m_tree), ret);
 			}
 
 			iterator insert (iterator position, const value_type& val)
 			{
-
+				iterator tmp = this->find(val.first);
+				if (tmp != this->end())
+					return (tmp);
+				node_ptr insertedNode = this->m_tree.insertNode(val);
+				return (iterator(position, &this->m_tree));
 			}
 
 			template <class InputIterator>
@@ -451,9 +458,9 @@ namespace ft
 				}
 			}
 
-			void swap (map& x)
+			void swap (map &toSwap)
 			{
-
+				std::swap(this->m_tree, toSwap.m_tree);
 			}
 
 			void clear()
@@ -504,44 +511,64 @@ namespace ft
 			
 			iterator lower_bound (const key_type& k)
 			{
-				iterator it = this->find(k);
-				if (it->first < k)
-					return it;
-				return this->end();
+				iterator it = this->begin();
+				iterator ite = this->end();
+				while (it != ite)
+				{
+					if (this->m_compare(it->first, k) <= 0)
+						return (it);
+					++it;
+				}
+				return (ite);
 			}
 			
 			const_iterator lower_bound (const key_type& k) const
 			{
-				const_iterator it = this->find(k);
-				if (it->first < k)
-					return it;
-				return this->end();
+				const_iterator it = this->begin();
+				const_iterator ite = this->end();
+				while (it != ite)
+				{
+					if (this->m_compare(it->first, k) <= 0)
+						return (it);
+					++it;
+				}
+				return (ite);
 			}
 
 			iterator upper_bound (const key_type& k)
 			{
-				iterator it = this->find(k);
-				if (it->first > k)
-					return it;
-				return this->end();
+				iterator it = this->begin();
+				iterator ite = this->end();
+				while (it != ite)
+				{
+					if (it->first != k && this->m_compare(it->first, k) <= 0)
+						return (it);
+					++it;
+				}
+				return (ite);
 			}
 
 			const_iterator upper_bound (const key_type& k) const
 			{
-				const_iterator it = this->find(k);
-				if (it->first > k)
-					return it;
-				return this->end();
+				const_iterator it = this->begin();
+				const_iterator ite = this->end();
+				while (it != ite)
+				{
+					if (it->first != k && this->m_compare(it->first, k) <= 0)
+						return (it);
+					++it;
+				}
+				return (ite);
 			}
 
 			pair<iterator, iterator> equal_range (const key_type& k)
 			{
-				return (ft::make_pair(lower_bound(k), upper_bound(k)));
+				return (ft::make_pair(this->lower_bound(k), this->upper_bound(k)));
 			}
 
 			pair<const_iterator, const_iterator> equal_range (const key_type& k) const
 			{
-				return (ft::make_pair(lower_bound(k), upper_bound(k)));
+				return (ft::make_pair(this->lower_bound(k), this->upper_bound(k)));
 			}
 					
 			friend bool operator == (const map &lhs, const map &rhs) { return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()); }

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/25 16:15:45 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/30 01:04:37 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ extern std::vector<long> errors;
 extern std::vector<double> time_perf;
 
 /* MAIN FUNCTIONS */
+
+template <class T>
+static void print_map(T &map);
 
 void	test_vector(void);
 void	test_map(void);
@@ -203,23 +206,59 @@ bool operator==(ft::vector<T> &a, std::vector<T> &b)
 
 /* TEMPLATE TO CHECK STD MAP AGAINST FT MAP */
 
-// template <typename T, typename S>
-// bool operator==(ft::map<T, S> &a, std::map<T, S> &b)
+template <typename T, typename S>
+bool operator == (ft::map<T, S> &a, std::map<T, S> &b)
+{
+	if (a.size() != b.size())
+		return (false);
+	if (a.empty() != b.empty())
+		return (false);
+	typename ft::map<T, S>::iterator it = a.begin();
+	typename ft::map<T, S>::iterator ite = a.end();
+	typename std::map<T, S>::iterator it2 = b.begin();
+	while (it != ite)
+	{
+		if (it->first != it2->first || it->second != it2->second)
+			return (false);
+		++it;
+		++it2;
+	}
+	return (true);
+}
+
+template <class InputIterator1, class InputIterator2>
+bool my_equal (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+{
+	while (first1 != last1)
+	{
+		if (first1->first != first2->first)
+			return false;
+		if (first1->second != first2->second)
+			return false;
+		++first1;
+		++first2;
+	}
+	return true;
+}
+
+template <class InputIterator1, class InputIterator2>
+bool iter_compare (InputIterator1 &first1, InputIterator2 &first2)
+{
+	if (first1.first != first2.first)
+		return false;
+	if (first1.second != first2.second)
+		return false;
+	return true;
+}
+
+// template <class K, class T>
+// bool operator != (ft::pair<const K,T> &ft_pair, std::pair<const K,T> &std_pair)
 // {
-// 	if (a.size() != b.size())
-// 		return (false);
-// 	if (a.empty() != b.empty())
-// 		return (false);
-// 	typename ft::map<T, S>::iterator it = a.begin();
-// 	typename std::map<T, S>::iterator it2 = b.begin();
-// 	while (it != a.end())
-// 	{
-// 		if (it->first != it2->first || it->second != it2->second)
-// 			return (false);
-// 		++it;
-// 		++it2;
-// 	}
-// 	return (true);
+// 	if (ft_pair.first != std_pair.first)
+// 		return false;
+// 	if (ft_pair.second != std_pair.second)
+// 		return false;
+// 	return true;
 // }
 
 #endif
