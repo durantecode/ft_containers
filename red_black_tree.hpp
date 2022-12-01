@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/30 00:55:25 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/01 22:30:14 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ namespace ft
 			node_ptr getRoot() const { return m_root; }
 			node_ptr getNull() const { return m_nullNode; }
 			size_t getSize() const { return m_size; }
+			allocator_type getAlloc() const { return m_alloc; }
 
 			node_ptr getMin(node_ptr node) const
 			{
@@ -337,56 +338,45 @@ namespace ft
 			/*                  DELETE NODE                  */
 			/*************************************************/
 
-			void deleteNode(node_ptr node, value_type key) 
+			void	deleteNode(key_type key)
 			{
-				node_ptr z = m_nullNode;
-				node_ptr x, y;
-				while (node != m_nullNode)
-				{
-					if (node->pair_data.first == key.first) 
-						z = node;
-					if (node->pair_data.first <= key.first) 
-						node = node->right;
-					else
-						node = node->left;
+				node_ptr tmp = searchTree(m_root, key);
+				if (tmp == m_nullNode)
+					return ;
+				node_ptr A = tmp;
+				int original_color = A->color;
+				node_ptr B = NULL;
+				if (tmp->left == m_nullNode) {
+					B = tmp->right;
+					transplantNode(tmp, tmp->right);
 				}
-				if (z == m_nullNode) 
-					return;
-				y = z;
-				int y_original_color = y->color;
-				if (z->left == m_nullNode) 
-				{
-					x = z->right;
-					transplantNode(z, z->right);
-				}
-				else if (z->right == m_nullNode) 
-				{
-					x = z->left;
-					transplantNode(z, z->left);
+				else if (tmp->right == m_nullNode) {
+					B = tmp->left;
+					transplantNode(tmp, tmp->left);
 				}
 				else
 				{
-					y = getMin(z->right);
-					y_original_color = y->color;
-					x = y->right;
-					if (y->parent == z) 
-						x->parent = y;
+					A = getMin(tmp->right);
+					original_color = A->color;
+					B = A->right;
+					if (A->parent == tmp)
+						B->parent = A;
 					else
 					{
-						transplantNode(y, y->right);
-						y->right = z->right;
-						y->right->parent = y;
+						transplantNode(A, A->right);
+						A->right = tmp->right;
+						A->right->parent = A;
 					}
-
-					transplantNode(z, y);
-					y->left = z->left;
-					y->left->parent = y;
-					y->color = z->color;
+					transplantNode(tmp, A);
+					A->left = tmp->left;
+					A->left->parent = A;
+					A->color = tmp->color;
 				}
-				m_alloc.destroy(z);
-				m_alloc.deallocate(z, 1);
-				if (y_original_color == _BLACK)
-					fixAfterDelete(x);
+				m_alloc.destroy(tmp);
+				m_alloc.deallocate(tmp, 1);
+				m_size--;
+				if (original_color == _BLACK)
+					fixAfterDelete(B);
 			}
 
 		private:
@@ -394,78 +384,60 @@ namespace ft
 			/*             FIXING DELETE/INSERT              */
 			/*************************************************/
 
-			void fixAfterDelete(node_ptr x) 
-			{
-				node_ptr s;
-				while (x != m_root && x->color == _BLACK) 
-				{
-					if (x == x->parent->left) 
-					{
-						s = x->parent->right;
-						if (s->color == _RED) 
-						{
-							s->color = _BLACK;
-							x->parent->color = _RED;
-							leftRotate(x->parent);
-							s = x->parent->right;
-						}
-
-						if (s->left->color == _BLACK && s->right->color == _BLACK) 
-						{
-							s->color = _RED;
-							x = x->parent;
-						}
-						else
-						{
-							if (s->right->color == _BLACK) 
-							{
-								s->left->color = _BLACK;
-								s->color = _RED;
-								rightRotate(s);
-								s = x->parent->right;
-							} 
-							s->color = x->parent->color;
-							x->parent->color = _BLACK;
-							s->right->color = _BLACK;
-							leftRotate(x->parent);
-							x = m_root;
-						}
-					}
-					else
-					{
-						s = x->parent->left;
-						if (s->color == _RED) 
-						{
-							s->color = _BLACK;
-							x->parent->color = _RED;
-							rightRotate(x->parent);
-							s = x->parent->left;
-						}
-
-						if (s->right->color == _BLACK && s->right->color == _BLACK) 
-						{
-							s->color = _RED;
-							x = x->parent;
-						}
-						else
-						{
-							if (s->left->color == _BLACK) 
-							{
-								s->right->color = _BLACK;
-								s->color = _RED;
-								leftRotate(s);
-								s = x->parent->left;
-							}
-							s->color = x->parent->color;
-							x->parent->color = _BLACK;
-							s->left->color = _BLACK;
-							rightRotate(x->parent);
-							x = m_root;
-						}
-					} 
+void fixAfterDelete(node_ptr x) {
+		while (x != m_root && x->color == 0) {
+			if (x == x->parent->left) {
+				node_ptr w = x->parent->right;
+				if (w->color == 1) {
+					w->color = 0;
+					x->parent->color = 1;
+					leftRotate (x->parent);
+					w = x->parent->right;
 				}
-				x->color = _BLACK;
+				if (w->left->color == 0 && w->right->color == 0) {
+					w->color = 1;
+					x = x->parent;
+				} else {
+					if (w->right->color == 0) {
+						w->left->color = 0;
+						w->color = 1;
+						rightRotate (w);
+						w = x->parent->right;
+					}
+					w->color = x->parent->color;
+					x->parent->color = 0;
+					w->right->color = 0;
+					leftRotate (x->parent);
+					x = m_root;
+				}
+			} else {
+				node_ptr w = x->parent->left;
+				if (w->color == 1) {
+					w->color = 0;
+					x->parent->color = 1;
+					rightRotate (x->parent);
+					w = x->parent->left;
+				}
+				if (w->right->color == 0 && w->left->color == 0) {
+					w->color = 1;
+					x = x->parent;
+				} else {
+					if (w->left->color == 0) {
+						w->right->color = 0;
+						w->color = 1;
+						leftRotate (w);
+						w = x->parent->left;
+					}
+					w->color = x->parent->color;
+					x->parent->color = 0;
+					w->left->color = 0;
+					rightRotate (x->parent);
+					x = m_root;
+				}
 			}
+		}
+		x->color = 0;
+	}
 
 			void leftRotate(node_ptr n) 
 			{
@@ -571,23 +543,24 @@ namespace ft
 			/*************************************************/
 			/*                 MISC FUNCTIONS                */
 			/*************************************************/
+		public:
 
 			void swap(RBTree &tree)
 			{
-				node_ptr				tmpm_root  = tree.m_root;
-				size_type 				tmpm_size  = tree.m_size;
-				node_ptr				tmpm_nullNode  = tree.m_nullNode;
-				allocator_type			tmpm_alloc = tree.m_alloc;
+				node_ptr		 tmp_root  = tree.m_root;
+				size_type 		 tmp_size  = tree.m_size;
+				node_ptr		 tmp_nullNode  = tree.m_nullNode;
+				allocator_type	 tmp_alloc = tree.m_alloc;
 
 				tree.m_root  = m_root;
 				tree.m_size  = m_size;
-				tree.m_nullNode  = m_nullNode;
+				tree.m_nullNode = m_nullNode;
 				tree.m_alloc = m_alloc;
 
-				m_root = tmpm_root;
-				m_size = tmpm_size;
-				m_nullNode = tmpm_nullNode;
-				m_alloc = tmpm_alloc;
+				m_root = tmp_root;
+				m_size = tmp_size;
+				m_nullNode = tmp_nullNode;
+				m_alloc = tmp_alloc;
 			}
 	};
 }

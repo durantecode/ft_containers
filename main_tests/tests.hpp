@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/30 01:04:37 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/01 21:08:20 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,11 @@ void 	test_map_time_size_empty_max();
 void 	test_map_time_assignment_op();
 void 	test_map_time_operator_at();
 void 	test_map_time_insert_val();
+void 	test_map_time_insert_pos();
 void 	test_map_time_insert_range();
-void 	test_map_time_erase();
 void 	test_map_time_erase_val();
 void 	test_map_time_erase_pos(); 
+void 	test_map_time_erase_range();
 void 	test_map_time_swap(); 
 void 	test_map_time_count_clear();
 void 	test_map_time_find();
@@ -190,7 +191,7 @@ inline void check(std::string name, bool good)
 /* TEMPLATE TO CHECK STD VECTOR AGAINST FT VECTOR */
 
 template <typename T>
-bool operator==(ft::vector<T> &a, std::vector<T> &b)
+bool operator == (ft::vector<T> &a, std::vector<T> &b)
 {
 	if (a.size() != b.size())
 		return (false);
@@ -250,15 +251,5 @@ bool iter_compare (InputIterator1 &first1, InputIterator2 &first2)
 		return false;
 	return true;
 }
-
-// template <class K, class T>
-// bool operator != (ft::pair<const K,T> &ft_pair, std::pair<const K,T> &std_pair)
-// {
-// 	if (ft_pair.first != std_pair.first)
-// 		return false;
-// 	if (ft_pair.second != std_pair.second)
-// 		return false;
-// 	return true;
-// }
 
 #endif

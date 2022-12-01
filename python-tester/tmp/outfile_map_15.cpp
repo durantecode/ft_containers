@@ -3,19 +3,13 @@
 #include <utility>
 #include <vector>
 #include "test_utils.hpp"
-#include "pair.hpp"
-#include "equal.hpp"
-#include "vector.hpp"
-#include "map.hpp"
-#include "red_black_tree.hpp"
-#include "is_integral.hpp"
-#include "lexicographical_compare.hpp"
-#include "iterator_traits.hpp"
-#include "make_pair.hpp"
-#include "stack.hpp"
-#include "utils.hpp"
-#include "vector_iterator.hpp"
-#include "enable_if.hpp"
+#include "Utility.hpp"
+#include "Vector.hpp"
+#include "Map.hpp"
+#include "Node.hpp"
+#include "Set.hpp"
+#include "Stack.hpp"
+#include "Iterator.hpp"
 
 extern std::string	test_name;
 void test_map_erase(long count) {

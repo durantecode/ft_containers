@@ -1,7 +1,7 @@
--MAP ERASE VALUE TEST-
+-MAP EMPTY CONSTRUCTION TEST-
 
-./tmp/outfile_map_17.cpp:31:7: error: no template named 'map' in namespace 'ft'; did you mean 'Map'?
-                ft::map<std::string, int> v2;
+./tmp/outfile_map_1.cpp:31:7: error: no template named 'map' in namespace 'ft'; did you mean 'Map'?
+                ft::map<std::string, int> p2;
                 ~~~~^~~
                     Map
 /Users/durante/Desktop/42-Cursus/cpp-projects/ft2/Map.hpp:9:7: note: 'Map' declared here

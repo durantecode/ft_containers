@@ -1,6 +1,20 @@
 -MAP UPPER BOUND TEST-
 
-./tmp/outfile_map_18.cpp:53:11: error: invalid operands to binary expression ('std::__1::__map_iterator<std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char>, int>, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char>, int>, void *> *, long> >::value_type' (aka 'pair<const std::__1::basic_string<char>, int>') and 'ft::map<std::__1::basic_string<char>, int, std::__1::less<std::__1::basic_string<char> >, std::__1::allocator<std::__1::pair<const std::__1::basic_string<char>, int> > >::value_type' (aka 'pair<const std::__1::basic_string<char>, int>'))
+./tmp/outfile_map_18.cpp:31:10: error: no template named 'map' in namespace 'ft'; did you mean 'Map'?
+            ft::map<std::string, int> v2;
+            ~~~~^~~
+                Map
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft2/Map.hpp:9:7: note: 'Map' declared here
+class Map {
+      ^
+./tmp/outfile_map_18.cpp:45:7: error: no template named 'map' in namespace 'ft'; did you mean 'Map'?
+                ft::map<std::string, int>::iterator it_ft = v2.upper_bound(bound);
+                ~~~~^~~
+                    Map
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft2/Map.hpp:9:7: note: 'Map' declared here
+class Map {
+      ^
+./tmp/outfile_map_18.cpp:47:11: error: invalid operands to binary expression ('std::__1::__map_iterator<std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char>, int>, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char>, int>, void *> *, long> >::value_type' (aka 'pair<const std::__1::basic_string<char>, int>') and 'ft::pair<const std::__1::basic_string<char>, int>')
                 if (*it != *it_ft) ++err_count;
                     ~~~ ^  ~~~~~~
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/system_error:419:1: note: candidate function not viable: no known conversion from 'std::__1::__map_iterator<std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char>, int>, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char>, int>, void *> *, long> >::value_type' (aka 'pair<const std::__1::basic_string<char>, int>') to 'const std::__1::error_code' for 1st argument
@@ -93,13 +107,14 @@ operator!=(const multimap<_Key, _Tp, _Compare, _Allocator>& __x,
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:3344:1: note: candidate template ignored: could not match 'vector' against 'pair'
 operator!=(const vector<_Tp, _Allocator>& __x, const vector<_Tp, _Allocator>& __y)
 ^
-/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/pair.hpp:58:7: note: candidate template ignored: could not match 'ft::pair' against 'std::__1::pair'
-        bool operator != (const pair<T1,T2> &lhs, const pair<T1,T2> &rhs)
-             ^
-/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector_iterator.hpp:175:7: note: candidate template ignored: could not match 'ReverseVectorIterator' against 'pair'
-        bool operator != (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() != r.base(); }
-             ^
-/Users/durante/Desktop/42-Cursus/cpp-projects/ft_containers/vector.hpp:376:7: note: candidate template ignored: could not match 'vector' against 'pair'
-        bool operator != (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-             ^
-1 error generated.
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft2/Utility.hpp:95:14: note: candidate template ignored: could not match 'ft::pair' against 'std::__1::pair'
+        inline bool operator!=(const pair<T1, T2>& x, const pair<T1, T2>& y) {
+                    ^
+./tmp/outfile_map_18.cpp:69:6: error: no template named 'map' in namespace 'ft'; did you mean 'Map'?
+        ft::map<std::string, int> v2;
+        ~~~~^~~
+            Map
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft2/Map.hpp:9:7: note: 'Map' declared here
+class Map {
+      ^
+4 errors generated.

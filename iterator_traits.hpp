@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 21:55:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/28 21:25:08 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/11/30 10:51:02 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,17 @@ namespace ft
 		typedef const T*						    pointer;
 		typedef const T&						    reference;
 	};
+
+	template<class InputIterator>
+	typename ft::iterator_traits<InputIterator>::difference_type
+	distance (InputIterator first, InputIterator last)
+	{
+		typename ft::iterator_traits<InputIterator>::difference_type i = 0;
+		while (first != last)
+		{
+			i++;
+			first++;
+		}
+		return (i);
+	}
 }

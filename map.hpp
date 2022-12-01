@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/30 01:05:24 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/01 22:31:34 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,9 +304,13 @@ namespace ft
 				this->insert(first, last);
 			}
 
-			map (const map &toCopy)
+			map (const map &toCopy) :
+				m_alloc(toCopy.m_alloc),
+				m_size(toCopy.m_size),
+				m_compare(toCopy.m_compare),
+				m_tree(toCopy.m_tree)
 			{
-				*this = toCopy;
+
 			}
 
 			~map()
@@ -316,8 +320,13 @@ namespace ft
 
 			map &operator = (const map &toCopy)
 			{
-				clear();
-				insert(toCopy.begin(), toCopy.end());
+				if (this != &toCopy)
+				{
+					m_alloc = toCopy.m_alloc;
+					m_size = toCopy.m_size;
+					m_compare = toCopy.m_compare;
+					m_tree = toCopy.m_tree;
+				}
 				return (*this);
 			}
 
@@ -333,8 +342,8 @@ namespace ft
 			}
 			const_iterator begin() const
 			{
-				// if (!this->size())
-				// 	return end();
+				if (!this->size())
+					return end();
 				return const_iterator(this->m_tree.getMin(this->m_tree.getRoot()), &this->m_tree);
 			}
 			iterator end()
@@ -347,19 +356,23 @@ namespace ft
 			}
 			reverse_iterator rbegin()
 			{
+				if (!this->size())
+					return rend();
 				return reverse_iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree);
 			}
 			const_reverse_iterator rbegin() const
 			{
+				if (!this->size())
+					return end();
 				return const_reverse_iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree);
 			}
 			reverse_iterator rend()
 			{
-				return reverse_iterator(this->m_tree.getNull(), &this->m_tree);
+				return reverse_iterator(NULL, &this->m_tree);
 			}
 			const_reverse_iterator rend() const
 			{
-				return const_reverse_iterator(this->m_tree.getNull(), &this->m_tree);
+				return const_reverse_iterator(NULL, &this->m_tree);
 			}
 
 			/*************************************************/
@@ -374,7 +387,10 @@ namespace ft
 			}
 
 			size_type size() const { return (this->m_tree.getSize()); }
-			size_type max_size() const { return (this->m_alloc.max_size()); }
+			size_type max_size() const
+			{
+				return (std::numeric_limits<size_type>::max() / (sizeof(ft::Node<value_type>)));
+			}
 			allocator_type get_allocator() const { return this->m_alloc; }
 			
 
@@ -424,7 +440,7 @@ namespace ft
 				if (tmp != this->end())
 					return (tmp);
 				node_ptr insertedNode = this->m_tree.insertNode(val);
-				return (iterator(position, &this->m_tree));
+				return (iterator(insertedNode, &this->m_tree));
 			}
 
 			template <class InputIterator>
@@ -432,35 +448,40 @@ namespace ft
 			{
 				while (first != last)
 				{
-					insert(*first);
+					this->m_tree.insertNode(ft::make_pair(first->first, first->second));
 					first++;
 				}
 			}
 			
 			void erase (iterator position)
 			{
-				node_ptr tmp = position.getBase();
-				this->m_tree.deleteNode(tmp, *position);
+				iterator it = position;
+				this->m_tree.deleteNode((*it).first);
 			}
 			
 			size_type erase (const key_type& k)
 			{
-				iterator it = find(k);
-				erase(it);
+				size_type	prevSize(this->m_tree.getSize());
+				this->m_tree.deleteNode(k);
+				size_type	postSize(this->m_tree.getSize());
+
+				return (prevSize == postSize);
 			}
 
 		    void erase (iterator first, iterator last)
 			{
-				while (first != last)
+				iterator it;
+
+				for (; first != last ;)
 				{
-					erase(first);
-					first++;
+					it = first++;;
+					this->m_tree.deleteNode((*it).first);
 				}
 			}
 
 			void swap (map &toSwap)
 			{
-				std::swap(this->m_tree, toSwap.m_tree);
+				this->m_tree.swap(toSwap.m_tree);
 			}
 
 			void clear()
@@ -504,7 +525,7 @@ namespace ft
 			size_type count (const key_type& k) const
 			{
 				const_iterator it = this->find(k);
-					if (it == this->end())
+					if (it != this->end())
 						return (1);
 				return (0);
 			}
