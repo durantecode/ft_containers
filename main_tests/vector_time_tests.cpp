@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 14:41:43 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 11:32:49 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -731,7 +731,7 @@ void test_vector_time_erase_iter()
     const size_t N = 42;
     const int M = std::numeric_limits<int>::max();
 	
-	srand(time(NULL));
+	srand(time(NULL)); 
 	{
 		//loop test
 		timer_start();
@@ -1249,6 +1249,96 @@ void test_vector_time_assign_value()
 	errors.push_back(err_count);
 }
 
+void test_vector_time_iter()
+{
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();
+
+	srand(time(NULL));
+	{
+		//loop test
+		timer_start();
+		for (int i = 0; i < count; ++i)
+		{
+			size_t num = rand() % N;
+			if (!num) continue;
+			std::vector<int> std;
+			ft::vector<int> ft;
+			for (size_t i = 0; i < num; ++i)
+			{
+				int fill = rand() % M;
+				std.push_back(fill);
+				ft.push_back(fill);
+			}
+			std::vector<int>::iterator it_rb = std.begin();
+			std::vector<int>::iterator it_re = std.end();
+			ft::vector<int>::iterator its_rb = ft.begin();
+			ft::vector<int>::iterator its_re = ft.end();
+
+			if (*it_rb != *its_rb)
+				++err_count;
+			if (it_rb - it_re != its_rb - its_re)
+				++err_count;
+			if (!std::equal(it_rb, it_re, its_rb))
+				++err_count;
+		}
+	}
+	double comp_res = timer_stop();
+	//print results
+	if (verbose)
+	{
+		performance_result(0, 0);
+    	comparision_result(comp_res);
+	}
+	time_perf.push_back(0);
+	errors.push_back(err_count);
+}
+
+void test_vector_time_const_iter()
+{
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();
+
+	srand(time(NULL));
+	{
+		//loop test
+		timer_start();
+		for (int i = 0; i < count; ++i)
+		{
+			size_t num = rand() % N;
+			if (!num) continue;
+			std::vector<int> std;
+			ft::vector<int> ft;
+			for (size_t i = 0; i < num; ++i)
+			{
+				int fill = rand() % M;
+				std.push_back(fill);
+				ft.push_back(fill);
+			}
+			std::vector<int>::const_iterator it_rb = std.begin();
+			std::vector<int>::const_iterator it_re = std.end();
+			ft::vector<int>::const_iterator its_rb = ft.begin();
+			ft::vector<int>::const_iterator its_re = ft.end();
+
+			if (*it_rb != *its_rb)
+				++err_count;
+			if (it_rb - it_re != its_rb - its_re)
+				++err_count;
+			if (!std::equal(it_rb, it_re, its_rb))
+				++err_count;
+		}
+	}
+	double comp_res = timer_stop();
+	//print results
+	if (verbose)
+	{
+		performance_result(0, 0);
+    	comparision_result(comp_res);
+	}
+	time_perf.push_back(0);
+	errors.push_back(err_count);
+}
+
 void test_vector_time_reverse_iter()
 {
     const size_t N = 42;
@@ -1274,6 +1364,51 @@ void test_vector_time_reverse_iter()
 			std::vector<int>::reverse_iterator it_re = std.rend();
 			ft::vector<int>::reverse_iterator its_rb = ft.rbegin();
 			ft::vector<int>::reverse_iterator its_re = ft.rend();
+
+			if (*it_rb != *its_rb)
+				++err_count;
+			if (it_rb - it_re != its_rb - its_re)
+				++err_count;
+			if (!std::equal(it_rb, it_re, its_rb))
+				++err_count;
+		}
+	}
+	double comp_res = timer_stop();
+	//print results
+	if (verbose)
+	{
+		performance_result(0, 0);
+    	comparision_result(comp_res);
+	}
+	time_perf.push_back(0);
+	errors.push_back(err_count);
+}
+
+void test_vector_time_const_reverse_iter()
+{
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();
+
+	srand(time(NULL));
+	{
+		//loop test
+		timer_start();
+		for (int i = 0; i < count; ++i)
+		{
+			size_t num = rand() % N;
+			if (!num) continue;
+			std::vector<int> std;
+			ft::vector<int> ft;
+			for (size_t i = 0; i < num; ++i)
+			{
+				int fill = rand() % M;
+				std.push_back(fill);
+				ft.push_back(fill);
+			}
+			std::vector<int>::const_reverse_iterator it_rb = std.rbegin();
+			std::vector<int>::const_reverse_iterator it_re = std.rend();
+			ft::vector<int>::const_reverse_iterator its_rb = ft.rbegin();
+			ft::vector<int>::const_reverse_iterator its_re = ft.rend();
 
 			if (*it_rb != *its_rb)
 				++err_count;

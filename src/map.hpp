@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 01:14:07 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 11:07:51 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ namespace ft
 					}
 					ReverseMapIterator	operator-- (int)
 					{
-							MapIterator tmp(*this);
+							ReverseMapIterator tmp(*this);
 							m_iterNode = m_iterTree->nextNode(m_iterNode);
 							return tmp;
 					}
@@ -270,7 +270,7 @@ namespace ft
 					}
 					ConstReverseMapIterator	operator-- (int)
 					{
-							ConstMapIterator tmp(*this);
+							ConstReverseMapIterator tmp(*this);
 							m_iterNode = m_iterTree->nextNode(m_iterNode);
 							return tmp;
 					}
@@ -436,6 +436,7 @@ namespace ft
 
 			iterator insert (iterator position, const value_type& val)
 			{
+				(void)position;
 				iterator tmp = this->find(val.first);
 				if (tmp != this->end())
 					return (tmp);

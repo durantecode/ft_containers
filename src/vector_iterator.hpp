@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 01:10:05 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 11:43:14 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,16 @@ namespace ft
 			typedef VectorIterator<T, const T*, const T&>	const_iterator;
 			typedef std::random_access_iterator_tag			iterator_category;
 
-		protected:
+		private:
 			pointer m_ptr;
 		
 		public:
 			VectorIterator() : m_ptr(NULL) {}
 			VectorIterator(const pointer ptr) : m_ptr(ptr) {}
-			VectorIterator(iterator const &toCopy) : m_ptr(const_cast<pointer>(toCopy.m_ptr)) {}
+			VectorIterator(iterator const &toCopy) : m_ptr(const_cast<pointer>(toCopy.getBase())) {}
 			~VectorIterator() {}
+
+			pointer getBase() const { return this->m_ptr; }
 			iter_type &operator = (iter_type const &toCopy)
 			{
 				this->m_ptr = toCopy.m_ptr;
@@ -101,8 +103,6 @@ namespace ft
 			bool operator >= (const VectorIterator &it) const { return (this->m_ptr >= it.m_ptr); }
 			bool operator < (const VectorIterator &it) const { return (this->m_ptr < it.m_ptr); }
 			bool operator <= (const VectorIterator &it) const { return (this->m_ptr <= it.m_ptr); }
-
-			operator const_iterator () const { return const_iterator(this->m_ptr); }
 	};
 
 

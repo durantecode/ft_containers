@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 01:22:01 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 11:56:23 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@
 # include <type_traits>
 # include <utility>
 
-# include "../vector.hpp"
-# include "../map.hpp"
-# include "../stack.hpp"
-# include "../enable_if.hpp"
-# include "../lexicographical_compare.hpp"
-# include "../is_integral.hpp"
-# include "../equal.hpp"
-# include "../pair.hpp"
-# include "../make_pair.hpp"
+# include "../src/vector.hpp"
+# include "../src/map.hpp"
+# include "../src/stack.hpp"
+# include "../src/enable_if.hpp"
+# include "../src/lexicographical_compare.hpp"
+# include "../src/is_integral.hpp"
+# include "../src/equal.hpp"
+# include "../src/pair.hpp"
+# include "../src/make_pair.hpp"
 
 # define RESET "\033[0m"
 # define RED "\x1B[0;31m"
@@ -105,7 +105,10 @@ void 	test_vector_time_insert_iter();
 void 	test_vector_time_assign();
 void 	test_vector_time_assign_range();
 void 	test_vector_time_assign_value();
+void 	test_vector_time_iter();
+void	test_vector_time_const_iter();
 void 	test_vector_time_reverse_iter();
+void	test_vector_time_const_reverse_iter();
 void 	test_vector_time_swap();
 void 	test_vector_time_comparison();
 

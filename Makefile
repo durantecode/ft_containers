@@ -6,23 +6,16 @@
 #    By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 19:10:36 by ldurante          #+#    #+#              #
-#    Updated: 2022/11/28 21:02:13 by ldurante         ###   ########.fr        #
+#    Updated: 2022/12/02 11:53:06 by ldurante         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-#
-# Implementar las funciones que faltan de map
-# Revisar los const_iterator tanto de map como de vector
-#
-
 
 # VARIABLE DECLARATIONS #
 
 NAME = containers
 CXX = clang++
 RM = rm -rf
-# CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g3
-CXXFLAGS = -std=c++98 -pedantic -g3
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g3
 
 # COLORS #
 
@@ -33,8 +26,6 @@ MAGENTA = \033[0;35m
 NO_COLOR = \033[0m
 
 # SOURCES & OBJECTS #
-
-# SRCS = main.cpp
 
 SRCS =  main_tests/main.cpp \
 		main_tests/vector_tests.cpp \

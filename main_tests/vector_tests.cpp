@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:41:53 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/14 17:12:36 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 11:34:28 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -614,6 +614,30 @@ static void test_vector_assign_value(void)
 	test_vector_time_assign_value();
 }
 
+static void test_vector_iterator(void)
+{
+	test_name = "ITERATOR TEST ";
+	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
+
+	test_vector_time_iter();
+}
+
+static void test_vector_const_iterator(void)
+{
+	test_name = "CONST ITERATOR TEST ";
+	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
+
+	test_vector_time_const_iter();
+}
+
 static void test_vector_reverse_iterator(void)
 {
 	test_name = "REVERSE ITERATOR TEST ";
@@ -624,6 +648,18 @@ static void test_vector_reverse_iterator(void)
 		print_header(test_name, 0);
 
 	test_vector_time_reverse_iter();
+}
+
+static void test_vector_const_reverse_iterator(void)
+{
+	test_name = "CONST REVERSE ITERATOR TEST ";
+	err_count = 0;
+	names.push_back(test_name);
+
+	if (verbose)
+		print_header(test_name, 0);
+
+	test_vector_time_const_reverse_iter();
 }
 
 static void test_vector_swap(void)
@@ -734,7 +770,10 @@ void	test_vector(void)
 	test_vector_assign();
 	test_vector_assign_range();
 	test_vector_assign_value();
+	test_vector_iterator();
+	test_vector_const_iterator();
 	test_vector_reverse_iterator();
+	test_vector_const_reverse_iterator();
 	test_vector_swap();
 	test_vector_comparison();
 
