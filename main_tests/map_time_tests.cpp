@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 20:14:13 by ldurante          #+#    #+#             */
-/*   Updated: 2022/10/31 22:14:04 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/01 22:19:07 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ void test_map_time_insert_val()
             int val = rand() % M;
 			v1.insert(std::make_pair<std::string, int>(fill, val));
 			v2.insert(ft::make_pair<std::string, int>(fill, val));
-			if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			if (!my_equal(v1.begin(),v1.end(),v2.begin()))
 				++err_count;
 		}
 	}
-
 	double comp_res = timer_stop();
+
 	//std test
 	std::map<std::string, int> v1;
 	timer_start();
@@ -144,7 +144,7 @@ void test_map_time_size_empty_max()
 	double std_res = timer_stop();
 	
 	//ft test 
-	    ft::map<std::string, int> v2;
+	ft::map<std::string, int> v2;
 	timer_start();
 	for (int i = 0; i < count * 100; ++i)
 	{
@@ -197,7 +197,7 @@ void test_map_time_copy_constructor()
 				++err_count;
 				std::cout << "std size: " << std_res << " ft size : " << ft_res << std::endl;
 			}
-			if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			if (!my_equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
 				++err_count;
 		}
 	}
@@ -267,20 +267,24 @@ void test_map_time_begin_end()
 			if (std_res != ft_res)
 				++err_count;
 			if (!num) continue;
-			// std::cout << "size : " << ft_res << std::endl;
 			std::map<std::string, int>::iterator it = v1.begin();
 			ft::map<std::string, int>::iterator it_ft = v2.begin();
-			if (*it != *it_ft) ++err_count;
+			if (!iter_compare(*it, *it_ft))
+				++err_count;
 			std::map<std::string, int>::const_iterator c_it = v1.begin();
 			ft::map<std::string, int>::const_iterator c_it_ft = v2.begin();
-			if (*c_it != *c_it_ft) ++err_count;
+			if (!iter_compare(*c_it, *c_it_ft))
+				++err_count;
 			std::map<std::string, int>::iterator eit = v1.end();
 			ft::map<std::string, int>::iterator eit_ft = v2.end();
-			--eit; --eit_ft;
-			if (*(eit) != *(eit_ft)) ++err_count;
+			--eit;
+			--eit_ft;
+			if (!iter_compare(*(eit), *(eit_ft)))
+				++err_count;
 			std::map<std::string, int>::const_iterator c_eit = v1.end();
 			ft::map<std::string, int>::const_iterator c_eit_ft = v2.end();
-			if (*(--c_eit) != *--(c_eit_ft)) ++err_count;
+			if (!iter_compare(*(--c_eit), *--(c_eit_ft)))
+				++err_count;
 		}
 	}
 
@@ -357,16 +361,20 @@ void test_map_time_rbegin_rend()
 			if (!num) continue;
 			std::map<std::string, int>::reverse_iterator it = v1.rbegin();
 			ft::map<std::string, int>::reverse_iterator it_ft = v2.rbegin();
-			if (*it != *it_ft) ++err_count;
+			if (!iter_compare(*it, *it_ft))
+				++err_count;
 			std::map<std::string, int>::const_reverse_iterator c_it = v1.rbegin();
 			ft::map<std::string, int>::const_reverse_iterator c_it_ft = v2.rbegin();
-			if (*c_it != *c_it_ft) ++err_count;
+			if (!iter_compare(*c_it, *c_it_ft))
+				++err_count;
 			std::map<std::string, int>::reverse_iterator eit = v1.rend();
 			ft::map<std::string, int>::reverse_iterator eit_ft = v2.rend();
-			if (*(--eit) != *(--eit_ft)) ++err_count;
+			if (!iter_compare(*(--eit), *(--eit_ft)))
+				++err_count;
 			std::map<std::string, int>::const_reverse_iterator c_eit = v1.rend();
 			ft::map<std::string, int>::const_reverse_iterator c_eit_ft = v2.rend();
-			if (*(--c_eit) != *--(c_eit_ft)) ++err_count;
+			if (!iter_compare(*(--c_eit), *--(c_eit_ft)))
+				++err_count;
 		}
 	}
 
@@ -437,9 +445,12 @@ void test_map_time_operator_at()
 				v2.insert(ft::make_pair<std::string, int>(fill, fill_n));
 			}
 			std::string ref = getNewId();
-			if (v1[ref] != v2[ref]) ++err_count;
-			if (v1.size() != v2.size()) ++err_count;
-			if (v1.at(ref) != v2.at(ref)) ++err_count;
+			if (v1[ref] != v2[ref])
+				++err_count;
+			if (v1.size() != v2.size())
+				++err_count;
+			if (v1.at(ref) != v2.at(ref))
+				++err_count;
 		}
 	}
 
@@ -518,7 +529,7 @@ void test_map_time_assignment_op()
 			int ft_res = v2_r.size();
 			if (std_res != ft_res)
 				++err_count;
-			if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			if (!my_equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
 				++err_count;
 		}
 	}
@@ -590,11 +601,8 @@ void test_map_time_range_constructor()
 			int std_res = v1_r.size();
 			int ft_res = v2_r.size();
 			if (std_res != ft_res)
-			{
 				++err_count;
-				// std::cout << "std size : " << std_res << " ft size : " << ft_res << std::endl; 
-			}
-			if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			if (!my_equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
 				++err_count;
 		}
 	}
@@ -663,12 +671,18 @@ void test_map_time_comparison()
 				v2.insert(ft::make_pair<std::string, int>(fill, fill_n));
 				v2_r.insert(ft::make_pair<std::string, int>(fill, fill_n));
 			}
-			if ((v1==v1_r) != (v2==v2_r)) ++err_count;
-			if ((v1<v1_r) != (v2<v2_r)) ++err_count;
-			if ((v1!=v1_r) != (v2!=v2_r)) ++err_count;
-			if ((v1>v1_r) != (v2>v2_r)) ++err_count;
-			if ((v1<=v1_r) != (v2<=v2_r)) ++err_count;
-			if ((v1>=v1_r) != (v2>=v2_r)) ++err_count;
+			if ((v1 == v1_r) != (v2 == v2_r))
+				++err_count;
+			if ((v1 < v1_r) != (v2 < v2_r))
+				++err_count;
+			if ((v1 != v1_r) != ( v2 != v2_r))
+				++err_count;
+			if ((v1 > v1_r) != (v2 > v2_r))
+				++err_count;
+			if ((v1 <= v1_r) != (v2 <= v2_r))
+				++err_count;
+			if ((v1 >= v1_r) != (v2 >= v2_r))
+				++err_count;
 		}
 	}
 	double comp_res = timer_stop();
@@ -707,10 +721,11 @@ void test_map_time_find()
 			}
 			std::string ref = getNewId();
 			ptrdiff_t d1 = std::distance(v1.begin(), v1.find(ref));
-			ptrdiff_t d2 = std::distance(v2.begin(), v2.find(ref));
-			if (d1 != d2) ++err_count;
+			ptrdiff_t d2 = ft::distance(v2.begin(), v2.find(ref));
+			if (d1 != d2)
+				++err_count;
 			d1 = std::distance(v1.begin(), v1.find(save_to_find));
-			d2 = std::distance(v2.begin(), v2.find(save_to_find));
+			d2 = ft::distance(v2.begin(), v2.find(save_to_find));
 			if (d1 != d2)
 			{
 				++err_count;
@@ -787,9 +802,9 @@ void test_map_time_swap()
 			v2.swap(v2_r);
 			if (v1.size() != v1_r.size())
 				++err_count;
-			if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			if (!my_equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
 				++err_count;
-			if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			if (!my_equal(v1.begin(),v1.end(),v2.begin()))
 				++err_count;
 		}
 	}
@@ -863,15 +878,18 @@ void test_map_time_count_clear()
 			std::string ref = getNewId();
 			size_t d1 = v1.count(ref);
 			size_t d2 = v2.count(ref);
-			if (d1 != d2) ++err_count;
+			if (d1 != d2)
+				++err_count;
 			d1 = v1.count(save_to_find);
 			d2 = v2.count(save_to_find);
-			if (d1 != d2) ++err_count;
+			if (d1 != d2)
+				++err_count;
 			v1.clear();
 			v2.clear();
 			d1 = v1.count(save_to_find);
 			d2 = v2.count(save_to_find);
-			if (d1 != d2) ++err_count;
+			if (d1 != d2)
+				++err_count;
 		}
 	}
 	double comp_res = timer_stop();
@@ -921,6 +939,79 @@ void test_map_time_count_clear()
 	errors.push_back(err_count);
 }
 
+void test_map_insert_pos(long count)
+{
+	//init
+    const size_t N = 42;
+    const int M = std::numeric_limits<int>::max();    
+	srand(time(NULL));
+	{
+		//output test
+		timer_start();
+		long err_count = 0;
+		std::map<std::string, int> v1;
+		std::map<std::string, int> v1_r;
+		ft::map<std::string, int> v2;
+		ft::map<std::string, int> v2_r;
+		for (size_t i = 0; i < N * 10; ++i)
+		{
+			std::string fill = getNewId();
+			int val = rand() % M;
+			std::pair<std::string, int> p1(fill, val);
+			ft::pair<std::string, int> p2(fill, val);
+			v1.insert(p1);
+			v2.insert(p2);
+			v1_r.insert(v1.begin(), p1);
+			v2_r.insert(v2.begin(), p2);
+			if (!my_equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+				++err_count;
+		}
+	}
+	double comp_res = timer_stop();
+
+	//std test
+	std::map<std::string, int> v1;
+	std::map<std::string, int> v1_r;
+	std::pair<std::string, int> p1;
+	for (int i = 0; i < count; ++i)
+	{
+        std::string fill = getNewId();
+		p1.first = fill;
+		p1.second = N;
+		v1.insert(p1);
+	}
+	timer_start();
+	v1_r.insert(v1.begin(), p1);
+	double std_res = timer_stop();
+	
+	//ft test 
+	ft::map<std::string, int> v2;
+	ft::map<std::string, int> v2_r;
+	ft::pair<std::string, int> p2;
+	for (int i = 0; i < count; ++i)
+	{
+        std::string fill = getNewId();
+		p2.first = fill;
+		p2.second = N;
+		v2.insert(p2);
+	}
+	timer_start();
+	v2_r.insert(v2.begin(), p2);
+	double ft_res = timer_stop();
+
+	// results
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+		comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
+}
+
 void test_map_time_insert_range()
 {
 	//init
@@ -942,7 +1033,7 @@ void test_map_time_insert_range()
 			v2.insert(ft::make_pair<std::string, int>(fill, val));
 			v1_r.insert(v1.begin(), v1.end());
 			v2_r.insert(v2.begin(), v2.end());
-			if (!std::equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
+			if (!my_equal(v1_r.begin(),v1_r.end(),v2_r.begin()))
 				++err_count;
 		}
 	}
@@ -985,7 +1076,7 @@ void test_map_time_insert_range()
 	errors.push_back(err_count);
 }
 
-void test_map_time_erase()
+void test_map_time_erase_range()
 {
 	//init
     const size_t N = 42;
@@ -1006,14 +1097,12 @@ void test_map_time_erase()
 				v1.insert(std::make_pair<std::string, int>(fill, fill_n));
 				v2.insert(ft::make_pair<std::string, int>(fill, fill_n));
 			}
-			if (v1.size() != v2.size())  ++err_count;
+			if (v1.size() != v2.size()) 
+				++err_count;
 			v1.erase(v1.begin(), v1.end());
 			v2.erase(v2.begin(), v2.end());
 			if(v1.empty() != v2.empty())
-			{ 
-			//	std::cout << v1.size() << " " << v2.size() << std::endl; 
 				++err_count;
-			}
 			if (v1.size() != v2.size())
 				++err_count;
 		}
@@ -1079,12 +1168,15 @@ void test_map_time_erase_pos()
 				v1.insert(std::make_pair<std::string, int>(fill, fill_n));
 				v2.insert(ft::make_pair<std::string, int>(fill, fill_n));
 			}
-			if (v1.size() != v2.size())  ++err_count;
+			if (v1.size() != v2.size())
+				++err_count;
 			v1.erase(v1.begin());
 			v2.erase(v2.begin());
-			if(v1.empty() != v2.empty()) ++err_count;
-			if (v1.size() != v2.size())  ++err_count;
-			if (!std::equal(v1.begin(),v1.end(),v2.begin()))
+			if(v1.empty() != v2.empty())
+				++err_count;
+			if (v1.size() != v2.size())
+				++err_count;
+			if (!my_equal(v1.begin(),v1.end(),v2.begin()))
 				++err_count;
 		}
 	}
@@ -1155,20 +1247,57 @@ void test_map_time_erase_val()
 				++err_count;
 			for (size_t i = 0; i < save.size(); ++i)
 			{
-				// std::cout << "erase at " << i << std::endl;
-				// std::cout << "value at i : " << save[i] << std::endl;
 				v1.erase(save[i]);
 				v2.erase(save[i]);
 			}
-			if(v1.empty() != v2.empty()) ++err_count;
-			if (v1.size() != v2.size())
-			{
+			if(v1.empty() != v2.empty())
 				++err_count;
-				// std::cout << "std size: " << v1.size() << " ft size : " << v2.size() << std::endl;
-			}
+			if (v1.size() != v2.size())
+				++err_count;
 		}
 	}
 	double comp_res = timer_stop();
+
+	//std test
+    size_t num = count;
+	std::map<std::string, int> v1;
+	std::vector<std::string> save;
+    for (size_t i = 0; i < num; ++i)
+	{
+	    std::string fill = getNewId();
+		save.push_back(fill);
+        v1.insert(std::make_pair<std::string, int>(fill, N));
+    }
+	timer_start();
+	for (size_t i = 0; i < save.size(); ++i)
+		v1.erase(save[i]);
+	double std_res = timer_stop();
+	
+	//ft test
+	ft::map<std::string, int> v2;
+	save.clear();
+    for (size_t i = 0; i < num; ++i)
+	{
+	    std::string fill = getNewId();
+		save.push_back(fill);
+        v2.insert(ft::make_pair<std::string, int>(fill, N));
+    }
+	timer_start();
+	for (size_t i = 0; i < save.size(); ++i)
+		v2.erase(save[i]);
+	double ft_res = timer_stop();
+	
+	// results
+	if (verbose)
+	{
+		performance_result(std_res, ft_res);
+		comparision_result(comp_res);
+	}
+	if (std_res != 0)
+		time_perf.push_back(std_res / ft_res);
+	else	
+		time_perf.push_back(0);
+	errors.push_back(err_count);
 }
 
 void test_map_time_upper_bound()
@@ -1200,8 +1329,10 @@ void test_map_time_upper_bound()
 			std::string bound = getNewId();
 			std::map<std::string, int>::iterator it = v1.upper_bound(bound);
 			ft::map<std::string, int>::iterator it_ft = v2.upper_bound(bound);
-			if (it == v1.end() || it_ft == v2.end()) continue;
-			if (*it != *it_ft) ++err_count;
+			if (it == v1.end() || it_ft == v2.end())
+				continue;
+			if (!iter_compare(*it, *it_ft))
+				++err_count;
 		}
 	}
 	double comp_res = timer_stop();
@@ -1277,7 +1408,7 @@ void test_map_time_lower_bound()
 			ft::map<std::string, int>::iterator it_ft = v2.lower_bound(bound);
 			if (it == v1.end() || it_ft == v2.end())
 				continue;
-			if (*it != *it_ft)
+			if (!iter_compare(*it, *it_ft))
 				++err_count;
 		}
 	}
@@ -1356,7 +1487,7 @@ void test_map_time_equal_range()
 			ft::map<std::string, int>::iterator> it_ft = v2.equal_range(bound);
 			if (it.first == v1.end() || it_ft.first == v2.end())
 				continue;
-			if (*it.first != *it_ft.first)
+			if (!iter_compare(*it.first, *it_ft.first))
 				++err_count;
 		}
 	}

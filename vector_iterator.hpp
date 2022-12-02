@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/23 23:41:04 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 01:10:05 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,5 +187,4 @@ namespace ft
 
 	template <class Iter>
 	typename ReverseVectorIterator<Iter>::difference_type operator - (const ReverseVectorIterator<Iter> &l, const ReverseVectorIterator<Iter> &r) { return r.base() - l.base(); }
-
 }

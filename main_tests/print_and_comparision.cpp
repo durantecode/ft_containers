@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 00:01:22 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/04 19:49:57 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/01 22:50:31 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void print_header(std::string str, bool container)
 
 void timer_start()
 {
+	start = 0;
 	start = std::clock();
 }
 

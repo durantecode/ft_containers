@@ -1,0 +1,47 @@
+-MAP FIND TEST-
+
+./tmp/outfile_map_11.cpp:31:10: error: no template named 'map' in namespace 'ft'; did you mean 'Map'?
+            ft::map<std::string, int> v2;
+            ~~~~^~~
+                Map
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft2/Map.hpp:9:7: note: 'Map' declared here
+class Map {
+      ^
+./tmp/outfile_map_11.cpp:72:6: error: no template named 'map' in namespace 'ft'; did you mean 'Map'?
+        ft::map<std::string, int> v2;
+        ~~~~^~~
+            Map
+/Users/durante/Desktop/42-Cursus/cpp-projects/ft2/Map.hpp:9:7: note: 'Map' declared here
+class Map {
+      ^
+In file included from ./tmp/outfile_map_11.cpp:1:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iostream:37:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/ios:215:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__locale:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string:504:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string_view:175:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__string:57:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/algorithm:643:
+In file included from /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/memory:659:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:692:19: error: invalid operands to binary expression ('ft::node_iterator<Node_<ft::pair<const std::__1::basic_string<char>, int> > *, ft::pair<const std::__1::basic_string<char>, int> >' and 'ft::node_iterator<Node_<ft::pair<const std::__1::basic_string<char>, int> > *, ft::pair<const std::__1::basic_string<char>, int> >')
+    return __last - __first;
+           ~~~~~~ ^ ~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:700:12: note: in instantiation of function template specialization 'std::__1::__distance<ft::node_iterator<Node_<ft::pair<const std::__1::basic_string<char>, int> > *, ft::pair<const std::__1::basic_string<char>, int> > >' requested here
+    return __distance(__first, __last, typename iterator_traits<_InputIter>::iterator_category());
+           ^
+./tmp/outfile_map_11.cpp:42:23: note: in instantiation of function template specialization 'std::__1::distance<ft::node_iterator<Node_<ft::pair<const std::__1::basic_string<char>, int> > *, ft::pair<const std::__1::basic_string<char>, int> > >' requested here
+                ptrdiff_t d2 = std::distance(v2.begin(), v2.find(ref));
+                                    ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:865:1: note: candidate template ignored: could not match 'reverse_iterator' against 'node_iterator'
+operator-(const reverse_iterator<_Iter1>& __x, const reverse_iterator<_Iter2>& __y)
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:1301:1: note: candidate template ignored: could not match 'move_iterator' against 'node_iterator'
+operator-(const move_iterator<_Iter1>& __x, const move_iterator<_Iter2>& __y)
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iterator:1713:1: note: candidate template ignored: could not match '__wrap_iter' against 'node_iterator'
+operator-(const __wrap_iter<_Iter1>& __x, const __wrap_iter<_Iter2>& __y) _NOEXCEPT
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string:558:11: note: candidate template ignored: could not match 'fpos' against 'node_iterator'
+streamoff operator-(const fpos<_StateT>& __x, const fpos<_StateT>& __y)
+          ^
+3 errors generated.

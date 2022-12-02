@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/15 16:03:10 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/01 22:51:06 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int main(int argc, char **argv)
 	{
 		test_stack();
 		test_utility();
-		test_vector();
 		test_map();
+		test_vector();
 	}
 	else
 		std::cout << "No test for " << test << std::endl;

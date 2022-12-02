@@ -6,13 +6,18 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/24 17:27:22 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 01:09:14 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
 
 #include <iostream>
 #include <memory>
 #include "pair.hpp"
+#include "make_pair.hpp"
+#include "swap.hpp"
+
 #define _BLACK 0
 #define _RED 1
 
@@ -28,8 +33,8 @@ namespace ft
 			Node			*right;
 			int				color;
 
-			Node(): pair_data(), parent(NULL), left(NULL), right(NULL), color (0) {}
-			Node(const value_type &pair_data): pair_data(pair_data), parent(NULL), left(NULL), right(NULL), color (0) {}
+			Node(): pair_data(), parent(NULL), left(NULL), right(NULL), color (_BLACK) {}
+			Node(const value_type &pair_data): pair_data(pair_data), parent(NULL), left(NULL), right(NULL), color (_BLACK) {}
 			Node(const Node &n): pair_data(n.pair_data), parent(n.parent), left(n.left), right(n.right), color (n.color) {}
 			~Node() {}
 			Node &operator = (const Node &n)
@@ -46,77 +51,90 @@ namespace ft
 			}
 	};
 
-	template <typename value_type, typename Alloc = std::allocator<value_type> >
+	template<class Value, class Key, class Mapped, class Alloc = std::allocator<Node<Value> > >
 	class RBTree
 	{
 		public:
-			typedef Node<value_type>*	node_ptr;
-			typedef typename Alloc::template rebind<Node<value_type> >::other		allocator_type;
 
+			typedef Value		value_type;
+			typedef Key			key_type;
+			typedef Mapped		mapped_type;
+			typedef size_t		size_type;
+
+			typedef Node<value_type>*		node_ptr;
+			typedef typename Alloc::template rebind<Node<value_type> >::other	allocator_type;
+
+		private:
 			node_ptr		m_root;
 			node_ptr		m_nullNode;
+			size_type 		m_size;
 			allocator_type	m_alloc;
-			size_t			m_size;
-	
-			/*************************************************/
-			/*                RBT CONSTRUCTORS               */
-			/*************************************************/
+
+				/*************************************************/
+				/*                RBT CONSTRUCTORS               */
+				/*************************************************/
 
 		public:
 			RBTree(const Alloc& alloc = allocator_type())
 			{
 				m_size = 0;
 				m_alloc = alloc;
-				m_nullNode = allocNode(nullptr, value_type());
+				m_nullNode = allocNode(value_type(), NULL);
 				m_nullNode->color = _BLACK;
-				m_nullNode->left = NULL;
-				m_nullNode->right = NULL;
 				m_root = m_nullNode;
 			}
 
-			RBTree(RBTree const &toCopy) :
-				m_root(toCopy.m_root),
-				m_nullNode(toCopy.m_nullNode),
-				m_alloc(toCopy.m_alloc),
-				m_size(toCopy.m_size)
-				{}
+			RBTree(RBTree const &toCopy)
+			{
+				m_size = 0;
+				m_nullNode = allocNode(value_type(), NULL);
+				m_nullNode->color = _BLACK;
+				m_root = m_nullNode;
+				*this = toCopy;
+			}
 
 			~RBTree()
 			{
 				clear(m_root);
 				m_alloc.destroy(m_nullNode);
-				m_alloc.deallocate(m_nullNode, 1);	
+				m_alloc.deallocate(m_nullNode, sizeof(Node<value_type>));	
 			}
 
 			RBTree &operator = (const RBTree &toCopy)
        		{				
-				if (this != &toCopy)
-				{
-					m_root = toCopy.m_root;
-					m_nullNode = toCopy.m_nullNode;
-					m_alloc = toCopy.m_alloc;
-					m_size = toCopy.m_size;
-				}
-          		return *this;
+				clear(m_root);
+				copyTree(toCopy.m_root, toCopy);
+				m_alloc	= toCopy.m_alloc;
+				return *this;
 			}
 
-		private:
+			void copyTree(node_ptr node, const RBTree &tree)
+			{
+				if (node != tree.m_nullNode)
+				{
+					copyTree(node->left, tree);
+					copyTree(node->right, tree);
+					ft::pair<key_type, mapped_type> val(node->pair_data.first, node->pair_data.second);
+					insertNode(val);
+				}
+			}
+
 			/*************************************************/
 			/*                ALLOC / DEALLOC                */
 			/*************************************************/
-
-			node_ptr allocNode(node_ptr node, const value_type &key = value_type())
+		
+		private:
+			node_ptr	allocNode(value_type val, node_ptr parent)
 			{
-				node_ptr allocatedNode;
-				allocatedNode = m_alloc.allocate(1);
-				m_alloc.construct(allocatedNode, key);
-				allocatedNode->parent = node;
+				node_ptr allocatedNode = m_alloc.allocate(sizeof(Node<value_type>));
+				m_alloc.construct(allocatedNode, val);
+				allocatedNode->parent = parent;
 				allocatedNode->left = m_nullNode;
 				allocatedNode->right = m_nullNode;
 				allocatedNode->color = _RED;
 				return allocatedNode;
 			}
-	
+
 			void seekAndDestroy(node_ptr node)
 			{
 				if (node->parent)
@@ -129,27 +147,30 @@ namespace ft
 				else
 					m_root = m_nullNode;
 				m_alloc.destroy(node);
-				m_alloc.deallocate(node, 1);	
+				m_alloc.deallocate(node, 1);
+				m_size--;
 			}
 
-		public:
 			/*************************************************/
 			/*                    GETTERS                    */
 			/*************************************************/
-
-			node_ptr getRoot() { return this->m_root; }			
-			size_t getSize() const { return this->m_size; }
+			
+		public:
+			node_ptr getRoot() const { return m_root; }
+			node_ptr getNull() const { return m_nullNode; }
+			size_t getSize() const { return m_size; }
+			allocator_type getAlloc() const { return m_alloc; }
 
 			node_ptr getMin(node_ptr node) const
 			{
-				while (node->left != m_nullNode) 
+				while (node->left != m_nullNode)
 					node = node->left;
 				return node;
 			}
 
 			node_ptr getMax(node_ptr node) const
 			{
-				while (node->right != m_nullNode) 
+				while (node->right != m_nullNode)
 					node = node->right;
 				return node;
 			}
@@ -180,6 +201,28 @@ namespace ft
 				}
 			}
 
+			node_ptr nextNode(node_ptr node) const
+			{
+				if (node == m_nullNode)
+					return node;
+				else if (node == getMax(m_root))
+					return m_nullNode;
+				else if (!node)
+					return getMin(m_root);
+				else if (node->right != m_nullNode)
+					return getMin(node->right);
+				else
+				{
+					node_ptr next = node->parent;
+					while (next && node == next->right)
+					{
+						node = next;
+						next = next->parent;
+					}
+					return next;
+				}
+			}
+
 			node_ptr prevNode(node_ptr node)
 			{
 				if (!node)
@@ -189,7 +232,29 @@ namespace ft
 				else if (node == getMin(m_root))
 					return nullptr;
 				else if (node->left != m_nullNode)
-					return getMin(node->left);
+					return getMax(node->left);
+				else
+				{
+					node_ptr prev = node->parent;
+					while (prev && node == prev->left)
+					{
+						node = prev;
+						prev = prev->parent;
+					}
+					return prev;
+				}
+			}
+
+			node_ptr prevNode(node_ptr node) const
+			{
+				if (!node)
+					return node;
+				if (node == m_nullNode)
+					return getMax(m_root);
+				else if (node == getMin(m_root))
+					return nullptr;
+				else if (node->left != m_nullNode)
+					return getMax(node->left);
 				else
 				{
 					node_ptr prev = node->parent;
@@ -206,13 +271,13 @@ namespace ft
 			/*                SEARCH/CLEAR NODE              */
 			/*************************************************/
 
-			node_ptr searchTree(node_ptr node, value_type key) const
+			node_ptr searchTree(node_ptr node, key_type key) const
 			{
-				if (node == m_nullNode || key.first == node->pair_data.first) 
+				if (key == node->pair_data.first || node == m_nullNode)
 					return node;
-				if (key < node->pair_data) 
+				if (key < node->pair_data.first)
 					return searchTree(node->left, key);
-				return searchTree(node->right, key);
+				else return searchTree(node->right, key);
 			}
 
 			void clear(node_ptr node)
@@ -223,17 +288,17 @@ namespace ft
 					clear(node->right);
 					seekAndDestroy(node);
 				}
-			}	
+			}
 
 			/*************************************************/
 			/*                  INSERT NODE                  */
 			/*************************************************/
-			
-			node_ptr insertNode(const value_type &key) 
+
+			node_ptr insertNode(value_type val)
 			{
 				if (!m_size)
 				{
-					m_root = allocNode(NULL, key);
+					m_root = allocNode(val, NULL);
 					m_root->color = _BLACK;
 					m_size++;
 					return m_root;
@@ -245,27 +310,28 @@ namespace ft
 					while (currentNode != m_nullNode)
 					{
 						previousNode = currentNode;
-						if (key.first == currentNode->pair_data.first)
+						if (val.first == currentNode->pair_data.first)
 								return currentNode;
-						if  (key.first < currentNode->pair_data.first)
+						if  (val.first < currentNode->pair_data.first)
 							currentNode = currentNode->left;
 						else
 							currentNode = currentNode->right;
 					}
-					if (key.first < previousNode->pair_data.first)
+					if (val.first < previousNode->pair_data.first)
 					{
-						previousNode->left = allocNode(previousNode, key);
+						previousNode->left = allocNode(val, previousNode);
 						currentNode = previousNode->left;
 					}
 					else
 					{
-						previousNode->right = allocNode(previousNode, key);
+						previousNode->right = allocNode(val, previousNode);
 						currentNode = previousNode->right;
 					}
 					m_size++;
 					if (!previousNode->parent)
 						return currentNode;
-					return (fixAfterInsert(currentNode));
+					fixAfterInsert(currentNode);
+					return currentNode;
 				}
 			}
 
@@ -273,56 +339,45 @@ namespace ft
 			/*                  DELETE NODE                  */
 			/*************************************************/
 
-			void deleteNode(node_ptr node, value_type key) 
+			void	deleteNode(key_type key)
 			{
-				node_ptr z = m_nullNode;
-				node_ptr x, y;
-				while (node != m_nullNode)
-				{
-					if (node->pair_data.first == key.first) 
-						z = node;
-					if (node->pair_data.first <= key.first) 
-						node = node->right;
-					else
-						node = node->left;
+				node_ptr tmp = searchTree(m_root, key);
+				if (tmp == m_nullNode)
+					return ;
+				node_ptr A = tmp;
+				int original_color = A->color;
+				node_ptr B = NULL;
+				if (tmp->left == m_nullNode) {
+					B = tmp->right;
+					transplantNode(tmp, tmp->right);
 				}
-				if (z == m_nullNode) 
-					return;
-				y = z;
-				int y_original_color = y->color;
-				if (z->left == m_nullNode) 
-				{
-					x = z->right;
-					transplantNode(z, z->right);
-				}
-				else if (z->right == m_nullNode) 
-				{
-					x = z->left;
-					transplantNode(z, z->left);
+				else if (tmp->right == m_nullNode) {
+					B = tmp->left;
+					transplantNode(tmp, tmp->left);
 				}
 				else
 				{
-					y = getMin(z->right);
-					y_original_color = y->color;
-					x = y->right;
-					if (y->parent == z) 
-						x->parent = y;
+					A = getMin(tmp->right);
+					original_color = A->color;
+					B = A->right;
+					if (A->parent == tmp)
+						B->parent = A;
 					else
 					{
-						transplantNode(y, y->right);
-						y->right = z->right;
-						y->right->parent = y;
+						transplantNode(A, A->right);
+						A->right = tmp->right;
+						A->right->parent = A;
 					}
-
-					transplantNode(z, y);
-					y->left = z->left;
-					y->left->parent = y;
-					y->color = z->color;
+					transplantNode(tmp, A);
+					A->left = tmp->left;
+					A->left->parent = A;
+					A->color = tmp->color;
 				}
-				m_alloc.destroy(z);
-				m_alloc.deallocate(z, 1);
-				if (y_original_color == _BLACK)
-					fixAfterDelete(x);
+				m_alloc.destroy(tmp);
+				m_alloc.deallocate(tmp, 1);
+				m_size--;
+				if (original_color == _BLACK)
+					fixAfterDelete(B);
 			}
 
 		private:
@@ -330,78 +385,74 @@ namespace ft
 			/*             FIXING DELETE/INSERT              */
 			/*************************************************/
 
-			void fixAfterDelete(node_ptr x) 
+			void fixAfterDelete(node_ptr x)
 			{
-				node_ptr s;
-				while (x != m_root && x->color == _BLACK) 
+				while (x != m_root && x->color == _BLACK)
 				{
-					if (x == x->parent->left) 
+					if (x == x->parent->left)
 					{
-						s = x->parent->right;
-						if (s->color == _RED) 
+						node_ptr w = x->parent->right;
+						if (w->color == _RED)
 						{
-							s->color = _BLACK;
+							w->color = _BLACK;
 							x->parent->color = _RED;
-							leftRotate(x->parent);
-							s = x->parent->right;
+							leftRotate (x->parent);
+							w = x->parent->right;
 						}
-
-						if (s->left->color == _BLACK && s->right->color == _BLACK) 
+						if (w->left->color == _BLACK && w->right->color == _BLACK)
 						{
-							s->color = _RED;
+							w->color = _RED;
 							x = x->parent;
-						}
-						else
+						} else
 						{
-							if (s->right->color == _BLACK) 
+							if (w->right->color == _BLACK)
 							{
-								s->left->color = _BLACK;
-								s->color = _RED;
-								rightRotate(s);
-								s = x->parent->right;
-							} 
-							s->color = x->parent->color;
+								w->left->color = _BLACK;
+								w->color = _RED;
+								rightRotate (w);
+								w = x->parent->right;
+							}
+							w->color = x->parent->color;
 							x->parent->color = _BLACK;
-							s->right->color = _BLACK;
-							leftRotate(x->parent);
+							w->right->color = _BLACK;
+							leftRotate (x->parent);
 							x = m_root;
 						}
 					}
 					else
 					{
-						s = x->parent->left;
-						if (s->color == _RED) 
+						node_ptr w = x->parent->left;
+						if (w->color == _RED)
 						{
-							s->color = _BLACK;
+							w->color = _BLACK;
 							x->parent->color = _RED;
-							rightRotate(x->parent);
-							s = x->parent->left;
+							rightRotate (x->parent);
+							w = x->parent->left;
 						}
-
-						if (s->right->color == _BLACK && s->right->color == _BLACK) 
+						if (w->right->color == _BLACK && w->left->color == _BLACK)
 						{
-							s->color = _RED;
+							w->color = _RED;
 							x = x->parent;
-						}
+						} 
 						else
 						{
-							if (s->left->color == _BLACK) 
+							if (w->left->color == _BLACK)
 							{
-								s->right->color = _BLACK;
-								s->color = _RED;
-								leftRotate(s);
-								s = x->parent->left;
+								w->right->color = _BLACK;
+								w->color = _RED;
+								leftRotate (w);
+								w = x->parent->left;
 							}
-							s->color = x->parent->color;
+							w->color = x->parent->color;
 							x->parent->color = _BLACK;
-							s->left->color = _BLACK;
-							rightRotate(x->parent);
+							w->left->color = _BLACK;
+							rightRotate (x->parent);
 							x = m_root;
 						}
-					} 
+					}
 				}
 				x->color = _BLACK;
-			}
+				}
 
 			void leftRotate(node_ptr n) 
 			{
@@ -502,6 +553,19 @@ namespace ft
 				}
 				m_root->color = _BLACK;
 				return (k);
+			}
+
+			/*************************************************/
+			/*                 MISC FUNCTIONS                */
+			/*************************************************/
+		public:
+
+			void swap(RBTree &tree)
+			{
+				ft::swap(m_root, tree.m_root);
+				ft::swap(m_size, tree.m_size);
+				ft::swap(m_nullNode, tree.m_nullNode);
+				ft::swap(m_alloc, tree.m_alloc);
 			}
 	};
 }

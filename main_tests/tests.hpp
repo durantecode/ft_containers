@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/11/15 14:00:47 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/01 21:08:20 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ extern std::vector<long> errors;
 extern std::vector<double> time_perf;
 
 /* MAIN FUNCTIONS */
+
+template <class T>
+static void print_map(T &map);
 
 void	test_vector(void);
 void	test_map(void);
@@ -128,10 +131,11 @@ void 	test_map_time_size_empty_max();
 void 	test_map_time_assignment_op();
 void 	test_map_time_operator_at();
 void 	test_map_time_insert_val();
+void 	test_map_time_insert_pos();
 void 	test_map_time_insert_range();
-void 	test_map_time_erase();
 void 	test_map_time_erase_val();
 void 	test_map_time_erase_pos(); 
+void 	test_map_time_erase_range();
 void 	test_map_time_swap(); 
 void 	test_map_time_count_clear();
 void 	test_map_time_find();
@@ -187,7 +191,7 @@ inline void check(std::string name, bool good)
 /* TEMPLATE TO CHECK STD VECTOR AGAINST FT VECTOR */
 
 template <typename T>
-bool operator==(ft::vector<T> &a, std::vector<T> &b)
+bool operator == (ft::vector<T> &a, std::vector<T> &b)
 {
 	if (a.size() != b.size())
 		return (false);
@@ -203,23 +207,49 @@ bool operator==(ft::vector<T> &a, std::vector<T> &b)
 
 /* TEMPLATE TO CHECK STD MAP AGAINST FT MAP */
 
-// template <typename T, typename S>
-// bool operator==(ft::map<T, S> &a, std::map<T, S> &b)
-// {
-// 	if (a.size() != b.size())
-// 		return (false);
-// 	if (a.empty() != b.empty())
-// 		return (false);
-// 	typename ft::Map<T, S>::iterator it = a.begin();
-// 	typename std::map<T, S>::iterator it2 = b.begin();
-// 	while (it != a.end())
-// 	{
-// 		if (it->first != it2->first || it->second != it2->second)
-// 			return (false);
-// 		++it;
-// 		++it2;
-// 	}
-// 	return (true);
-// }
+template <typename T, typename S>
+bool operator == (ft::map<T, S> &a, std::map<T, S> &b)
+{
+	if (a.size() != b.size())
+		return (false);
+	if (a.empty() != b.empty())
+		return (false);
+	typename ft::map<T, S>::iterator it = a.begin();
+	typename ft::map<T, S>::iterator ite = a.end();
+	typename std::map<T, S>::iterator it2 = b.begin();
+	while (it != ite)
+	{
+		if (it->first != it2->first || it->second != it2->second)
+			return (false);
+		++it;
+		++it2;
+	}
+	return (true);
+}
+
+template <class InputIterator1, class InputIterator2>
+bool my_equal (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+{
+	while (first1 != last1)
+	{
+		if (first1->first != first2->first)
+			return false;
+		if (first1->second != first2->second)
+			return false;
+		++first1;
+		++first2;
+	}
+	return true;
+}
+
+template <class InputIterator1, class InputIterator2>
+bool iter_compare (InputIterator1 &first1, InputIterator2 &first2)
+{
+	if (first1.first != first2.first)
+		return false;
+	if (first1.second != first2.second)
+		return false;
+	return true;
+}
 
 #endif
