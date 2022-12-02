@@ -6,11 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/11/25 00:50:21 by ldurante         ###   ########.fr       */
-=======
-/*   Updated: 2022/12/01 22:46:23 by ldurante         ###   ########.fr       */
->>>>>>> test
+/*   Updated: 2022/12/02 01:18:09 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +73,6 @@ static void test_map_constructors(void)
 	m8[0] = 1;
 	m8[1] = 2;
 	m8[2] = 3;
-	// print_map(m7);
-	// print_map(m8);
-	// std::cout << (++m7.begin())->second << std::endl;
-	// ft::map<int, int>::iterator it = m7.begin();
-	// while (it != m7.end())
-	// {
-	// 	// ft::map<int, int>::iterator it2 = m7.find(it->first);
-	// 	std::cout << it.node()->pair.second << std::endl;
-	// 	// std::cout << it->first << "=" << it2->second << std::endl;
-	// 	++it;
-	// }
 	check("(copy) m7 == m8", (m7 == m8));
 	ft::map<int, int> m9;
 	std::map<int, int> m10;
@@ -447,15 +432,11 @@ static void test_map_range(void)
 	test_map_time_equal_range();
 }
 
-<<<<<<< HEAD
-	// std::cout << ft_map.count(3) << std::endl;
-=======
 static void test_map_iterators(void)
 {
 	test_name = "ITERATORS TEST";
 	err_count = 0;
 	names.push_back(test_name);
->>>>>>> test
 
 	if (verbose)
 		print_header(test_name, 0);

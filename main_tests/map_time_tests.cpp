@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 20:14:13 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/01 22:19:07 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 01:17:10 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -727,11 +727,7 @@ void test_map_time_find()
 			d1 = std::distance(v1.begin(), v1.find(save_to_find));
 			d2 = ft::distance(v2.begin(), v2.find(save_to_find));
 			if (d1 != d2)
-			{
 				++err_count;
-				//  std::cout << "distance std : " << d1 << std::endl;
-				//  std::cout << "distance ft : " << d2 << std::endl;
-			}
 		}
 	}
 	double comp_res = timer_stop();
