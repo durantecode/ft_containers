@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/01 22:30:14 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/02 01:09:14 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <memory>
 #include "pair.hpp"
 #include "make_pair.hpp"
+#include "swap.hpp"
 
 #define _BLACK 0
 #define _RED 1
@@ -384,60 +385,74 @@ namespace ft
 			/*             FIXING DELETE/INSERT              */
 			/*************************************************/
 
-void fixAfterDelete(node_ptr x) {
-		while (x != m_root && x->color == 0) {
-			if (x == x->parent->left) {
-				node_ptr w = x->parent->right;
-				if (w->color == 1) {
-					w->color = 0;
-					x->parent->color = 1;
-					leftRotate (x->parent);
-					w = x->parent->right;
-				}
-				if (w->left->color == 0 && w->right->color == 0) {
-					w->color = 1;
-					x = x->parent;
-				} else {
-					if (w->right->color == 0) {
-						w->left->color = 0;
-						w->color = 1;
-						rightRotate (w);
-						w = x->parent->right;
+			void fixAfterDelete(node_ptr x)
+			{
+				while (x != m_root && x->color == _BLACK)
+				{
+					if (x == x->parent->left)
+					{
+						node_ptr w = x->parent->right;
+						if (w->color == _RED)
+						{
+							w->color = _BLACK;
+							x->parent->color = _RED;
+							leftRotate (x->parent);
+							w = x->parent->right;
+						}
+						if (w->left->color == _BLACK && w->right->color == _BLACK)
+						{
+							w->color = _RED;
+							x = x->parent;
+						} else
+						{
+							if (w->right->color == _BLACK)
+							{
+								w->left->color = _BLACK;
+								w->color = _RED;
+								rightRotate (w);
+								w = x->parent->right;
+							}
+							w->color = x->parent->color;
+							x->parent->color = _BLACK;
+							w->right->color = _BLACK;
+							leftRotate (x->parent);
+							x = m_root;
+						}
 					}
-					w->color = x->parent->color;
-					x->parent->color = 0;
-					w->right->color = 0;
-					leftRotate (x->parent);
-					x = m_root;
-				}
-			} else {
-				node_ptr w = x->parent->left;
-				if (w->color == 1) {
-					w->color = 0;
-					x->parent->color = 1;
-					rightRotate (x->parent);
-					w = x->parent->left;
-				}
-				if (w->right->color == 0 && w->left->color == 0) {
-					w->color = 1;
-					x = x->parent;
-				} else {
-					if (w->left->color == 0) {
-						w->right->color = 0;
-						w->color = 1;
-						leftRotate (w);
-						w = x->parent->left;
+					else
+					{
+						node_ptr w = x->parent->left;
+						if (w->color == _RED)
+						{
+							w->color = _BLACK;
+							x->parent->color = _RED;
+							rightRotate (x->parent);
+							w = x->parent->left;
+						}
+						if (w->right->color == _BLACK && w->left->color == _BLACK)
+						{
+							w->color = _RED;
+							x = x->parent;
+						} 
+						else
+						{
+							if (w->left->color == _BLACK)
+							{
+								w->right->color = _BLACK;
+								w->color = _RED;
+								leftRotate (w);
+								w = x->parent->left;
+							}
+							w->color = x->parent->color;
+							x->parent->color = _BLACK;
+							w->left->color = _BLACK;
+							rightRotate (x->parent);
+							x = m_root;
+						}
 					}
-					w->color = x->parent->color;
-					x->parent->color = 0;
-					w->left->color = 0;
-					rightRotate (x->parent);
-					x = m_root;
 				}
-			}
-		}
-		x->color = 0;
-	}
+				x->color = _BLACK;
+				}
 
 			void leftRotate(node_ptr n) 
 			{
@@ -547,20 +562,10 @@ void fixAfterDelete(node_ptr x) {
 
 			void swap(RBTree &tree)
 			{
-				node_ptr		 tmp_root  = tree.m_root;
-				size_type 		 tmp_size  = tree.m_size;
-				node_ptr		 tmp_nullNode  = tree.m_nullNode;
-				allocator_type	 tmp_alloc = tree.m_alloc;
-
-				tree.m_root  = m_root;
-				tree.m_size  = m_size;
-				tree.m_nullNode = m_nullNode;
-				tree.m_alloc = m_alloc;
-
-				m_root = tmp_root;
-				m_size = tmp_size;
-				m_nullNode = tmp_nullNode;
-				m_alloc = tmp_alloc;
+				ft::swap(m_root, tree.m_root);
+				ft::swap(m_size, tree.m_size);
+				ft::swap(m_nullNode, tree.m_nullNode);
+				ft::swap(m_alloc, tree.m_alloc);
 			}
 	};
 }
