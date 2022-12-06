@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 01:09:14 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/06 21:06:48 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,6 @@ namespace ft
 				copyTree(toCopy.m_root, toCopy);
 				m_alloc	= toCopy.m_alloc;
 				return *this;
-			}
-
-			void copyTree(node_ptr node, const RBTree &tree)
-			{
-				if (node != tree.m_nullNode)
-				{
-					copyTree(node->left, tree);
-					copyTree(node->right, tree);
-					ft::pair<key_type, mapped_type> val(node->pair_data.first, node->pair_data.second);
-					insertNode(val);
-				}
 			}
 
 			/*************************************************/
@@ -559,13 +548,24 @@ namespace ft
 			/*                 MISC FUNCTIONS                */
 			/*************************************************/
 		public:
-
 			void swap(RBTree &tree)
 			{
 				ft::swap(m_root, tree.m_root);
 				ft::swap(m_size, tree.m_size);
 				ft::swap(m_nullNode, tree.m_nullNode);
 				ft::swap(m_alloc, tree.m_alloc);
+			}
+
+		private:
+			void copyTree(node_ptr node, const RBTree &tree)
+			{
+				if (node != tree.m_nullNode)
+				{
+					copyTree(node->left, tree);
+					copyTree(node->right, tree);
+					ft::pair<key_type, mapped_type> val(node->pair_data.first, node->pair_data.second);
+					insertNode(val);
+				}
 			}
 	};
 }

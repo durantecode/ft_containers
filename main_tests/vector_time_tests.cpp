@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:50:27 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 11:32:49 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:49:11 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,12 +389,17 @@ void test_vector_time_access()
 			if (!num) continue;
 			int std_res = std.size();
 			int ft_res = ft.size();
-			if (std_res != ft_res) ++err_count;
-			if (std.front() != ft.front()) ++err_count;
-			if (std.back() != ft.back()) ++err_count;
+			if (std_res != ft_res)
+				++err_count;
+			if (std.front() != ft.front())
+				++err_count;
+			if (std.back() != ft.back())
+				++err_count;
 			size_t pos = rand() % num;
-			if (std.at(pos) != ft.at(pos)) ++err_count;
-			if (std[pos] != ft[pos]) ++err_count;
+			if (std.at(pos) != ft.at(pos))
+				++err_count;
+			if (std[pos] != ft[pos])
+				++err_count;
 		}
 	}
 	double comp_res = timer_stop();

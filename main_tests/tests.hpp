@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 11:56:23 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:46:10 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ void 	test_map_time_count_clear();
 void 	test_map_time_find();
 void 	test_map_time_lower_bound();
 void 	test_map_time_upper_bound();
-
 void 	test_map_time_equal_range();
 void 	test_map_time_begin_end();
 void 	test_map_time_rbegin_rend();

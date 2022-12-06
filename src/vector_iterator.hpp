@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 11:43:14 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/06 21:02:40 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,10 +181,8 @@ namespace ft
 	bool operator < (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() < r.base(); }
 	template <class Iter1, class Iter2>
 	bool operator <= (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() <= r.base(); }
-
 	template <class Iter>
 	ReverseVectorIterator<Iter>	operator + (typename ReverseVectorIterator<Iter>::difference_type n, const ReverseVectorIterator<Iter> &rev_iter) { return rev_iter + n; }
-
 	template <class Iter>
 	typename ReverseVectorIterator<Iter>::difference_type operator - (const ReverseVectorIterator<Iter> &l, const ReverseVectorIterator<Iter> &r) { return r.base() - l.base(); }
 }

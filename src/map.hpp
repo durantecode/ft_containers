@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 11:07:51 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:40:16 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 namespace ft
 {
 	template <class Key, class T, class Compare = std::less<Key>,
-			  class Alloc = std::allocator<std::pair<const Key, T> > >
+			  class Alloc = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
 		public:
@@ -41,6 +41,8 @@ namespace ft
 
 			typedef Node<value_type>*								node_ptr;
 			typedef RBTree<value_type, Key, T, allocator_type>		rbtree;
+
+			typedef ft::iterator<iter_tag, T, difference_type, pointer, reference>		map_iter;
 			
 			class value_compare
 			{
@@ -72,7 +74,7 @@ namespace ft
 				/*                  MAP ITERATOR                 */
 				/*************************************************/
 
-			class MapIterator : public ft::iterator<iter_tag, T, difference_type, pointer, reference>
+			class MapIterator : public map_iter
 			{
 				public:
 					node_ptr	m_iterNode;
@@ -123,7 +125,7 @@ namespace ft
 				/*               CONST MAP ITERATOR              */
 				/*************************************************/
 
-			class ConstMapIterator : public ft::iterator<iter_tag, T, difference_type, pointer, reference>
+			class ConstMapIterator : public map_iter
 			{	
 				public:	
 					node_ptr			m_iterNode;
@@ -176,7 +178,7 @@ namespace ft
 				/*             REVERSE MAP ITERATOR              */
 				/*************************************************/
 
-			class ReverseMapIterator : public ft::iterator<iter_tag, T, difference_type, pointer, reference>
+			class ReverseMapIterator : public map_iter
 			{
 				public:
 					node_ptr	m_iterNode;
@@ -227,7 +229,7 @@ namespace ft
 				/*           CONST REVERSE MAP ITERATOR          */
 				/*************************************************/
 
-			class ConstReverseMapIterator : public ft::iterator<iter_tag, T, difference_type, pointer, reference>
+			class ConstReverseMapIterator : public map_iter
 			{	
 				public:	
 					node_ptr			m_iterNode;
