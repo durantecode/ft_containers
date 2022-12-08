@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 20:44:06 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 21:33:48 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 22:55:17 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ namespace ft
 			
 					MapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
 					MapIterator(const MapIterator& toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
-					MapIterator(node_ptr node, rbtree* tree): m_iterNode(node), m_iterTree(tree) {}
+					MapIterator(node_ptr node, rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
 					MapIterator& operator=(const MapIterator& toCopy)
 					{
 						m_iterNode = toCopy.m_iterNode;
@@ -163,7 +163,7 @@ namespace ft
 			
 					ReverseMapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
 					ReverseMapIterator(const ReverseMapIterator& toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
-					ReverseMapIterator(node_ptr node, rbtree* tree): m_iterNode(node), m_iterTree(tree) {}
+					ReverseMapIterator(node_ptr node, rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
 					ReverseMapIterator& operator=(const ReverseMapIterator& toCopy)
 					{
 						m_iterNode = toCopy.m_iterNode;

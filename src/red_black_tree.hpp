@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 20:43:00 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 23:07:04 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,40 +333,40 @@ namespace ft
 				node_ptr tmp = searchTree(m_root, key);
 				if (tmp == m_nullNode)
 					return ;
-				node_ptr A = tmp;
-				int original_color = A->color;
-				node_ptr B = NULL;
+				node_ptr x = tmp;
+				node_ptr y = NULL;
+				int original_color = x->color;
 				if (tmp->left == m_nullNode) {
-					B = tmp->right;
+					y = tmp->right;
 					transplantNode(tmp, tmp->right);
 				}
 				else if (tmp->right == m_nullNode) {
-					B = tmp->left;
+					y = tmp->left;
 					transplantNode(tmp, tmp->left);
 				}
 				else
 				{
-					A = getMin(tmp->right);
-					original_color = A->color;
-					B = A->right;
-					if (A->parent == tmp)
-						B->parent = A;
+					x = getMin(tmp->right);
+					original_color = x->color;
+					y = x->right;
+					if (x->parent == tmp)
+						y->parent = x;
 					else
 					{
-						transplantNode(A, A->right);
-						A->right = tmp->right;
-						A->right->parent = A;
+						transplantNode(x, x->right);
+						x->right = tmp->right;
+						x->right->parent = x;
 					}
-					transplantNode(tmp, A);
-					A->left = tmp->left;
-					A->left->parent = A;
-					A->color = tmp->color;
+					transplantNode(tmp, x);
+					x->left = tmp->left;
+					x->left->parent = x;
+					x->color = tmp->color;
 				}
 				m_alloc.destroy(tmp);
-				m_alloc.deallocate(tmp, 1);
+				m_alloc.deallocate(tmp, sizeof(Node<value_type>));
 				m_size--;
 				if (original_color == _BLACK)
-					fixAfterDelete(B);
+					fixAfterDelete(y);
 			}
 
 		private:
