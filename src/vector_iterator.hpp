@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 22:39:22 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 23:49:42 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,26 +162,15 @@ namespace ft
 			}
 			pointer operator->() { return &(operator*()); }
 			reference operator[] (difference_type n) { return base()[-n - 1]; }
+
+			friend bool operator == (const ReverseVectorIterator &l, const ReverseVectorIterator &r) { return l.base() == r.base(); }
+			friend bool operator != (const ReverseVectorIterator &l, const ReverseVectorIterator &r) { return l.base() != r.base(); }
+			friend bool operator >  (const ReverseVectorIterator &l, const ReverseVectorIterator &r) { return l.base() >  r.base(); }
+			friend bool operator >= (const ReverseVectorIterator &l, const ReverseVectorIterator &r) { return l.base() >= r.base(); }
+			friend bool operator <  (const ReverseVectorIterator &l, const ReverseVectorIterator &r) { return l.base() <  r.base(); }
+			friend bool operator <= (const ReverseVectorIterator &l, const ReverseVectorIterator &r) { return l.base() <= r.base(); }
+
+			friend ReverseVectorIterator operator + (typename ReverseVectorIterator::difference_type n, const ReverseVectorIterator &rev_iter) { return rev_iter + n; }
+			friend typename ReverseVectorIterator::difference_type operator - (const ReverseVectorIterator &l, const ReverseVectorIterator &r) { return r.base() - l.base(); }
 	};
-
-	/*************************************************/
-	/*        NON-MEMBER FUNCTIONS OVERLOADS         */
-	/*************************************************/
-
-	template <class Iter1, class Iter2>
-	bool operator == (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() == r.base(); }
-	template <class Iter1, class Iter2>
-	bool operator != (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() != r.base(); }
-	template <class Iter1, class Iter2>
-	bool operator > (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() > r.base(); }
-	template <class Iter1, class Iter2>
-	bool operator >= (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() >= r.base(); }
-	template <class Iter1, class Iter2>
-	bool operator < (const ReverseVectorIterator<Iter1>& l,	const ReverseVectorIterator<Iter2>& r) { return l.base() < r.base(); }
-	template <class Iter1, class Iter2>
-	bool operator <= (const ReverseVectorIterator<Iter1>& l, const ReverseVectorIterator<Iter2>& r) { return l.base() <= r.base(); }
-	template <class Iter>
-	ReverseVectorIterator<Iter>	operator + (typename ReverseVectorIterator<Iter>::difference_type n, const ReverseVectorIterator<Iter> &rev_iter) { return rev_iter + n; }
-	template <class Iter>
-	typename ReverseVectorIterator<Iter>::difference_type operator - (const ReverseVectorIterator<Iter> &l, const ReverseVectorIterator<Iter> &r) { return r.base() - l.base(); }
 }

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 21:35:42 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 23:33:29 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,8 +384,8 @@ namespace ft
 			friend bool operator == (const map &lhs, const map &rhs) { return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()); }
 			friend bool operator != (const map &lhs, const map &rhs) { return !(lhs == rhs); }
 			friend bool operator <  (const map &lhs, const map &rhs) { return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); }
+			friend bool operator <= (const map &lhs, const map &rhs) { return !(rhs < lhs); }
 			friend bool operator >  (const map &lhs, const map &rhs) { return rhs < lhs; }
 			friend bool operator >= (const map &lhs, const map &rhs) { return !(lhs < rhs); }
-			friend bool operator <= (const map &lhs, const map &rhs) { return !(rhs < lhs); }
 	};
 }
