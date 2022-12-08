@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 21:16:06 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 21:35:42 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,7 @@ namespace ft
 				m_size(toCopy.m_size),
 				m_compare(toCopy.m_compare),
 				m_tree(toCopy.m_tree)
-			{
-
-			}
+				{}
 
 			~map()
 			{

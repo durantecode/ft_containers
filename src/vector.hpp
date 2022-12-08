@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/07 20:53:50 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 22:38:49 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ namespace ft
 			typedef Alloc				allocator_type;
 			typedef std::ptrdiff_t		difference_type;
 
-			typedef value_type*				pointer;
-			typedef value_type&				reference;
-			typedef const value_type*		const_pointer;
-			typedef const value_type&		const_reference;
+			typedef value_type*							pointer;
+			typedef value_type&							reference;
+			typedef const value_type*					const_pointer;
+			typedef const value_type&					const_reference;
+			typedef std::random_access_iterator_tag		iter_tag;
 
 			typedef ft::VectorIterator<value_type, pointer, reference>					iterator;
 			typedef ft::VectorIterator<value_type, const_pointer, const_reference>		const_iterator;
@@ -41,7 +42,7 @@ namespace ft
 			typedef ft::ReverseVectorIterator<const_iterator>							const_reverse_iterator;
 
 
-		protected:
+		private:
 			allocator_type	m_alloc;
 			size_type		m_size;
 			size_type		m_capacity;
