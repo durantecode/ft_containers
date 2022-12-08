@@ -6,16 +6,15 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 20:33:49 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 21:16:06 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include "red_black_tree.hpp"
 #include "equal.hpp"
 #include "lexicographical_compare.hpp"
-#include "iterator_traits.hpp"
+#include "map_iterator.hpp"
 
 namespace ft
 {
@@ -37,12 +36,16 @@ namespace ft
 			typedef value_type&							reference;
 			typedef const value_type*					const_pointer;
 			typedef const value_type&					const_reference;
-			typedef std::random_access_iterator_tag		iter_tag;
+			typedef std::bidirectional_iterator_tag		iter_tag;
 
-			typedef Node<value_type>*								node_ptr;
-			typedef RBTree<value_type, Key, T, allocator_type>		rbtree;
-
+			typedef Node<value_type>*													node_ptr;
+			typedef RBTree<value_type, Key, T, allocator_type>							rbtree;
 			typedef ft::iterator<iter_tag, T, difference_type, pointer, reference>		map_iter;
+
+			typedef ft::MapIterator<map_iter, rbtree>					iterator;
+			typedef ft::ConstMapIterator<map_iter, rbtree>				const_iterator;
+			typedef ft::ReverseMapIterator<map_iter, rbtree>			reverse_iterator;
+			typedef ft::ConstReverseMapIterator<map_iter, rbtree>		const_reverse_iterator;
 			
 			class value_compare
 			{
@@ -67,272 +70,6 @@ namespace ft
 			size_type		m_size;
 			Compare			m_compare;
 			rbtree			m_tree;
-
-
-			/*************************************************/
-			/*             PREVIOUS / NEXT NODE              */
-			/*************************************************/
-
-
-			
-
-		public:
-
-				/*************************************************/
-				/*                  MAP ITERATOR                 */
-				/*************************************************/
-
-			class MapIterator : public map_iter
-			{
-				public:
-			node_ptr nextNode(node_ptr node)
-			{
-				if (node == this->m_tree.getNull())
-					return node;
-				else if (node == this->m_tree.getMax(this->m_tree.getRoot()))
-					return this->m_tree.getNull();
-				else if (!node)
-					return this->m_tree.getMin(this->m_tree.getRoot());
-				else if (node->right != this->m_tree.getNull())
-					return this->m_tree.getMin(node->right);
-				else
-				{
-					node_ptr next = node->parent;
-					while (next && node == next->right)
-					{
-						node = next;
-						next = next->parent;
-					}
-					return next;
-				}
-			}
-
-
-
-			node_ptr prevNode(node_ptr node)
-			{
-				if (!node)
-					return node;
-				else if (node == this->m_tree.getNull())
-					return this->m_tree.getMax(this->m_tree.getRoot());
-				else if (node == getMin(this->m_tree.getRoot()))
-					return NULL;
-				else if (node->left != this->m_tree.getNull())
-					return this->m_tree.getMax(node->left);
-				else
-				{
-					node_ptr prev = node->parent;
-					while (prev && node == prev->left)
-					{
-						node = prev;
-						prev = prev->parent;
-					}
-					return prev;
-				}
-			}
-					node_ptr	m_iterNode;
-			
-					MapIterator(): m_iterNode(NULL) {}
-					MapIterator(const MapIterator& toCopy): m_iterNode(toCopy.m_iterNode) {}
-					MapIterator(node_ptr node): m_iterNode(node) {}
-					MapIterator& operator=(const MapIterator& toCopy)
-					{
-						m_iterNode = toCopy.m_iterNode;
-						return *this;
-					}
-					~MapIterator() {}
-					
-					node_ptr 	getBase() const { return (m_iterNode); }
-					reference	operator * () const { return (*m_iterNode).pair_data; }
-					pointer		operator -> () const { return &(operator*()); }
-					bool		operator == (const MapIterator& toCopy) const { return (m_iterNode == toCopy.m_iterNode); }
-					bool		operator != (const MapIterator& toCopy) const { return (m_iterNode != toCopy.m_iterNode); }
-			
-					MapIterator&	operator++ ()
-					{
-							m_iterNode = nextNode(m_iterNode);
-							return *this;
-					}
-					MapIterator	operator++ (int)
-					{
-							MapIterator tmp(*this);
-							m_iterNode = nextNode(m_iterNode);
-							return tmp;
-					}
-					MapIterator&	operator-- ()
-					{
-							m_iterNode = prevNode(m_iterNode);
-							return *this;
-					}
-					MapIterator	operator-- (int)
-					{
-							MapIterator tmp(*this);
-							m_iterNode = prevNode(m_iterNode);
-							return tmp;
-					}
-			};
-
-				/*************************************************/
-				/*               CONST MAP ITERATOR              */
-				/*************************************************/
-
-			class ConstMapIterator : public map_iter
-			{	
-				public:	
-					node_ptr			m_iterNode;
-					const rbtree*		m_iterTree;
-			
-					ConstMapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
-					ConstMapIterator(const MapIterator &toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
-					ConstMapIterator(const ConstMapIterator &toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
-					ConstMapIterator(const node_ptr &node, rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
-					ConstMapIterator(const node_ptr &node, const rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
-					ConstMapIterator& operator=(const ConstMapIterator &toCopy)
-					{
-						m_iterNode = toCopy.m_iterNode;
-						m_iterTree	= toCopy.m_iterTree;
-						return *this;
-					}
-					~ConstMapIterator() {}
-					
-					node_ptr 	getBase() const { return (m_iterNode); }
-					reference	operator * () const {return (*m_iterNode).pair_data; }
-					pointer		operator -> () const {return &(operator*()); }
-					bool		operator == (const ConstMapIterator& it) const { return (m_iterNode == it.m_iterNode); }
-					bool		operator != (const ConstMapIterator& it) const { return (m_iterNode != it.m_iterNode); }
-
-					ConstMapIterator&	operator++ ()
-					{
-							m_iterNode = m_iterTree->nextNode(m_iterNode);
-							return *this;
-					}
-					ConstMapIterator	operator++ (int)
-					{
-							ConstMapIterator tmp(*this);
-							m_iterNode = m_iterTree->nextNode(m_iterNode);
-							return tmp;
-					}
-					ConstMapIterator&	operator-- ()
-					{
-							m_iterNode = m_iterTree->prevNode(m_iterNode);
-							return *this;
-					}
-					ConstMapIterator	operator-- (int)
-					{
-							ConstMapIterator tmp(*this);
-							m_iterNode = m_iterTree->prevNode(m_iterNode);
-							return tmp;
-					}
-			};
-
-				/*************************************************/
-				/*             REVERSE MAP ITERATOR              */
-				/*************************************************/
-
-			class ReverseMapIterator : public map_iter
-			{
-				public:
-					node_ptr	m_iterNode;
-					rbtree*		m_iterTree;
-			
-					ReverseMapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
-					ReverseMapIterator(const ReverseMapIterator& toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
-					ReverseMapIterator(node_ptr node, rbtree* tree): m_iterNode(node), m_iterTree(tree) {}
-					ReverseMapIterator& operator=(const ReverseMapIterator& toCopy)
-					{
-						m_iterNode = toCopy.m_iterNode;
-						m_iterTree	= toCopy.m_iterTree;
-						return *this;
-					}
-					~ReverseMapIterator() {}
-					
-					node_ptr 	getBase() const { return (m_iterNode); }
-					reference	operator * () const { return (*m_iterNode).pair_data; }
-					pointer		operator -> () const { return &(operator*()); }
-					bool		operator == (const ReverseMapIterator& toCopy) const { return (m_iterNode == toCopy.m_iterNode); }
-					bool		operator != (const ReverseMapIterator& toCopy) const { return (m_iterNode != toCopy.m_iterNode); }
-			
-					ReverseMapIterator&	operator++ ()
-					{
-							m_iterNode = m_iterTree->prevNode(m_iterNode);
-							return *this;
-					}
-					ReverseMapIterator	operator++ (int)
-					{
-							ReverseMapIterator tmp(*this);
-							m_iterNode = m_iterTree->prevNode(m_iterNode);
-							return tmp;
-					}
-					ReverseMapIterator&	operator-- ()
-					{
-							m_iterNode = m_iterTree->nextNode(m_iterNode);
-							return *this;
-					}
-					ReverseMapIterator	operator-- (int)
-					{
-							ReverseMapIterator tmp(*this);
-							m_iterNode = m_iterTree->nextNode(m_iterNode);
-							return tmp;
-					}
-			};
-
-				/*************************************************/
-				/*           CONST REVERSE MAP ITERATOR          */
-				/*************************************************/
-
-			class ConstReverseMapIterator : public map_iter
-			{	
-				public:	
-					node_ptr			m_iterNode;
-					const rbtree*		m_iterTree;
-			
-					ConstReverseMapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
-					ConstReverseMapIterator(const ReverseMapIterator &toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
-					ConstReverseMapIterator(const ConstReverseMapIterator &toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
-					ConstReverseMapIterator(const node_ptr &node, rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
-					ConstReverseMapIterator(const node_ptr &node, const rbtree *tree): m_iterNode(node), m_iterTree(tree) {}
-					ConstReverseMapIterator& operator=(const ConstReverseMapIterator &toCopy)
-					{
-						m_iterNode = toCopy.m_iterNode;
-						m_iterTree	= toCopy.m_iterTree;
-						return *this;
-					}
-					~ConstReverseMapIterator() {}
-					
-					node_ptr 	getBase() const { return (m_iterNode); }
-					reference	operator * () const {return (*m_iterNode).pair_data; }
-					pointer		operator -> () const {return &(operator*()); }
-					bool		operator == (const ConstReverseMapIterator& it) const { return (m_iterNode == it.m_iterNode); }
-					bool		operator != (const ConstReverseMapIterator& it) const { return (m_iterNode != it.m_iterNode); }
-
-					ConstReverseMapIterator&	operator++ ()
-					{
-							m_iterNode = m_iterTree->prevNode(m_iterNode);
-							return *this;
-					}
-					ConstReverseMapIterator	operator++ (int)
-					{
-							ConstReverseMapIterator tmp(*this);
-							m_iterNode = m_iterTree->prevNode(m_iterNode);
-							return tmp;
-					}
-					ConstReverseMapIterator&	operator-- ()
-					{
-							m_iterNode = m_iterTree->nextNode(m_iterNode);
-							return *this;
-					}
-					ConstReverseMapIterator	operator-- (int)
-					{
-							ConstReverseMapIterator tmp(*this);
-							m_iterNode = m_iterTree->nextNode(m_iterNode);
-							return tmp;
-					}
-			};
-
-			typedef	MapIterator					iterator;
-			typedef ConstMapIterator			const_iterator;
-			typedef ReverseMapIterator			reverse_iterator;
-			typedef ConstReverseMapIterator		const_reverse_iterator;
 
 			/*************************************************/
 			/*               MAP CONSTRUCTORS                */
@@ -391,7 +128,7 @@ namespace ft
 			{
 				if (!this->size())
 					return end();
-				return (iterator(this->m_tree.getMin(this->m_tree.getRoot())));
+				return (iterator(this->m_tree.getMin(this->m_tree.getRoot()), &this->m_tree));
 			}
 			const_iterator begin() const
 			{
@@ -484,7 +221,7 @@ namespace ft
 
 				bool ret = (prevSize == postSize);
 				
-				return ft::make_pair<iterator, bool>(iterator(insertedNode), ret);
+				return ft::make_pair<iterator, bool>(iterator(insertedNode, &this->m_tree), ret);
 			}
 
 			iterator insert (iterator position, const value_type& val)
@@ -494,7 +231,7 @@ namespace ft
 				if (tmp != this->end())
 					return (tmp);
 				node_ptr insertedNode = this->m_tree.insertNode(val);
-				return (iterator(insertedNode));
+				return (iterator(insertedNode, &this->m_tree));
 			}
 
 			template <class InputIterator>
@@ -560,7 +297,7 @@ namespace ft
 				{
 					node_ptr tmp = this->m_tree.searchTree(this->m_tree.getRoot(), k);
 					if (tmp)
-						return (iterator(tmp));
+						return (iterator(tmp, &this->m_tree));
 				}
 				return (this->end());
 			}
