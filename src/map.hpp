@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 20:22:47 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 20:33:49 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,18 @@ namespace ft
 			/*             PREVIOUS / NEXT NODE              */
 			/*************************************************/
 
+
+			
+
+		public:
+
+				/*************************************************/
+				/*                  MAP ITERATOR                 */
+				/*************************************************/
+
+			class MapIterator : public map_iter
+			{
+				public:
 			node_ptr nextNode(node_ptr node)
 			{
 				if (node == this->m_tree.getNull())
@@ -103,7 +115,7 @@ namespace ft
 					return node;
 				else if (node == this->m_tree.getNull())
 					return this->m_tree.getMax(this->m_tree.getRoot());
-				else if (node == getMin(m_root))
+				else if (node == getMin(this->m_tree.getRoot()))
 					return NULL;
 				else if (node->left != this->m_tree.getNull())
 					return this->m_tree.getMax(node->left);
@@ -118,28 +130,14 @@ namespace ft
 					return prev;
 				}
 			}
-
-			
-
-		public:
-
-				/*************************************************/
-				/*                  MAP ITERATOR                 */
-				/*************************************************/
-
-			class MapIterator : public map_iter
-			{
-				public:
 					node_ptr	m_iterNode;
-					rbtree*		m_iterTree;
 			
-					MapIterator(): m_iterNode(NULL), m_iterTree(NULL) {}
-					MapIterator(const MapIterator& toCopy): m_iterNode(toCopy.m_iterNode), m_iterTree(toCopy.m_iterTree) {}
-					MapIterator(node_ptr node, rbtree* tree): m_iterNode(node), m_iterTree(tree) {}
+					MapIterator(): m_iterNode(NULL) {}
+					MapIterator(const MapIterator& toCopy): m_iterNode(toCopy.m_iterNode) {}
+					MapIterator(node_ptr node): m_iterNode(node) {}
 					MapIterator& operator=(const MapIterator& toCopy)
 					{
 						m_iterNode = toCopy.m_iterNode;
-						m_iterTree	= toCopy.m_iterTree;
 						return *this;
 					}
 					~MapIterator() {}
@@ -152,24 +150,24 @@ namespace ft
 			
 					MapIterator&	operator++ ()
 					{
-							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							m_iterNode = nextNode(m_iterNode);
 							return *this;
 					}
 					MapIterator	operator++ (int)
 					{
 							MapIterator tmp(*this);
-							m_iterNode = m_iterTree->nextNode(m_iterNode);
+							m_iterNode = nextNode(m_iterNode);
 							return tmp;
 					}
 					MapIterator&	operator-- ()
 					{
-							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							m_iterNode = prevNode(m_iterNode);
 							return *this;
 					}
 					MapIterator	operator-- (int)
 					{
 							MapIterator tmp(*this);
-							m_iterNode = m_iterTree->prevNode(m_iterNode);
+							m_iterNode = prevNode(m_iterNode);
 							return tmp;
 					}
 			};
@@ -393,7 +391,7 @@ namespace ft
 			{
 				if (!this->size())
 					return end();
-				return (iterator(this->m_tree.getMin(this->m_tree.getRoot()), &this->m_tree));
+				return (iterator(this->m_tree.getMin(this->m_tree.getRoot())));
 			}
 			const_iterator begin() const
 			{
@@ -486,7 +484,7 @@ namespace ft
 
 				bool ret = (prevSize == postSize);
 				
-				return ft::make_pair<iterator, bool>(iterator(insertedNode, &this->m_tree), ret);
+				return ft::make_pair<iterator, bool>(iterator(insertedNode), ret);
 			}
 
 			iterator insert (iterator position, const value_type& val)
@@ -496,7 +494,7 @@ namespace ft
 				if (tmp != this->end())
 					return (tmp);
 				node_ptr insertedNode = this->m_tree.insertNode(val);
-				return (iterator(insertedNode, &this->m_tree));
+				return (iterator(insertedNode));
 			}
 
 			template <class InputIterator>
@@ -562,7 +560,7 @@ namespace ft
 				{
 					node_ptr tmp = this->m_tree.searchTree(this->m_tree.getRoot(), k);
 					if (tmp)
-						return (iterator(tmp, &this->m_tree));
+						return (iterator(tmp));
 				}
 				return (this->end());
 			}

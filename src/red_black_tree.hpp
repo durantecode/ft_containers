@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/06 21:06:48 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 20:36:17 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,98 +162,6 @@ namespace ft
 				while (node->right != m_nullNode)
 					node = node->right;
 				return node;
-			}
-
-			/*************************************************/
-			/*             PREVIOUS / NEXT NODE              */
-			/*************************************************/
-
-			node_ptr nextNode(node_ptr node)
-			{
-				if (node == m_nullNode)
-					return node;
-				else if (node == getMax(m_root))
-					return m_nullNode;
-				else if (!node)
-					return getMin(m_root);
-				else if (node->right != m_nullNode)
-					return getMin(node->right);
-				else
-				{
-					node_ptr next = node->parent;
-					while (next && node == next->right)
-					{
-						node = next;
-						next = next->parent;
-					}
-					return next;
-				}
-			}
-
-			node_ptr nextNode(node_ptr node) const
-			{
-				if (node == m_nullNode)
-					return node;
-				else if (node == getMax(m_root))
-					return m_nullNode;
-				else if (!node)
-					return getMin(m_root);
-				else if (node->right != m_nullNode)
-					return getMin(node->right);
-				else
-				{
-					node_ptr next = node->parent;
-					while (next && node == next->right)
-					{
-						node = next;
-						next = next->parent;
-					}
-					return next;
-				}
-			}
-
-			node_ptr prevNode(node_ptr node)
-			{
-				if (!node)
-					return node;
-				else if (node == m_nullNode)
-					return getMax(m_root);
-				else if (node == getMin(m_root))
-					return nullptr;
-				else if (node->left != m_nullNode)
-					return getMax(node->left);
-				else
-				{
-					node_ptr prev = node->parent;
-					while (prev && node == prev->left)
-					{
-						node = prev;
-						prev = prev->parent;
-					}
-					return prev;
-				}
-			}
-
-			node_ptr prevNode(node_ptr node) const
-			{
-				if (!node)
-					return node;
-				if (node == m_nullNode)
-					return getMax(m_root);
-				else if (node == getMin(m_root))
-					return nullptr;
-				else if (node->left != m_nullNode)
-					return getMax(node->left);
-				else
-				{
-					node_ptr prev = node->parent;
-					while (prev && node == prev->left)
-					{
-						node = prev;
-						prev = prev->parent;
-					}
-					return prev;
-				}
 			}
 
 			/*************************************************/
