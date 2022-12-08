@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:42:34 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/06 20:46:10 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/07 19:55:54 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ void	test_utility(void);
 
 /* PERFORMANCE AND COMPARISION FUNCTIONS */
 
-double 	timer_stop();
-void   	timer_start();
-void   	performance_result(double std, double ft);
-void	comparision_result(double comp_res);
-std::string getNewId();
+double 		timer_stop();
+void   		timer_start();
+void   		performance_result(double std, double ft);
+void		comparision_result(double comp_res);
+std::string createString();
 
 /* STACK FUNCTIONS */
 

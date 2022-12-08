@@ -6,13 +6,11 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 21:55:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 11:53:40 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/07 20:47:21 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-
-#include <type_traits>
 
 namespace ft
 {
@@ -40,7 +38,7 @@ namespace ft
     struct iterator_traits<T*>
 	{
         typedef T									value_type;
-        typedef ptrdiff_t                  			difference_type;
+        typedef std::ptrdiff_t             			difference_type;
         typedef std::random_access_iterator_tag		iterator_category;
         typedef T*									pointer;
         typedef T&									reference;

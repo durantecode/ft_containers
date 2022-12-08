@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/06 21:02:40 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/07 21:42:20 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ namespace ft
 
 			typedef VectorIterator<T, Pointer, Reference>	iter_type;
 			typedef VectorIterator<T, T*, T&>				iterator;
-			typedef VectorIterator<T, const T*, const T&>	const_iterator;
 			typedef std::random_access_iterator_tag			iterator_category;
 
 		private:
@@ -40,7 +39,7 @@ namespace ft
 		public:
 			VectorIterator() : m_ptr(NULL) {}
 			VectorIterator(const pointer ptr) : m_ptr(ptr) {}
-			VectorIterator(iterator const &toCopy) : m_ptr(const_cast<pointer>(toCopy.getBase())) {}
+			VectorIterator(iterator const &toCopy) : m_ptr((toCopy.getBase())) {}
 			~VectorIterator() {}
 
 			pointer getBase() const { return this->m_ptr; }

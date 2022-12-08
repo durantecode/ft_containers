@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 20:14:13 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 01:23:11 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/07 19:55:15 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void test_map_time_insert_val()
 		ft::map<std::string, int> v2;
 		for (size_t i = 0; i < N * N; ++i)
 		{
-			std::string fill = getNewId();
+			std::string fill = createString();
             int val = rand() % M;
 			v1.insert(std::make_pair(fill, val));
 			v2.insert(ft::make_pair(fill, val));
@@ -67,7 +67,7 @@ void test_map_time_insert_val()
 	timer_start();
 	for (int i = 0; i < count; ++i)
 	{
-        std::string fill = getNewId();
+        std::string fill = createString();
 		v1.insert(std::make_pair(fill, N));
 	}
 	double std_res = timer_stop();
@@ -77,7 +77,7 @@ void test_map_time_insert_val()
 	timer_start();
 	for (int i = 0; i < count; ++i)
 	{
-        std::string fill = getNewId();
+        std::string fill = createString();
 		v2.insert(ft::make_pair(fill, N));
 	}
 	double ft_res = timer_stop();
@@ -111,7 +111,7 @@ void test_map_time_size_empty_max()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -183,7 +183,7 @@ void test_map_time_copy_constructor()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -208,7 +208,7 @@ void test_map_time_copy_constructor()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
 	timer_start();
@@ -220,7 +220,7 @@ void test_map_time_copy_constructor()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();
@@ -257,7 +257,7 @@ void test_map_time_begin_end()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -294,7 +294,7 @@ void test_map_time_begin_end()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
 	timer_start();
@@ -309,7 +309,7 @@ void test_map_time_begin_end()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();
@@ -349,7 +349,7 @@ void test_map_time_rbegin_rend()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -384,7 +384,7 @@ void test_map_time_rbegin_rend()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
 	timer_start();
@@ -399,7 +399,7 @@ void test_map_time_rbegin_rend()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();
@@ -439,12 +439,12 @@ void test_map_time_operator_at()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
 			}
-			std::string ref = getNewId();
+			std::string ref = createString();
 			if (v1[ref] != v2[ref])
 				++err_count;
 			if (v1.size() != v2.size())
@@ -461,7 +461,7 @@ void test_map_time_operator_at()
     std::string fill_s;
     for (size_t i = 0; i < num; ++i)
 	{
-	    fill_s = getNewId();
+	    fill_s = createString();
         v1.insert(std::make_pair(fill_s, N));
     }
 	timer_start();
@@ -476,7 +476,7 @@ void test_map_time_operator_at()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    fill_s = getNewId();
+	    fill_s = createString();
         v2.insert(ft::make_pair(fill_s, N));
     }
 	timer_start();
@@ -516,7 +516,7 @@ void test_map_time_assignment_op()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -540,7 +540,7 @@ void test_map_time_assignment_op()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
     std::map<std::string, int> v1_r;
@@ -553,7 +553,7 @@ void test_map_time_assignment_op()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	ft::map<std::string, int> v2_r;
@@ -591,7 +591,7 @@ void test_map_time_range_constructor()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -613,7 +613,7 @@ void test_map_time_range_constructor()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
 	timer_start();
@@ -625,7 +625,7 @@ void test_map_time_range_constructor()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();
@@ -664,7 +664,7 @@ void test_map_time_comparison()
 			ft::map<std::string, int> v2_r;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v1_r.insert(std::make_pair(fill, fill_n));
@@ -713,13 +713,13 @@ void test_map_time_find()
 			std::string save_to_find;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
 				save_to_find = fill;
 			}
-			std::string ref = getNewId();
+			std::string ref = createString();
 			ptrdiff_t d1 = std::distance(v1.begin(), v1.find(ref));
 			ptrdiff_t d2 = ft::distance(v2.begin(), v2.find(ref));
 			if (d1 != d2)
@@ -738,7 +738,7 @@ void test_map_time_find()
     std::string fill_s;
     for (size_t i = 0; i < num; ++i)
 	{
-	    fill_s = getNewId();
+	    fill_s = createString();
         v1.insert(std::make_pair(fill_s, N));
     }
 	timer_start();
@@ -750,7 +750,7 @@ void test_map_time_find()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    fill_s = getNewId();
+	    fill_s = createString();
         v2.insert(ft::make_pair(fill_s, N));
     }
 	timer_start();
@@ -787,7 +787,7 @@ void test_map_time_swap()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -812,7 +812,7 @@ void test_map_time_swap()
 	std::map<std::string, int> v1_r;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
         v1_r.insert(std::make_pair(fill, N));
     }
@@ -826,7 +826,7 @@ void test_map_time_swap()
 	ft::map<std::string, int> v2_r;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
         v2_r.insert(ft::make_pair(fill, N));
     }
@@ -865,13 +865,13 @@ void test_map_time_count_clear()
 			std::string save_to_find;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
 				save_to_find = fill;
 			}
-			std::string ref = getNewId();
+			std::string ref = createString();
 			size_t d1 = v1.count(ref);
 			size_t d2 = v2.count(ref);
 			if (d1 != d2)
@@ -896,7 +896,7 @@ void test_map_time_count_clear()
     std::string fill_s;
     for (size_t i = 0; i < num; ++i)
 	{
-	    fill_s = getNewId();
+	    fill_s = createString();
         v1.insert(std::make_pair(fill_s, N));
     }
 	timer_start();
@@ -911,7 +911,7 @@ void test_map_time_count_clear()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    fill_s = getNewId();
+	    fill_s = createString();
         v2.insert(ft::make_pair(fill_s, N));
     }
 	timer_start();
@@ -951,7 +951,7 @@ void test_map_insert_pos(long count)
 		ft::map<std::string, int> v2_r;
 		for (size_t i = 0; i < N * 10; ++i)
 		{
-			std::string fill = getNewId();
+			std::string fill = createString();
 			int val = rand() % M;
 			std::pair<std::string, int> p1(fill, val);
 			ft::pair<std::string, int> p2(fill, val);
@@ -971,7 +971,7 @@ void test_map_insert_pos(long count)
 	std::pair<std::string, int> p1;
 	for (int i = 0; i < count; ++i)
 	{
-        std::string fill = getNewId();
+        std::string fill = createString();
 		p1.first = fill;
 		p1.second = N;
 		v1.insert(p1);
@@ -986,7 +986,7 @@ void test_map_insert_pos(long count)
 	ft::pair<std::string, int> p2;
 	for (int i = 0; i < count; ++i)
 	{
-        std::string fill = getNewId();
+        std::string fill = createString();
 		p2.first = fill;
 		p2.second = N;
 		v2.insert(p2);
@@ -1023,7 +1023,7 @@ void test_map_time_insert_range()
 		ft::map<std::string, int> v2_r;
 		for (size_t i = 0; i < N * 10; ++i)
 		{
-			std::string fill = getNewId();
+			std::string fill = createString();
 			int val = rand() % M;
 			v1.insert(std::make_pair(fill, val));
 			v2.insert(ft::make_pair(fill, val));
@@ -1040,7 +1040,7 @@ void test_map_time_insert_range()
 	std::map<std::string, int> v1_r;
 	for (int i = 0; i < count; ++i)
 	{
-        std::string fill = getNewId();
+        std::string fill = createString();
 		v1.insert(std::make_pair(fill, N));
 	}
 	timer_start();
@@ -1052,7 +1052,7 @@ void test_map_time_insert_range()
 	ft::map<std::string, int> v2_r;
 	for (int i = 0; i < count; ++i)
 	{
-        std::string fill = getNewId();
+        std::string fill = createString();
 		v2.insert(ft::make_pair(fill, N));
 	}
 	timer_start();
@@ -1088,7 +1088,7 @@ void test_map_time_erase_range()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -1110,7 +1110,7 @@ void test_map_time_erase_range()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
 	timer_start();
@@ -1122,7 +1122,7 @@ void test_map_time_erase_range()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();
@@ -1159,7 +1159,7 @@ void test_map_time_erase_pos()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -1183,7 +1183,7 @@ void test_map_time_erase_pos()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
 	timer_start();
@@ -1195,7 +1195,7 @@ void test_map_time_erase_pos()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();
@@ -1233,7 +1233,7 @@ void test_map_time_erase_val()
 			std::vector<std::string> save;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				save.push_back(fill);
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
@@ -1260,7 +1260,7 @@ void test_map_time_erase_val()
 	std::vector<std::string> save;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
 		save.push_back(fill);
         v1.insert(std::make_pair(fill, N));
     }
@@ -1274,7 +1274,7 @@ void test_map_time_erase_val()
 	save.clear();
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
 		save.push_back(fill);
         v2.insert(ft::make_pair(fill, N));
     }
@@ -1312,7 +1312,7 @@ void test_map_time_upper_bound()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -1322,7 +1322,7 @@ void test_map_time_upper_bound()
 			if (std_res != ft_res)
 				++err_count;
 			if (!num) continue;
-			std::string bound = getNewId();
+			std::string bound = createString();
 			std::map<std::string, int>::iterator it = v1.upper_bound(bound);
 			ft::map<std::string, int>::iterator it_ft = v2.upper_bound(bound);
 			if (it == v1.end() || it_ft == v2.end())
@@ -1338,10 +1338,10 @@ void test_map_time_upper_bound()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
-	std::string bound = getNewId();
+	std::string bound = createString();
 	timer_start();
 	for (int i = 0; i < count; ++i)
 		v1.upper_bound(bound);
@@ -1351,7 +1351,7 @@ void test_map_time_upper_bound()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();
@@ -1388,7 +1388,7 @@ void test_map_time_lower_bound()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -1399,7 +1399,7 @@ void test_map_time_lower_bound()
 				++err_count;
 			if (!num)
 				continue;
-			std::string bound = getNewId();
+			std::string bound = createString();
 			std::map<std::string, int>::iterator it = v1.lower_bound(bound);
 			ft::map<std::string, int>::iterator it_ft = v2.lower_bound(bound);
 			if (it == v1.end() || it_ft == v2.end())
@@ -1415,10 +1415,10 @@ void test_map_time_lower_bound()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
-	std::string bound = getNewId();
+	std::string bound = createString();
 	timer_start();
 	for (int i = 0; i < count; ++i)
 		v1.lower_bound(bound);
@@ -1428,7 +1428,7 @@ void test_map_time_lower_bound()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();
@@ -1465,7 +1465,7 @@ void test_map_time_equal_range()
 			ft::map<std::string, int> v2;
 			for (size_t i = 0; i < num; ++i)
 			{
-				std::string fill = getNewId();
+				std::string fill = createString();
 				int  fill_n = rand() % M;
 				v1.insert(std::make_pair(fill, fill_n));
 				v2.insert(ft::make_pair(fill, fill_n));
@@ -1476,7 +1476,7 @@ void test_map_time_equal_range()
 				++err_count;
 			if (!num)
 				continue;
-			std::string bound = getNewId();
+			std::string bound = createString();
 			std::pair<std::map<std::string, int>::iterator, 
 			std::map<std::string, int>::iterator> it = v1.equal_range(bound);
 			ft::pair<ft::map<std::string, int>::iterator, 
@@ -1494,10 +1494,10 @@ void test_map_time_equal_range()
 	std::map<std::string, int> v1;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v1.insert(std::make_pair(fill, N));
     }
-	std::string bound = getNewId();
+	std::string bound = createString();
 	timer_start();
 	for (int i = 0; i < count; ++i)
 		v1.equal_range(bound);
@@ -1507,7 +1507,7 @@ void test_map_time_equal_range()
 	ft::map<std::string, int> v2;
     for (size_t i = 0; i < num; ++i)
 	{
-	    std::string fill = getNewId();
+	    std::string fill = createString();
         v2.insert(ft::make_pair(fill, N));
     }
 	timer_start();

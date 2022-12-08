@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 00:01:22 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/01 22:50:31 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/07 19:55:15 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ double timer_stop()
 	return duration;
 }
 
-std::string getNewId()
+std::string createString()
 {
     const char alphanum[] =
         "0123456789"

@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 19:02:51 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 01:23:39 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/07 21:10:40 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static void test_map_max_size(void)
 	check("m3.empty() == m4.empty() ", m3.empty(), m4.empty());
 	for (size_t i = 0; i < 50; ++i)
 	{
-		std::string fill = getNewId();
+		std::string fill = createString();
 		int  fill_n = 42 % 99;
 		m3.insert(ft::make_pair(fill, fill_n));
 		m4.insert(std::make_pair(fill, fill_n));
@@ -513,9 +513,6 @@ void test_map(void)
 	names.clear();
 	errors.clear();
 	time_perf.clear();
-
-	// if (time_perf.empty())
-	// 	std::cout << "EMPTY: " << std::endl;
 	
 	test_map_constructors();
 	test_map_max_size();

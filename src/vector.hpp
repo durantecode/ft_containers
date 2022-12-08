@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/02 10:49:34 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/07 20:53:50 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ namespace ft
 			void assign (InputIterator first, InputIterator last,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 			{
-				size_type n = std::distance(first, last);
+				size_type n = ft::distance(first, last);
 
 				clear();
 				if (n > this->m_capacity)
@@ -319,9 +319,9 @@ namespace ft
 
 			iterator erase(iterator first, iterator last)
 			{
-				size_type	n	 = std::distance(first, begin());
+				size_type	n	 = ft::distance(first, begin());
 				pointer 	tmp  = &this->m_data[n];
-				size_type	diff = std::distance(first, last);
+				size_type	diff = ft::distance(first, last);
 
 				size_type i = 0;
 				while (n + diff < this->m_size)

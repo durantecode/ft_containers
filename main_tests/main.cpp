@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/01 22:51:06 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/07 21:17:09 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,29 @@ int main(int argc, char **argv)
 	std::string test;
 	std::string verb;
 	verbose = false;
+	count = 10000;
 
 	if (argc < 2 || argc > 3)
 	{
-		std::cout << "usage: ./containers [container] [-verbose]\n" << std::endl;
+		std::cout << "usage: ./containers [container] [-verbose]" << std::endl;
 		return (1);
 	}
 	else
 	{
 		test = std::string(argv[1]);
 		if (argv[2])
+		{
 			verb = std::string(argv[2]);
+			if (verb == "-verbose")
+				verbose = true;
+			else
+			{
+				std::cout << "No option called " << verb << std::endl;
+				std::cout << "usage: ./containers [container] [-verbose]" << std::endl;
+				return (1);
+			}
+		}	
 	}
-	if (verb == "-verbose")
-		verbose = true;
-	count = 100;
 	print_project_title();
 	if (test == "vector")
 		test_vector();
