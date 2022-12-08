@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/06 20:40:16 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/08 20:22:47 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,59 @@ namespace ft
 			size_type		m_size;
 			Compare			m_compare;
 			rbtree			m_tree;
+
+
+			/*************************************************/
+			/*             PREVIOUS / NEXT NODE              */
+			/*************************************************/
+
+			node_ptr nextNode(node_ptr node)
+			{
+				if (node == this->m_tree.getNull())
+					return node;
+				else if (node == this->m_tree.getMax(this->m_tree.getRoot()))
+					return this->m_tree.getNull();
+				else if (!node)
+					return this->m_tree.getMin(this->m_tree.getRoot());
+				else if (node->right != this->m_tree.getNull())
+					return this->m_tree.getMin(node->right);
+				else
+				{
+					node_ptr next = node->parent;
+					while (next && node == next->right)
+					{
+						node = next;
+						next = next->parent;
+					}
+					return next;
+				}
+			}
+
+
+
+			node_ptr prevNode(node_ptr node)
+			{
+				if (!node)
+					return node;
+				else if (node == this->m_tree.getNull())
+					return this->m_tree.getMax(this->m_tree.getRoot());
+				else if (node == getMin(m_root))
+					return NULL;
+				else if (node->left != this->m_tree.getNull())
+					return this->m_tree.getMax(node->left);
+				else
+				{
+					node_ptr prev = node->parent;
+					while (prev && node == prev->left)
+					{
+						node = prev;
+						prev = prev->parent;
+					}
+					return prev;
+				}
+			}
+
+			
 
 		public:
 
