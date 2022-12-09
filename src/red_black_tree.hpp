@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/09 13:34:36 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 17:30:57 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,8 @@ namespace ft
 					return node;
 				if (key < node->pair_data.first)
 					return searchTree(node->left, key);
-				else return searchTree(node->right, key);
+				else 
+					return searchTree(node->right, key);
 			}
 
 			void clear(node_ptr node)
