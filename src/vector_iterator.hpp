@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 23:49:42 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 12:59:54 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ namespace ft
 			/*                 VECTOR_ITERATOR               */
 			/*************************************************/
 	
-	template <class T, class Pointer, class Reference>
+	template <class Iter>
 	class VectorIterator
 	{
 		public:
-			typedef T					value_type;
-			typedef std::ptrdiff_t		difference_type;
-			typedef Pointer				pointer;
-			typedef Reference			reference;
+			typedef typename Iter::value_type			value_type;
+			typedef typename Iter::pointer				pointer;
+			typedef typename Iter::reference			reference;
+			typedef typename Iter::difference_type		difference_type;
+			typedef typename Iter::iterator_category	iterator_category;
 
-			typedef VectorIterator<T, Pointer, Reference>	iter_type;
-			typedef VectorIterator<T, T*, T&>				iterator;
-			typedef std::random_access_iterator_tag			iterator_category;
+			typedef ft::iterator<iterator_category, value_type, difference_type, value_type*, value_type&> 	vec_iter;
+			typedef VectorIterator<vec_iter>			iterator;
 
 		private:
 			pointer m_ptr;
@@ -43,55 +43,55 @@ namespace ft
 			~VectorIterator() {}
 
 			pointer getBase() const { return this->m_ptr; }
-			iter_type &operator = (iter_type const &toCopy)
+			VectorIterator &operator = (VectorIterator const &toCopy)
 			{
 				this->m_ptr = toCopy.m_ptr;
 				return (*this);
 			}
 
-			iter_type& operator ++ ()
+			VectorIterator& operator ++ ()
 			{
 				this->m_ptr++;
 				return (*this);
 			}
-			iter_type operator ++ (int)
+			VectorIterator operator ++ (int)
 			{
-				iter_type it(*this);
+				VectorIterator it(*this);
 				++(*this);
 				return it;
 			}
-			iter_type &operator += (difference_type val)
+			VectorIterator &operator += (difference_type val)
 			{
 				this->m_ptr += val;
 				return (*this);
 			}
-			iter_type operator + (difference_type val) const
+			VectorIterator operator + (difference_type val) const
 			{
-				iter_type it(*this);
+				VectorIterator it(*this);
 				return (it += val);
 			}
-			iter_type& operator -- ()
+			VectorIterator& operator -- ()
 			{
 				this->m_ptr--;
 				return *this;
 			}
-			iter_type operator -- (int)
+			VectorIterator operator -- (int)
 			{
-				iter_type it(*this);
+				VectorIterator it(*this);
 				--(*this);
 				return it;
 			}
-			iter_type &operator -= (difference_type val)
+			VectorIterator &operator -= (difference_type val)
 			{
 				this->m_ptr -= val;
 				return (*this);
 			}
-			iter_type operator - (difference_type val) const
+			VectorIterator operator - (difference_type val) const
 			{
-				iter_type it(*this);
+				VectorIterator it(*this);
 				return (it -= val);
 			}
-			difference_type operator - (iter_type const &other) const { return (this->m_ptr - other.m_ptr); }
+			difference_type operator - (VectorIterator const &other) const { return (this->m_ptr - other.m_ptr); }
 
 			reference operator * () { return (*this->m_ptr); }
 			pointer operator -> () { return (this->m_ptr); }
@@ -114,11 +114,11 @@ namespace ft
 	{
 		public:
 			typedef T												iterator_type;
-			typedef typename iterator_traits<T>::iterator_category	iterator_category;
 			typedef typename iterator_traits<T>::value_type			value_type;
-			typedef typename iterator_traits<T>::difference_type	difference_type;
 			typedef typename iterator_traits<T>::pointer			pointer;
 			typedef typename iterator_traits<T>::reference			reference;
+			typedef typename iterator_traits<T>::difference_type	difference_type;
+			typedef typename iterator_traits<T>::iterator_category	iterator_category;
 
 		private:
 			iterator_type m_iter;

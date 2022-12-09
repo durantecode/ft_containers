@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 23:14:40 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 12:23:45 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 	std::string test;
 	std::string verb;
 	verbose = false;
-	count = 100;
+	count = 1000;
 
 	if (argc < 2 || argc > 3)
 	{

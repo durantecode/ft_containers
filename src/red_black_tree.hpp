@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 23:52:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 23:07:04 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 13:34:36 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,13 @@ namespace ft
 			}
 	};
 
-	template<class Value, class Key, class Mapped, class Alloc = std::allocator<Node<Value> > >
+	template<class Value, class Key, class Alloc = std::allocator<Node<Value> > >
 	class RBTree
 	{
 		public:
 
 			typedef Value		value_type;
 			typedef Key			key_type;
-			typedef Mapped		mapped_type;
 			typedef size_t		size_type;
 
 			typedef Node<value_type>*		node_ptr;
@@ -374,107 +373,107 @@ namespace ft
 			/*             FIXING DELETE/INSERT              */
 			/*************************************************/
 
-			void fixAfterDelete(node_ptr x)
+			void fixAfterDelete(node_ptr node)
 			{
-				while (x != m_root && x->color == _BLACK)
+				while (node != m_root && node->color == _BLACK)
 				{
-					if (x == x->parent->left)
+					if (node == node->parent->left)
 					{
-						node_ptr w = x->parent->right;
-						if (w->color == _RED)
+						node_ptr x = node->parent->right;
+						if (x->color == _RED)
 						{
-							w->color = _BLACK;
-							x->parent->color = _RED;
-							leftRotate (x->parent);
-							w = x->parent->right;
+							x->color = _BLACK;
+							node->parent->color = _RED;
+							leftRotate (node->parent);
+							x = node->parent->right;
 						}
-						if (w->left->color == _BLACK && w->right->color == _BLACK)
+						if (x->left->color == _BLACK && x->right->color == _BLACK)
 						{
-							w->color = _RED;
-							x = x->parent;
+							x->color = _RED;
+							node = node->parent;
 						} else
 						{
-							if (w->right->color == _BLACK)
+							if (x->right->color == _BLACK)
 							{
-								w->left->color = _BLACK;
-								w->color = _RED;
-								rightRotate (w);
-								w = x->parent->right;
+								x->left->color = _BLACK;
+								x->color = _RED;
+								rightRotate (x);
+								x = node->parent->right;
 							}
-							w->color = x->parent->color;
-							x->parent->color = _BLACK;
-							w->right->color = _BLACK;
-							leftRotate (x->parent);
-							x = m_root;
+							x->color = node->parent->color;
+							node->parent->color = _BLACK;
+							x->right->color = _BLACK;
+							leftRotate (node->parent);
+							node = m_root;
 						}
 					}
 					else
 					{
-						node_ptr w = x->parent->left;
-						if (w->color == _RED)
+						node_ptr x = node->parent->left;
+						if (x->color == _RED)
 						{
-							w->color = _BLACK;
-							x->parent->color = _RED;
-							rightRotate (x->parent);
-							w = x->parent->left;
+							x->color = _BLACK;
+							node->parent->color = _RED;
+							rightRotate (node->parent);
+							x = node->parent->left;
 						}
-						if (w->right->color == _BLACK && w->left->color == _BLACK)
+						if (x->right->color == _BLACK && x->left->color == _BLACK)
 						{
-							w->color = _RED;
-							x = x->parent;
+							x->color = _RED;
+							node = node->parent;
 						} 
 						else
 						{
-							if (w->left->color == _BLACK)
+							if (x->left->color == _BLACK)
 							{
-								w->right->color = _BLACK;
-								w->color = _RED;
-								leftRotate (w);
-								w = x->parent->left;
+								x->right->color = _BLACK;
+								x->color = _RED;
+								leftRotate (x);
+								x = node->parent->left;
 							}
-							w->color = x->parent->color;
-							x->parent->color = _BLACK;
-							w->left->color = _BLACK;
-							rightRotate (x->parent);
-							x = m_root;
+							x->color = node->parent->color;
+							node->parent->color = _BLACK;
+							x->left->color = _BLACK;
+							rightRotate (node->parent);
+							node = m_root;
 						}
 					}
 				}
-				x->color = _BLACK;
+				node->color = _BLACK;
 				}
 
-			void leftRotate(node_ptr n) 
+			void leftRotate(node_ptr node) 
 			{
-				node_ptr y = n->right;
-				n->right = y->left;
+				node_ptr y = node->right;
+				node->right = y->left;
 				if (y->left != m_nullNode) 
-					y->left->parent = n;
-				y->parent = n->parent;
-				if (n->parent == NULL) 
+					y->left->parent = node;
+				y->parent = node->parent;
+				if (node->parent == NULL) 
 					this->m_root = y;
-				else if (n == n->parent->left) 
-					n->parent->left = y;
+				else if (node == node->parent->left) 
+					node->parent->left = y;
 				else
-					n->parent->right = y;
-				y->left = n;
-				n->parent = y;
+					node->parent->right = y;
+				y->left = node;
+				node->parent = y;
 			}
 
-			void rightRotate(node_ptr n) 
+			void rightRotate(node_ptr node) 
 			{
-				node_ptr y = n->left;
-				n->left = y->right;
+				node_ptr y = node->left;
+				node->left = y->right;
 				if (y->right != m_nullNode) 
-					y->right->parent = n;
-				y->parent = n->parent;
-				if (n->parent == NULL) 
+					y->right->parent = node;
+				y->parent = node->parent;
+				if (node->parent == NULL) 
 					this->m_root = y;
-				else if (n == n->parent->right)
-					n->parent->right = y;
+				else if (node == node->parent->right)
+					node->parent->right = y;
 				else
-					n->parent->left = y;
-				y->right = n;
-				n->parent = y;
+					node->parent->left = y;
+				y->right = node;
+				node->parent = y;
 			}
 
 			void transplantNode(node_ptr u, node_ptr v)
@@ -488,60 +487,60 @@ namespace ft
 				v->parent = u->parent;
 			}
 
-			node_ptr fixAfterInsert(node_ptr k)
+			node_ptr fixAfterInsert(node_ptr node)
 			{
-				node_ptr u;
-				while (k->parent->color == _RED) 
+				node_ptr uncle;
+				while (node->parent->color == _RED) 
 				{
-					if (k->parent == k->parent->parent->right) 
+					if (node->parent == node->parent->parent->right) 
 					{
-						u = k->parent->parent->left;
-						if (u->color == _RED) 
+						uncle = node->parent->parent->left;
+						if (uncle->color == _RED) 
 						{
-							u->color = _BLACK;
-							k->parent->color = _BLACK;
-							k->parent->parent->color = _RED;
-							k = k->parent->parent;
+							uncle->color = _BLACK;
+							node->parent->color = _BLACK;
+							node->parent->parent->color = _RED;
+							node = node->parent->parent;
 						}
 						else
 						{
-							if (k == k->parent->left) 
+							if (node == node->parent->left) 
 							{
-								k = k->parent;
-								rightRotate(k);
+								node = node->parent;
+								rightRotate(node);
 							}
-							k->parent->color = _BLACK;
-							k->parent->parent->color = _RED;
-							leftRotate(k->parent->parent);
+							node->parent->color = _BLACK;
+							node->parent->parent->color = _RED;
+							leftRotate(node->parent->parent);
 						}
 					}
 					else
 					{
-						u = k->parent->parent->right;
-						if (u->color == _RED) 
+						uncle = node->parent->parent->right;
+						if (uncle->color == _RED) 
 						{
-							u->color = _BLACK;
-							k->parent->color = _BLACK;
-							k->parent->parent->color = _RED;
-							k = k->parent->parent;	
+							uncle->color = _BLACK;
+							node->parent->color = _BLACK;
+							node->parent->parent->color = _RED;
+							node = node->parent->parent;	
 						}
 						else
 						{
-							if (k == k->parent->right) 
+							if (node == node->parent->right) 
 							{
-								k = k->parent;
-								leftRotate(k);
+								node = node->parent;
+								leftRotate(node);
 							}
-							k->parent->color = _BLACK;
-							k->parent->parent->color = _RED;
-							rightRotate(k->parent->parent);
+							node->parent->color = _BLACK;
+							node->parent->parent->color = _RED;
+							rightRotate(node->parent->parent);
 						}
 					}
-					if (k == m_root) 
+					if (node == m_root) 
 						break;
 				}
 				m_root->color = _BLACK;
-				return (k);
+				return (node);
 			}
 
 			/*************************************************/
@@ -563,8 +562,7 @@ namespace ft
 				{
 					copyTree(node->left, tree);
 					copyTree(node->right, tree);
-					ft::pair<key_type, mapped_type> val(node->pair_data.first, node->pair_data.second);
-					insertNode(val);
+					insertNode(ft::make_pair(node->pair_data.first, node->pair_data.second));
 				}
 			}
 	};

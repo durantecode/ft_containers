@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 23:38:54 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 12:45:06 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,13 @@ namespace ft
 			typedef const value_type&					const_reference;
 			typedef std::random_access_iterator_tag		iter_tag;
 
-			typedef ft::VectorIterator<value_type, pointer, reference>					iterator;
-			typedef ft::VectorIterator<value_type, const_pointer, const_reference>		const_iterator;
-			typedef ft::ReverseVectorIterator<iterator>							 		reverse_iterator;
-			typedef ft::ReverseVectorIterator<const_iterator>							const_reverse_iterator;
+			typedef ft::iterator<iter_tag, T, difference_type, pointer, reference> 					vec_iter;
+			typedef ft::iterator<iter_tag, T, difference_type, const_pointer, const_reference> 		const_vec_iter;
+
+			typedef ft::VectorIterator<vec_iter>					iterator;
+			typedef ft::VectorIterator<const_vec_iter>				const_iterator;
+			typedef ft::ReverseVectorIterator<iterator>		 		reverse_iterator;
+			typedef ft::ReverseVectorIterator<const_iterator>		const_reverse_iterator;
 
 
 		private:

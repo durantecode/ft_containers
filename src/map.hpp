@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 23:33:29 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 12:57:39 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ namespace ft
 			typedef const value_type&					const_reference;
 			typedef std::bidirectional_iterator_tag		iter_tag;
 
-			typedef Node<value_type>*													node_ptr;
-			typedef RBTree<value_type, Key, T, allocator_type>							rbtree;
-			typedef ft::iterator<iter_tag, T, difference_type, pointer, reference>		map_iter;
+			typedef Node<value_type>*							node_ptr;
+			typedef RBTree<value_type, Key, allocator_type>		rbtree;
+
+			typedef ft::iterator<iter_tag, value_type, difference_type, pointer, reference>		map_iter;
 
 			typedef ft::MapIterator<map_iter, rbtree>					iterator;
 			typedef ft::ConstMapIterator<map_iter, rbtree>				const_iterator;

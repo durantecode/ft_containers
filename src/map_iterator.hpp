@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 20:44:06 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/08 22:55:17 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 12:58:43 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ namespace ft
 			class MapIterator
 			{
 				public:
+					typedef typename Iter::value_type			value_type;
 					typedef typename Iter::pointer				pointer;
 					typedef typename Iter::reference			reference;
 					typedef typename Iter::difference_type		difference_type;
 					typedef typename Iter::iterator_category	iterator_category;
 					
-					typedef typename Tree::value_type			value_type;
 					typedef Node<value_type>*					node_ptr;
 					typedef Tree								rbtree;
 
@@ -85,13 +85,13 @@ namespace ft
 			template <class Iter, class Tree>
 			class ConstMapIterator
 			{	
-				public:	
+				public:
+					typedef typename Iter::value_type			value_type;
 					typedef typename Iter::pointer				pointer;
 					typedef typename Iter::reference			reference;
 					typedef typename Iter::difference_type		difference_type;
 					typedef typename Iter::iterator_category	iterator_category;
 					
-					typedef typename Tree::value_type			value_type;
 					typedef Node<value_type>*					node_ptr;
 					typedef Tree								rbtree;
 
@@ -149,12 +149,12 @@ namespace ft
 			class ReverseMapIterator
 			{
 				public:
+					typedef typename Iter::value_type			value_type;
 					typedef typename Iter::pointer				pointer;
 					typedef typename Iter::reference			reference;
 					typedef typename Iter::difference_type		difference_type;
 					typedef typename Iter::iterator_category	iterator_category;
 					
-					typedef typename Tree::value_type			value_type;
 					typedef Node<value_type>*					node_ptr;
 					typedef Tree								rbtree;
 
@@ -210,12 +210,12 @@ namespace ft
 			class ConstReverseMapIterator
 			{	
 				public:
+					typedef typename Iter::value_type			value_type;
 					typedef typename Iter::pointer				pointer;
 					typedef typename Iter::reference			reference;
 					typedef typename Iter::difference_type		difference_type;
 					typedef typename Iter::iterator_category	iterator_category;
 					
-					typedef typename Tree::value_type			value_type;
 					typedef Node<value_type>*					node_ptr;
 					typedef Tree								rbtree;
 					
