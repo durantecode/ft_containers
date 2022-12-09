@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:32:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/09 12:57:39 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:49:51 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ namespace ft
 
 			typedef Node<value_type>*							node_ptr;
 			typedef RBTree<value_type, Key, allocator_type>		rbtree;
-
+			
 			typedef ft::iterator<iter_tag, value_type, difference_type, pointer, reference>		map_iter;
 
-			typedef ft::MapIterator<map_iter, rbtree>					iterator;
-			typedef ft::ConstMapIterator<map_iter, rbtree>				const_iterator;
-			typedef ft::ReverseMapIterator<map_iter, rbtree>			reverse_iterator;
-			typedef ft::ConstReverseMapIterator<map_iter, rbtree>		const_reverse_iterator;
+			typedef ft::MapIterator<map_iter, rbtree>			iterator;
+			typedef ft::ConstMapIterator<map_iter, rbtree>		const_iterator;
+			typedef ft::ReverseMapIterator<iterator>			reverse_iterator;
+			typedef ft::ReverseMapIterator<const_iterator>		const_reverse_iterator;
 			
 			class value_compare
 			{
@@ -147,21 +147,23 @@ namespace ft
 			{
 				if (!this->size())
 					return rend();
-				return reverse_iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree);
+				iterator it(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree);
+				return reverse_iterator(it);
 			}
 			const_reverse_iterator rbegin() const
 			{
 				if (!this->size())
 					return end();
-				return const_reverse_iterator(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree);
+				const_iterator it(this->m_tree.getMax(this->m_tree.getRoot()), &this->m_tree);
+				return const_reverse_iterator(it);
 			}
 			reverse_iterator rend()
 			{
-				return reverse_iterator(NULL, &this->m_tree);
+				return reverse_iterator(iterator(NULL, &this->m_tree));
 			}
 			const_reverse_iterator rend() const
 			{
-				return const_reverse_iterator(NULL, &this->m_tree);
+				return const_reverse_iterator(const_iterator(NULL, &this->m_tree));
 			}
 
 			/*************************************************/

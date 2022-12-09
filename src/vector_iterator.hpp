@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:41:23 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/09 12:59:54 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/09 17:11:44 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ namespace ft
 			reference operator * () { return (*this->m_ptr); }
 			pointer operator -> () { return (this->m_ptr); }
 			reference operator [] (difference_type val) { return (*(this->m_ptr + val)); }
+			
 			bool operator == (const VectorIterator &it) const { return (this->m_ptr == it.m_ptr); }
 			bool operator != (const VectorIterator &it) const { return (this->m_ptr != it.m_ptr); }
 			bool operator > (const VectorIterator &it) const { return (this->m_ptr > it.m_ptr); }
@@ -132,7 +133,7 @@ namespace ft
 			ReverseVectorIterator(const ReverseVectorIterator<Iter> &toCopy) : m_iter(toCopy.base()) {}
 
 			template <class Iter>
-			ReverseVectorIterator& operator = (const ReverseVectorIterator<Iter> &other) { m_iter = other.base(); return *this; }
+			ReverseVectorIterator& operator = (const ReverseVectorIterator<Iter> &toCopy) { m_iter = toCopy.base(); return *this; }
 
 			iterator_type base() const { return this->m_iter; }
 
