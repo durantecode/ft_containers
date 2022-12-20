@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 21:55:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/09 13:00:41 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/20 23:23:00 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,4 @@ namespace ft
 		typedef std::ptrdiff_t					    difference_type;
 		typedef std::random_access_iterator_tag	    iterator_category;
 	};
-
-	template<class InputIterator>
-	typename ft::iterator_traits<InputIterator>::difference_type
-	distance (InputIterator first, InputIterator last)
-	{
-		typename ft::iterator_traits<InputIterator>::difference_type i = 0;
-		while (first != last)
-		{
-			i++;
-			first++;
-		}
-		return (i);
-	}
 }

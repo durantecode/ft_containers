@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 20:33:48 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/09 12:45:06 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/20 23:24:46 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "vector_iterator.hpp"
 #include "enable_if.hpp"
 #include "is_integral.hpp"
+#include "distance.hpp"
 
 namespace ft
 {
