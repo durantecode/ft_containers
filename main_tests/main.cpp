@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 18:19:43 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/23 20:19:41 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/24 20:56:09 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ std::string test_name;
 std::vector<std::string> names;
 std::vector<long> errors;
 std::vector<double> time_perf;
+
+void check_leaks()
+{
+	system("leaks -q containers");
+}
 
 int run_tester(std::string test)
 {
@@ -40,6 +45,7 @@ int run_tester(std::string test)
 	}
 	else
 		std::cout << "No test for " << test << std::endl;
+	// atexit(check_leaks);
 	return (0);
 }
 

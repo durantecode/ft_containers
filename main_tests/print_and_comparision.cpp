@@ -6,7 +6,7 @@
 /*   By: ldurante <ldurante@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 00:01:22 by ldurante          #+#    #+#             */
-/*   Updated: 2022/12/07 19:55:15 by ldurante         ###   ########.fr       */
+/*   Updated: 2022/12/24 20:56:12 by ldurante         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,5 @@ void print_test_results(void)
 	col = GREEN;
 	if (test_passed)
 		col = RED;
-	std::cout << "TESTS PASSED:   " << col << names.size() - test_passed << "/" << names.size() << std::endl << std::endl;
-	std::cout << RESET;
+	std::cout << "TESTS PASSED:   " << col << names.size() - test_passed << "/" << names.size() << RESET << std::endl << std::endl;
 }
